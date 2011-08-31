@@ -35,7 +35,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseMove == null)
                 {
-                    HookManager.MouseMove += HookManager_MouseMove;
+                    MouseHookManager.MouseMove += HookManager_MouseMove;
                 }
                 m_MouseMove += value;
             }
@@ -45,7 +45,7 @@ namespace Gma.UserActivityMonitor
                 m_MouseMove -= value;
                 if (m_MouseMove == null)
                 {
-                    HookManager.MouseMove -= HookManager_MouseMove;
+                    MouseHookManager.MouseMove -= HookManager_MouseMove;
                 }
             }
         }
@@ -68,7 +68,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseClick == null)
                 {
-                    HookManager.MouseClick += HookManager_MouseClick;
+                    MouseHookManager.MouseClick += HookManager_MouseClick;
                 }
                 m_MouseClick += value;
             }
@@ -78,7 +78,7 @@ namespace Gma.UserActivityMonitor
                 m_MouseClick -= value;
                 if (m_MouseClick == null)
                 {
-                    HookManager.MouseClick -= HookManager_MouseClick;
+                    MouseHookManager.MouseClick -= HookManager_MouseClick;
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseDown == null)
                 {
-                    HookManager.MouseDown += HookManager_MouseDown;
+                    MouseHookManager.MouseDown += HookManager_MouseDown;
                 }
                 m_MouseDown += value;
             }
@@ -112,7 +112,7 @@ namespace Gma.UserActivityMonitor
                 m_MouseDown -= value;
                 if (m_MouseDown == null)
                 {
-                    HookManager.MouseDown -= HookManager_MouseDown;
+                    MouseHookManager.MouseDown -= HookManager_MouseDown;
                 }
             }
         }
@@ -137,7 +137,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseUp == null)
                 {
-                    HookManager.MouseUp += HookManager_MouseUp;
+                    MouseHookManager.MouseUp += HookManager_MouseUp;
                 }
                 m_MouseUp += value;
             }
@@ -147,7 +147,7 @@ namespace Gma.UserActivityMonitor
                 m_MouseUp -= value;
                 if (m_MouseUp == null)
                 {
-                    HookManager.MouseUp -= HookManager_MouseUp;
+                    MouseHookManager.MouseUp -= HookManager_MouseUp;
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseDoubleClick == null)
                 {
-                    HookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
+                    MouseHookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
                 }
                 m_MouseDoubleClick += value;
             }
@@ -181,7 +181,7 @@ namespace Gma.UserActivityMonitor
                 m_MouseDoubleClick -= value;
                 if (m_MouseDoubleClick == null)
                 {
-                    HookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
+                    MouseHookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
                 }
             }
         }
@@ -210,7 +210,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseMoveExt == null)
                 {
-                    HookManager.MouseMoveExt += HookManager_MouseMoveExt;
+                    MouseHookManager.MouseMoveExt += HookManager_MouseMoveExt;
                 }
                 m_MouseMoveExt += value;
             }
@@ -220,7 +220,7 @@ namespace Gma.UserActivityMonitor
                 m_MouseMoveExt -= value;
                 if (m_MouseMoveExt == null)
                 {
-                    HookManager.MouseMoveExt -= HookManager_MouseMoveExt;
+                    MouseHookManager.MouseMoveExt -= HookManager_MouseMoveExt;
                 }
             }
         }
@@ -248,7 +248,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseClickExt == null)
                 {
-                    HookManager.MouseClickExt += HookManager_MouseClickExt;
+                    MouseHookManager.MouseClickExt += HookManager_MouseClickExt;
                 }
                 m_MouseClickExt += value;
             }
@@ -258,7 +258,7 @@ namespace Gma.UserActivityMonitor
                 m_MouseClickExt -= value;
                 if (m_MouseClickExt == null)
                 {
-                    HookManager.MouseClickExt -= HookManager_MouseClickExt;
+                    MouseHookManager.MouseClickExt -= HookManager_MouseClickExt;
                 }
             }
         }
@@ -300,7 +300,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_KeyPress==null)
                 {
-                    HookManager.KeyPress +=HookManager_KeyPress;
+                    KeyboardHookManager.KeyPress +=HookManager_KeyPress;
                 }
                 m_KeyPress += value;
             }
@@ -309,7 +309,7 @@ namespace Gma.UserActivityMonitor
                 m_KeyPress -= value;
                 if (m_KeyPress == null)
                 {
-                    HookManager.KeyPress -= HookManager_KeyPress;
+                    KeyboardHookManager.KeyPress -= HookManager_KeyPress;
                 }
             }
         }
@@ -333,7 +333,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_KeyUp == null)
                 {
-                    HookManager.KeyUp += HookManager_KeyUp;
+                    KeyboardHookManager.KeyUp += HookManager_KeyUp;
                 }
                 m_KeyUp += value;
             }
@@ -342,7 +342,7 @@ namespace Gma.UserActivityMonitor
                 m_KeyUp -= value;
                 if (m_KeyUp == null)
                 {
-                    HookManager.KeyUp -= HookManager_KeyUp;
+                    KeyboardHookManager.KeyUp -= HookManager_KeyUp;
                 }
             }
         }
@@ -366,7 +366,7 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_KeyDown == null)
                 {
-                    HookManager.KeyDown += HookManager_KeyDown;
+                    KeyboardHookManager.KeyDown += HookManager_KeyDown;
                 }
                 m_KeyDown += value;
             }
@@ -375,7 +375,7 @@ namespace Gma.UserActivityMonitor
                 m_KeyDown -= value;
                 if (m_KeyDown == null)
                 {
-                    HookManager.KeyDown -= HookManager_KeyDown;
+                    KeyboardHookManager.KeyDown -= HookManager_KeyDown;
                 }
             }
         }

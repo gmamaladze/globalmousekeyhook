@@ -120,12 +120,12 @@
     <Compile Include="GlobalEventProvider.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="MouseHookManager.cs" />
     <Compile Include="WinApi\KeyboardHookStruct.cs" />
     <Compile Include="WinApi\MouseLLHookStruct.cs" />
     <Compile Include="WinApi\Point.cs" />
     <Compile Include="WinApi\HookCallback.cs" />
-    <Compile Include="HookManager.Callbacks.cs" />
-    <Compile Include="HookManager.cs" />
+    <Compile Include="KeyboardHookManager.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
     <Compile Include="WinApi\Hooker.cs" />
     <Compile Include="WinApi\Keyboard.cs" />

@@ -22,11 +22,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseMove.Checked)
             {
-                HookManager.MouseMove += HookManager_MouseMove;
+                MouseHookManager.MouseMove += HookManager_MouseMove;
             }
             else
             {
-                HookManager.MouseMove -= HookManager_MouseMove;
+                MouseHookManager.MouseMove -= HookManager_MouseMove;
             }
         }
 
@@ -34,11 +34,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseClick.Checked)
             {
-                HookManager.MouseClick += HookManager_MouseClick;
+                MouseHookManager.MouseClick += HookManager_MouseClick;
             }
             else
             {
-                HookManager.MouseClick -= HookManager_MouseClick;
+                MouseHookManager.MouseClick -= HookManager_MouseClick;
             }
         }
 
@@ -46,11 +46,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseUp.Checked)
             {
-                HookManager.MouseUp += HookManager_MouseUp;
+                MouseHookManager.MouseUp += HookManager_MouseUp;
             }
             else
             {
-                HookManager.MouseUp -= HookManager_MouseUp;
+                MouseHookManager.MouseUp -= HookManager_MouseUp;
             }
         }
 
@@ -58,11 +58,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseDown.Checked)
             {
-                HookManager.MouseDown += HookManager_MouseDown;
+                MouseHookManager.MouseDown += HookManager_MouseDown;
             }
             else
             {
-                HookManager.MouseDown -= HookManager_MouseDown;
+                MouseHookManager.MouseDown -= HookManager_MouseDown;
             }
         }
 
@@ -70,11 +70,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxMouseDoubleClick.Checked)
             {
-                HookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
+                MouseHookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
             }
             else
             {
-                HookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
+                MouseHookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
             }
         }
 
@@ -82,11 +82,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxMouseWheel.Checked)
             {
-                HookManager.MouseWheel += HookManager_MouseWheel;
+                MouseHookManager.MouseWheel += HookManager_MouseWheel;
             }
             else
             {
-                HookManager.MouseWheel -= HookManager_MouseWheel;
+                MouseHookManager.MouseWheel -= HookManager_MouseWheel;
             }
         }
 
@@ -94,11 +94,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxKeyDown.Checked)
             {
-                HookManager.KeyDown += HookManager_KeyDown;
+                KeyboardHookManager.KeyDown += HookManager_KeyDown;
             }
             else
             {
-                HookManager.KeyDown -= HookManager_KeyDown;
+                KeyboardHookManager.KeyDown -= HookManager_KeyDown;
             }
         }
 
@@ -107,11 +107,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxKeyUp.Checked)
             {
-                HookManager.KeyUp += HookManager_KeyUp;
+                KeyboardHookManager.KeyUp += HookManager_KeyUp;
             }
             else
             {
-                HookManager.KeyUp -= HookManager_KeyUp;
+                KeyboardHookManager.KeyUp -= HookManager_KeyUp;
             }
         }
 
@@ -119,11 +119,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxKeyPress.Checked)
             {
-                HookManager.KeyPress += HookManager_KeyPress;
+                KeyboardHookManager.KeyPress += HookManager_KeyPress;
             }
             else
             {
-                HookManager.KeyPress -= HookManager_KeyPress;
+                KeyboardHookManager.KeyPress -= HookManager_KeyPress;
             }
         }
 
