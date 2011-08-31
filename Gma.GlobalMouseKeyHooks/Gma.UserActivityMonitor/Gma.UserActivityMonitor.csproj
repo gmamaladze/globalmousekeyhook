@@ -120,11 +120,15 @@
     <Compile Include="GlobalEventProvider.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WinApi\HookCallback.cs" />
     <Compile Include="HookManager.Callbacks.cs" />
     <Compile Include="HookManager.cs" />
     <Compile Include="HookManager.Structures.cs" />
-    <Compile Include="HookManager.Windows.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
+    <Compile Include="WinApi\Hooker.cs" />
+    <Compile Include="WinApi\Keyboard.cs" />
+    <Compile Include="WinApi\Messages.cs" />
+    <Compile Include="WinApi\Mouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

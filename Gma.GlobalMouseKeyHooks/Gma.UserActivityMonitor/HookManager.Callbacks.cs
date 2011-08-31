@@ -3,43 +3,12 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor
 {
-    public static partial class HookManager
+    public partial class HookManager
     {
-        /// <summary>
-        /// The CallWndProc hook procedure is an application-defined or library-defined callback 
-        /// function used with the SetWindowsHookEx function. The HOOKPROC type defines a pointer 
-        /// to this callback function. CallWndProc is a placeholder for the application-defined 
-        /// or library-defined function name.
-        /// </summary>
-        /// <param name="nCode">
-        /// [in] Specifies whether the hook procedure must process the message. 
-        /// If nCode is HC_ACTION, the hook procedure must process the message. 
-        /// If nCode is less than zero, the hook procedure must pass the message to the 
-        /// CallNextHookEx function without further processing and must return the 
-        /// value returned by CallNextHookEx.
-        /// </param>
-        /// <param name="wParam">
-        /// [in] Specifies whether the message was sent by the current thread. 
-        /// If the message was sent by the current thread, it is nonzero; otherwise, it is zero. 
-        /// </param>
-        /// <param name="lParam">
-        /// [in] Pointer to a CWPSTRUCT structure that contains details about the message. 
-        /// </param>
-        /// <returns>
-        /// If nCode is less than zero, the hook procedure must return the value returned by CallNextHookEx. 
-        /// If nCode is greater than or equal to zero, it is highly recommended that you call CallNextHookEx 
-        /// and return the value it returns; otherwise, other applications that have installed WH_CALLWNDPROC 
-        /// hooks will not receive hook notifications and may behave incorrectly as a result. If the hook 
-        /// procedure does not call CallNextHookEx, the return value should be zero. 
-        /// </returns>
-        /// <remarks>
-        /// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/windowing/hooks/hookreference/hookfunctions/callwndproc.asp
-        /// </remarks>
-        private delegate int HookProc(int nCode, int wParam, IntPtr lParam);
-
         //##############################################################################
         #region Mouse hook processing
 
@@ -49,7 +18,7 @@ namespace Gma.UserActivityMonitor
         /// When passing delegates to unmanaged code, they must be kept alive by the managed application 
         /// until it is guaranteed that they will never be called.
         /// </summary>
-        private static HookProc s_MouseDelegate;
+        private static HookCallback s_MouseDelegate;
 
         /// <summary>
         /// Stores the handle to the mouse hook procedure.
@@ -83,7 +52,7 @@ namespace Gma.UserActivityMonitor
         /// hooks will not receive hook notifications and may behave incorrectly as a result. If the hook 
         /// procedure does not call CallNextHookEx, the return value should be zero. 
         /// </returns>
-        private static int MouseHookProc(int nCode, int wParam, IntPtr lParam)
+        private int MouseHookProc(int nCode, int wParam, IntPtr lParam)
         {
             if (nCode >= 0)
             {
@@ -99,35 +68,35 @@ namespace Gma.UserActivityMonitor
 
                 switch (wParam)
                 {
-                    case WM_LBUTTONDOWN:
+                    case Messages.WM_LBUTTONDOWN:
                         mouseDown = true;
                         button = MouseButtons.Left;
                         clickCount = 1;
                         break;
-                    case WM_LBUTTONUP:
+                    case Messages.WM_LBUTTONUP:
                         mouseUp = true;
                         button = MouseButtons.Left;
                         clickCount = 1;
                         break;
-                    case WM_LBUTTONDBLCLK: 
+                    case Messages.WM_LBUTTONDBLCLK: 
                         button = MouseButtons.Left;
                         clickCount = 2;
                         break;
-                    case WM_RBUTTONDOWN:
+                    case Messages.WM_RBUTTONDOWN:
                         mouseDown = true;
                         button = MouseButtons.Right;
                         clickCount = 1;
                         break;
-                    case WM_RBUTTONUP:
+                    case Messages.WM_RBUTTONUP:
                         mouseUp = true;
                         button = MouseButtons.Right;
                         clickCount = 1;
                         break;
-                    case WM_RBUTTONDBLCLK: 
+                    case Messages.WM_RBUTTONDBLCLK: 
                         button = MouseButtons.Right;
                         clickCount = 2;
                         break;
-                    case WM_MOUSEWHEEL:
+                    case Messages.WM_MOUSEWHEEL:
                         //If the message is WM_MOUSEWHEEL, the high-order word of MouseData member is the wheel delta. 
                         //One wheel click is defined as WHEEL_DELTA, which is 120. 
                         //(value >> 16) & 0xffff; retrieves the high-order word from the given 32-bit value
@@ -208,7 +177,7 @@ namespace Gma.UserActivityMonitor
             }
 
             //call next hook
-            return CallNextHookEx(s_MouseHookHandle, nCode, wParam, lParam);
+            return Hooker.CallNextHookEx(s_MouseHookHandle, nCode, wParam, lParam);
         }
 
         private static void EnsureSubscribedToGlobalMouseEvents()
@@ -217,10 +186,10 @@ namespace Gma.UserActivityMonitor
             if (s_MouseHookHandle == 0)
             {
                 //See comment of this field. To avoid GC to clean it up.
-                s_MouseDelegate = MouseHookProc;
+                s_MouseDelegate = (new HookManager()).MouseHookProc;
                 //install hook
-                s_MouseHookHandle = SetWindowsHookEx(
-                    WH_MOUSE_LL,
+                s_MouseHookHandle = Hooker.SetWindowsHookEx(
+                    Messages.WH_MOUSE_LL,
                     s_MouseDelegate,
                     Marshal.GetHINSTANCE(
                         Assembly.GetExecutingAssembly().GetModules()[0]),
@@ -258,7 +227,7 @@ namespace Gma.UserActivityMonitor
             if (s_MouseHookHandle != 0)
             {
                 //uninstall hook
-                int result = UnhookWindowsHookEx(s_MouseHookHandle);
+                int result = Hooker.UnhookWindowsHookEx(s_MouseHookHandle);
                 //reset invalid handle
                 s_MouseHookHandle = 0;
                 //Free up for GC
@@ -285,7 +254,7 @@ namespace Gma.UserActivityMonitor
         /// When passing delegates to unmanaged code, they must be kept alive by the managed application 
         /// until it is guaranteed that they will never be called.
         /// </summary>
-        private static HookProc s_KeyboardDelegate;
+        private static HookCallback s_KeyboardDelegate;
 
         /// <summary>
         /// Stores the handle to the Keyboard hook procedure.
@@ -326,7 +295,7 @@ namespace Gma.UserActivityMonitor
                 //read structure KeyboardHookStruct at lParam
                 KeyboardHookStruct MyKeyboardHookStruct = (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
                 //raise KeyDown
-                if (s_KeyDown != null && (wParam == WM_KEYDOWN || wParam == WM_SYSKEYDOWN))
+                if (s_KeyDown != null && (wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN))
                 {
                     Keys keyData = (Keys)MyKeyboardHookStruct.VirtualKeyCode;
                     KeyEventArgs e = new KeyEventArgs(keyData);
@@ -335,15 +304,15 @@ namespace Gma.UserActivityMonitor
                 }
 
                 // raise KeyPress
-                if (s_KeyPress != null && wParam == WM_KEYDOWN)
+                if (s_KeyPress != null && wParam == Messages.WM_KEYDOWN)
                 {
-                    bool isDownShift = ((GetKeyState(VK_SHIFT) & 0x80) == 0x80 ? true : false);
-                    bool isDownCapslock = (GetKeyState(VK_CAPITAL) != 0 ? true : false);
+                    bool isDownShift = ((Keyboard.GetKeyState(Keyboard.VK_SHIFT) & 0x80) == 0x80 ? true : false);
+                    bool isDownCapslock = (Keyboard.GetKeyState(Keyboard.VK_CAPITAL) != 0 ? true : false);
 
                     byte[] keyState = new byte[256];
-                    GetKeyboardState(keyState);
+                    Keyboard.GetKeyboardState(keyState);
                     byte[] inBuffer = new byte[2];
-                    if (ToAscii(MyKeyboardHookStruct.VirtualKeyCode,
+                    if (Keyboard.ToAscii(MyKeyboardHookStruct.VirtualKeyCode,
                               MyKeyboardHookStruct.ScanCode,
                               keyState,
                               inBuffer,
@@ -358,7 +327,7 @@ namespace Gma.UserActivityMonitor
                 }
 
                 // raise KeyUp
-                if (s_KeyUp != null && (wParam == WM_KEYUP || wParam == WM_SYSKEYUP))
+                if (s_KeyUp != null && (wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP))
                 {
                     Keys keyData = (Keys)MyKeyboardHookStruct.VirtualKeyCode;
                     KeyEventArgs e = new KeyEventArgs(keyData);
@@ -373,7 +342,7 @@ namespace Gma.UserActivityMonitor
                 return -1;
 
             //forward to other application
-            return CallNextHookEx(s_KeyboardHookHandle, nCode, wParam, lParam);
+            return Hooker.CallNextHookEx(s_KeyboardHookHandle, nCode, wParam, lParam);
         }
 
         private static void EnsureSubscribedToGlobalKeyboardEvents()
@@ -384,8 +353,8 @@ namespace Gma.UserActivityMonitor
                 //See comment of this field. To avoid GC to clean it up.
                 s_KeyboardDelegate = KeyboardHookProc;
                 //install hook
-                s_KeyboardHookHandle = SetWindowsHookEx(
-                    WH_KEYBOARD_LL,
+                s_KeyboardHookHandle = Hooker.SetWindowsHookEx(
+                    Messages.WH_KEYBOARD_LL,
                     s_KeyboardDelegate,
                     Marshal.GetHINSTANCE(
                         Assembly.GetExecutingAssembly().GetModules()[0]),
@@ -419,7 +388,7 @@ namespace Gma.UserActivityMonitor
             if (s_KeyboardHookHandle != 0)
             {
                 //uninstall hook
-                int result = UnhookWindowsHookEx(s_KeyboardHookHandle);
+                int result = Hooker.UnhookWindowsHookEx(s_KeyboardHookHandle);
                 //reset invalid handle
                 s_KeyboardHookHandle = 0;
                 //Free up for GC

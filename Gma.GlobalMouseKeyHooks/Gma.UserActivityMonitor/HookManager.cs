@@ -1,5 +1,6 @@
 using System;
 using System.Windows.Forms;
+using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor {
 
@@ -7,7 +8,7 @@ namespace Gma.UserActivityMonitor {
     /// This class monitors all mouse activities globally (also outside of the application) 
     /// and provides appropriate events.
     /// </summary>
-    public static partial class HookManager
+    public partial class HookManager
     {
         //################################################################
         #region Mouse events
@@ -178,7 +179,7 @@ namespace Gma.UserActivityMonitor {
                     s_DoubleClickTimer = new Timer
                     {
                         //This interval will be set to the value we retrive from windows. This is a windows setting from contro planel.
-                        Interval = GetDoubleClickTime(),
+                        Interval = Mouse.GetDoubleClickTime(),
                         //We do not start timer yet. It will be start when the click occures.
                         Enabled = false
                     };
