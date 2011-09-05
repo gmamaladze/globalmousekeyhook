@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -199,8 +200,7 @@ namespace Gma.UserActivityMonitor
                 s_MouseHookHandle = Hooker.SetWindowsHookEx(
                     Messages.WH_MOUSE_LL,
                     s_MouseDelegate,
-                    Marshal.GetHINSTANCE(
-                        Assembly.GetExecutingAssembly().GetModules()[0]),
+                    Process.GetCurrentProcess().MainModule.BaseAddress,
                     0);
                 //If SetWindowsHookEx fails.
                 if (s_MouseHookHandle == 0)
