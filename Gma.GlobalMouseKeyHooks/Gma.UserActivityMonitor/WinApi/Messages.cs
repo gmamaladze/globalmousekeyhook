@@ -5,16 +5,6 @@
         //values from Winuser.h in Microsoft SDK.
 
         /// <summary>
-        /// Windows NT/2000/XP: Installs a hook procedure that monitors low-level mouse input events.
-        /// </summary>
-        public const int WH_MOUSE_LL = 14;
-
-        /// <summary>
-        /// Windows NT/2000/XP: Installs a hook procedure that monitors low-level keyboard  input events.
-        /// </summary>
-        public const int WH_KEYBOARD_LL = 13;
-
-        /// <summary>
         /// Installs a hook procedure that monitors mouse messages. For more information, see the MouseProc hook procedure. 
         /// </summary>
         public const int WH_MOUSE = 7;
@@ -110,5 +100,10 @@
         /// these two contexts by checking the context code in the lParam parameter. 
         /// </summary>
         public const int WM_SYSKEYUP = 0x105;
+
+        /// <summary>
+        /// Windows NT/2000/XP: Installs a hook procedure that monitors low-level mouse input events.
+        /// </summary>
+        internal const int WH_MOUSE_LL = 14;
     }
 }

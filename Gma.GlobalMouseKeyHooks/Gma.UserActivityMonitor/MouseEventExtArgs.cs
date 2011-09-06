@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor
 {
@@ -8,6 +9,74 @@ namespace Gma.UserActivityMonitor
     /// </summary>
     public class MouseEventExtArgs : MouseEventArgs
     {
+
+        internal static MouseEventExtArgs FromRawData(int wParam, MouseLLHookStruct mouseHookStruct)
+        {
+            MouseButtons button = MouseButtons.None;
+            short mouseDelta = 0;
+            int clickCount = 0;
+
+            bool isMouseKeyDown = false;
+            bool isMouseKeyUp = false;
+
+
+            switch (wParam)
+            {
+                case Messages.WM_LBUTTONDOWN:
+                    isMouseKeyDown = true;
+                    button = MouseButtons.Left;
+                    clickCount = 1;
+                    break;
+                case Messages.WM_LBUTTONUP:
+                    isMouseKeyUp = true;
+                    button = MouseButtons.Left;
+                    clickCount = 1;
+                    break;
+                case Messages.WM_LBUTTONDBLCLK:
+                    button = MouseButtons.Left;
+                    clickCount = 2;
+                    break;
+                case Messages.WM_RBUTTONDOWN:
+                    isMouseKeyDown = true;
+                    button = MouseButtons.Right;
+                    clickCount = 1;
+                    break;
+                case Messages.WM_RBUTTONUP:
+                    isMouseKeyUp = true;
+                    button = MouseButtons.Right;
+                    clickCount = 1;
+                    break;
+                case Messages.WM_RBUTTONDBLCLK:
+                    button = MouseButtons.Right;
+                    clickCount = 2;
+                    break;
+                case Messages.WM_MOUSEWHEEL:
+                    //If the message is WM_MOUSEWHEEL, the high-order word of MouseData member is the wheel delta. 
+                    //One wheel click is defined as WHEEL_DELTA, which is 120. 
+                    //(value >> 16) & 0xffff; retrieves the high-order word from the given 32-bit value
+                    mouseDelta = (short)((mouseHookStruct.MouseData >> 16) & 0xffff);
+
+                    //TODO: X BUTTONS (I havent them so was unable to test)
+                    //If the message is WM_XBUTTONDOWN, WM_XBUTTONUP, WM_XBUTTONDBLCLK, WM_NCXBUTTONDOWN, WM_NCXBUTTONUP, 
+                    //or WM_NCXBUTTONDBLCLK, the high-order word specifies which X button was pressed or released, 
+                    //and the low-order word is reserved. This value can be one or more of the following values. 
+                    //Otherwise, MouseData is not used. 
+                    break;
+            }
+
+            var e = new MouseEventExtArgs(
+                button,
+                clickCount,
+                mouseHookStruct.Point.X,
+                mouseHookStruct.Point.Y,
+                mouseDelta);
+
+            e.IsMouseKeyDown = isMouseKeyDown;
+            e.IsMouseKeyUp = isMouseKeyUp;
+
+            return e;
+        }
+
         /// <summary>
         /// Initializes a new instance of the MouseEventArgs class. 
         /// </summary>
@@ -31,5 +100,25 @@ namespace Gma.UserActivityMonitor
         /// Set this property to <b>true</b> inside your event handler to prevent further processing of the event in other applications.
         /// </summary>
         public bool Handled { get; set; }
+
+        public bool WheelScrolled
+        {
+            get { return Delta != 0; }
+        }
+
+        public bool Clicked
+        {
+            get { return Clicks > 0; }
+        }
+
+        public bool IsMouseKeyDown
+        {
+            get; private set;
+        }
+
+        public bool IsMouseKeyUp
+        {
+            get; private set;
+        }
     }
 }

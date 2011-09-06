@@ -117,15 +117,18 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DoubleClickDetector.cs" />
     <Compile Include="GlobalEventProvider.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="MouseHookManager.cs" />
+    <Compile Include="BaseHookListener.cs" />
+    <Compile Include="IMouseClickEventSource.cs" />
+    <Compile Include="MouseHookListener.cs" />
     <Compile Include="WinApi\KeyboardHookStruct.cs" />
     <Compile Include="WinApi\MouseLLHookStruct.cs" />
     <Compile Include="WinApi\Point.cs" />
     <Compile Include="WinApi\HookCallback.cs" />
-    <Compile Include="KeyboardHookManager.cs" />
+    <Compile Include="KeyboardHookListener.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
     <Compile Include="WinApi\Hooker.cs" />
     <Compile Include="WinApi\Keyboard.cs" />

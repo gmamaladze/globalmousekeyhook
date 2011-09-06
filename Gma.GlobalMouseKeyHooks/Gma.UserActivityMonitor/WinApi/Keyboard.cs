@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 
 namespace Gma.UserActivityMonitor.WinApi
 {
@@ -87,5 +88,43 @@ namespace Gma.UserActivityMonitor.WinApi
         /// <remarks>http://msdn.microsoft.com/en-us/library/ms646301.aspx</remarks>
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern short GetKeyState(int vKey);
+
+        internal static bool IsKeyDown(int wParam)
+        {
+            return wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN;
+        }
+
+        internal static bool IsKeyUp(int wParam)
+        {
+            return wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP;
+        }
+
+        internal static bool TryGetCharFromKeyboardState(KeyboardHookStruct keyboardHookStruct, out char ch)
+        {
+            bool isDownShift = ((GetKeyState(VK_SHIFT) & 0x80) == 0x80 ? true : false);
+            bool isDownCapslock = (GetKeyState(VK_CAPITAL) != 0 ? true : false);
+
+            byte[] keyState = new byte[256];
+            GetKeyboardState(keyState);
+            byte[] inBuffer = new byte[2];
+
+            bool isSuccesfullyConverted = ToAscii(keyboardHookStruct.VirtualKeyCode,
+                                                  keyboardHookStruct.ScanCode,
+                                                  keyState,
+                                                  inBuffer,
+                                                  keyboardHookStruct.Flags) == 1;
+            if (!isSuccesfullyConverted)
+            {
+                ch = (char) 0;
+                return false;
+            }
+
+            ch = (char) inBuffer[0];
+            if ((isDownCapslock ^ isDownShift) && Char.IsLetter(ch))
+            {
+                ch = Char.ToUpper(ch);
+            }
+            return true;
+        }
     }
 }

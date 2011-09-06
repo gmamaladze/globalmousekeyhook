@@ -13,6 +13,8 @@ namespace Gma.UserActivityMonitorDemo
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
+                m_KeyboardHookManager.Dispose();
+                m_MouseHookManager.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -203,7 +205,6 @@ namespace Gma.UserActivityMonitorDemo
             this.Controls.Add(this.groupBox2);
             this.Name = "TestFormStatic";
             this.Text = "Test for the class HookManager";
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);

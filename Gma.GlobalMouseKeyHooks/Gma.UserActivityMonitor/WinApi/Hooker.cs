@@ -1,10 +1,21 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 
 namespace Gma.UserActivityMonitor.WinApi
 {
     internal class Hooker
     {
+        internal static void ThrowLastUnmanagedErrorAsException()
+        {
+            //Returns the error code returned by the last unmanaged function called using platform invoke that has the DllImportAttribute.SetLastError flag set. 
+            int errorCode = Marshal.GetLastWin32Error();
+            //Initializes and throws a new instance of the Win32Exception class with the specified error. 
+            throw new Win32Exception(errorCode);
+        }
+
+
         /// <summary>
         /// The CallNextHookEx function passes the hook information to the next hook procedure in the current hook chain. 
         /// A hook procedure can call this function either before or after processing the hook information. 
@@ -92,5 +103,31 @@ namespace Gma.UserActivityMonitor.WinApi
         [DllImport("user32.dll", CharSet = CharSet.Auto,
             CallingConvention = CallingConvention.StdCall, SetLastError = true)]
         public static extern int UnhookWindowsHookEx(int idHook);
+
+        internal static int Subscribe(int hookId, HookCallback hookCallback)
+        {
+            int hookHandle = SetWindowsHookEx(
+                hookId,
+                hookCallback,
+                Process.GetCurrentProcess().MainModule.BaseAddress,
+                0);
+
+            if (hookHandle == 0)
+            {
+                ThrowLastUnmanagedErrorAsException();
+            }
+
+            return hookHandle;
+        }
+
+        internal static void Unsubscribe(int handle)
+        {
+            int result = UnhookWindowsHookEx(handle);
+
+            if (result == 0)
+            {
+                ThrowLastUnmanagedErrorAsException();
+            }
+        }
     }
 }

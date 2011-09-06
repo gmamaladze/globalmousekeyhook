@@ -6,14 +6,20 @@ namespace Gma.UserActivityMonitorDemo
 {
     public partial class TestFormStatic : Form
     {
+        private readonly KeyboardHookListener m_KeyboardHookManager;
+        private readonly MouseHookListener m_MouseHookManager;
+        private DoubleClickDetector m_DoubleClickDetector;
+
         public TestFormStatic()
         {
             InitializeComponent();
+            m_KeyboardHookManager = new KeyboardHookListener();
+            m_KeyboardHookManager.Enabled = true;
+
+            m_MouseHookManager = new MouseHookListener();
+            m_MouseHookManager.Enabled = true;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-        }
 
         //##################################################################
         #region Check boxes to set or remove particular event handlers.
@@ -22,11 +28,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseMove.Checked)
             {
-                MouseHookManager.MouseMove += HookManager_MouseMove;
+                m_MouseHookManager.MouseMove += HookManager_MouseMove;
             }
             else
             {
-                MouseHookManager.MouseMove -= HookManager_MouseMove;
+                m_MouseHookManager.MouseMove -= HookManager_MouseMove;
             }
         }
 
@@ -34,11 +40,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseClick.Checked)
             {
-                MouseHookManager.MouseClick += HookManager_MouseClick;
+                m_MouseHookManager.MouseClick += HookManager_MouseClick;
             }
             else
             {
-                MouseHookManager.MouseClick -= HookManager_MouseClick;
+                m_MouseHookManager.MouseClick -= HookManager_MouseClick;
             }
         }
 
@@ -46,11 +52,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseUp.Checked)
             {
-                MouseHookManager.MouseUp += HookManager_MouseUp;
+                m_MouseHookManager.MouseUp += HookManager_MouseUp;
             }
             else
             {
-                MouseHookManager.MouseUp -= HookManager_MouseUp;
+                m_MouseHookManager.MouseUp -= HookManager_MouseUp;
             }
         }
 
@@ -58,11 +64,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseDown.Checked)
             {
-                MouseHookManager.MouseDown += HookManager_MouseDown;
+                m_MouseHookManager.MouseDown += HookManager_MouseDown;
             }
             else
             {
-                MouseHookManager.MouseDown -= HookManager_MouseDown;
+                m_MouseHookManager.MouseDown -= HookManager_MouseDown;
             }
         }
 
@@ -70,11 +76,14 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxMouseDoubleClick.Checked)
             {
-                MouseHookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
+                m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
+                m_DoubleClickDetector.MouseDoubleClick += HookManager_MouseDoubleClick;
             }
             else
             {
-                MouseHookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
+                m_DoubleClickDetector.MouseDoubleClick -= HookManager_MouseDoubleClick;
+                m_DoubleClickDetector.Dispose();
+                m_DoubleClickDetector = null;
             }
         }
 
@@ -82,11 +91,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxMouseWheel.Checked)
             {
-                MouseHookManager.MouseWheel += HookManager_MouseWheel;
+                m_MouseHookManager.MouseWheel += HookManager_MouseWheel;
             }
             else
             {
-                MouseHookManager.MouseWheel -= HookManager_MouseWheel;
+                m_MouseHookManager.MouseWheel -= HookManager_MouseWheel;
             }
         }
 
@@ -94,11 +103,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxKeyDown.Checked)
             {
-                KeyboardHookManager.KeyDown += HookManager_KeyDown;
+                m_KeyboardHookManager.KeyDown += HookManager_KeyDown;
             }
             else
             {
-                KeyboardHookManager.KeyDown -= HookManager_KeyDown;
+                m_KeyboardHookManager.KeyDown -= HookManager_KeyDown;
             }
         }
 
@@ -107,11 +116,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxKeyUp.Checked)
             {
-                KeyboardHookManager.KeyUp += HookManager_KeyUp;
+                m_KeyboardHookManager.KeyUp += HookManager_KeyUp;
             }
             else
             {
-                KeyboardHookManager.KeyUp -= HookManager_KeyUp;
+                m_KeyboardHookManager.KeyUp -= HookManager_KeyUp;
             }
         }
 
@@ -119,11 +128,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxKeyPress.Checked)
             {
-                KeyboardHookManager.KeyPress += HookManager_KeyPress;
+                m_KeyboardHookManager.KeyPress += HookManager_KeyPress;
             }
             else
             {
-                KeyboardHookManager.KeyPress -= HookManager_KeyPress;
+                m_KeyboardHookManager.KeyPress -= HookManager_KeyPress;
             }
         }
 
