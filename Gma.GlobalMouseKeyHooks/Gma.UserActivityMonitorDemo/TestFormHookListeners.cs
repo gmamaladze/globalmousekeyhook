@@ -216,8 +216,14 @@ namespace Gma.UserActivityMonitorDemo
                 return;
             }
 
-            m_MouseHookManager.Restart(hooker);
-            m_KeyboardHookManager.Restart(hooker);
+            m_MouseHookManager.Replace(hooker);
+            m_KeyboardHookManager.Replace(hooker);
+        }
+
+        private void checkBoxEnabled_CheckedChanged(object sender, EventArgs e)
+        {
+            m_MouseHookManager.Enabled = checkBoxEnabled.Checked;
+            m_KeyboardHookManager.Enabled = checkBoxEnabled.Checked;
         }
     }
 }

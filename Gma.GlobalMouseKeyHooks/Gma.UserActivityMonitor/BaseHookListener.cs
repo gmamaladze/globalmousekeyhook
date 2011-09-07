@@ -87,6 +87,7 @@ namespace Gma.UserActivityMonitor
             catch(Exception)
             {
                 HookCallbackReferenceKeeper = null;
+                HookHandle = 0;
                 throw;
             }
         }
@@ -104,20 +105,21 @@ namespace Gma.UserActivityMonitor
             finally
             {
                 HookCallbackReferenceKeeper = null;
+                HookHandle = 0;
             }
         }
 
         /// <summary>
-        /// Unsubscribes and subscribes again to the hooks.
         /// Enables you to switch from application hooks to global hooks and vice versa on the fly
-        /// without unsubscribing from events.
+        /// without unsubscribing from events. Component remains enabled or disabled state after this call as it was before.
         /// </summary>
         /// <param name="hooker"></param>
-        public void Restart(Hooker hooker)
+        public void Replace(Hooker hooker)
         {
-            Stop();
+            bool rememberEnabled = Enabled;
+            Enabled = false;
             m_Hooker = hooker;
-            Start();
+            Enabled = rememberEnabled;
         }
 
         /// <summary>

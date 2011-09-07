@@ -22,14 +22,53 @@ namespace Gma.UserActivityMonitor.Controls
         public MouseKeyEventProvider()
         {
             m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
-            m_KeyboardHookManager.Enabled = true;
-
             m_MouseHookManager = new MouseHookListener(new GlobalHooker());
-            m_MouseHookManager.Enabled = true;
-
             m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
-
         }
+
+        /// <summary>
+        /// true - if component listens to hooks and fires appropriate events.
+        /// false - otherwise.
+        /// </summary>
+        public bool Enabled
+        {
+            get
+            {
+                return DesignMode
+                           ? DesignTimeEnabled
+                           : RunTimeEnabled;
+            }
+            set
+            {
+                if (DesignMode)
+                {
+                    DesignTimeEnabled = value;
+                }
+                else
+                {
+                    RunTimeEnabled = value;
+                }
+            }
+        }
+
+        private bool DesignTimeEnabled
+        {
+            get; set;
+        }
+
+        private bool RunTimeEnabled
+        {
+            get
+            {
+                return m_MouseHookManager.Enabled && m_KeyboardHookManager.Enabled;
+            }
+            set
+            {
+                m_MouseHookManager.Enabled = value;
+                m_KeyboardHookManager.Enabled = value;
+            }
+        }
+
 
         ///<summary>
         /// Indicates which hooks to listen to application or global.
@@ -59,8 +98,8 @@ namespace Gma.UserActivityMonitor.Controls
                         return;
                 }
 
-                m_MouseHookManager.Restart(hooker);
-                m_KeyboardHookManager.Restart(hooker);
+                m_MouseHookManager.Replace(hooker);
+                m_KeyboardHookManager.Replace(hooker);
             }
         }
 
@@ -175,6 +214,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseDown != null)
             {
+                
                 m_MouseDown.Invoke(this, e);
             }
         }

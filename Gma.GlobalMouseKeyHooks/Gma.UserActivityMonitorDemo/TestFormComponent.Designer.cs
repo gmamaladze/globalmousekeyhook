@@ -33,7 +33,7 @@ namespace Gma.UserActivityMonitorDemo
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.labelWheel = new System.Windows.Forms.Label();
             this.labelMousePosition = new System.Windows.Forms.Label();
-            this.m_GlobalKeyEventProvider1 = new MouseKeyEventProvider();
+            this.m_KeyMouseEventProvider1 = new Gma.UserActivityMonitor.Controls.MouseKeyEventProvider();
             this.SuspendLayout();
             // 
             // textBoxLog
@@ -70,16 +70,18 @@ namespace Gma.UserActivityMonitorDemo
             this.labelMousePosition.TabIndex = 7;
             this.labelMousePosition.Text = "x={0:####}; y={1:####}";
             // 
-            // m_GlobalKeyEventProvider1
+            // m_KeyMouseEventProvider1
             // 
-            this.m_GlobalKeyEventProvider1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseMove);
-            this.m_GlobalKeyEventProvider1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseClick);
-            this.m_GlobalKeyEventProvider1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseDown);
-            this.m_GlobalKeyEventProvider1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseUp);
-            this.m_GlobalKeyEventProvider1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseDoubleClick);
-            this.m_GlobalKeyEventProvider1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HookManager_KeyPress);
-            this.m_GlobalKeyEventProvider1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyUp);
-            this.m_GlobalKeyEventProvider1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyDown);
+            this.m_KeyMouseEventProvider1.Enabled = true;
+            this.m_KeyMouseEventProvider1.HookType = Gma.UserActivityMonitor.Controls.HookType.Global;
+            this.m_KeyMouseEventProvider1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseMove);
+            this.m_KeyMouseEventProvider1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseClick);
+            this.m_KeyMouseEventProvider1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseDown);
+            this.m_KeyMouseEventProvider1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseUp);
+            this.m_KeyMouseEventProvider1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseDoubleClick);
+            this.m_KeyMouseEventProvider1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HookManager_KeyPress);
+            this.m_KeyMouseEventProvider1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyUp);
+            this.m_KeyMouseEventProvider1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyDown);
             // 
             // TestFormComponent
             // 
@@ -101,6 +103,6 @@ namespace Gma.UserActivityMonitorDemo
         private System.Windows.Forms.TextBox textBoxLog;
         private System.Windows.Forms.Label labelWheel;
         private System.Windows.Forms.Label labelMousePosition;
-        private MouseKeyEventProvider m_GlobalKeyEventProvider1;
+        private MouseKeyEventProvider m_KeyMouseEventProvider1;
     }
 }

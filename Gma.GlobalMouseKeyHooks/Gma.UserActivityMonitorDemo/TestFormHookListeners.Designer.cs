@@ -43,6 +43,7 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseDown = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseClick = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseMove = new System.Windows.Forms.CheckBox();
+            this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,6 +89,7 @@ namespace Gma.UserActivityMonitorDemo
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.checkBoxEnabled);
             this.groupBox2.Controls.Add(this.panelSeparator);
             this.groupBox2.Controls.Add(this.radioGlobal);
             this.groupBox2.Controls.Add(this.radioApplication);
@@ -268,6 +270,19 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseMove.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseMove.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseMove_CheckedChanged);
             // 
+            // checkBoxEnabled
+            // 
+            this.checkBoxEnabled.AutoSize = true;
+            this.checkBoxEnabled.Checked = true;
+            this.checkBoxEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnabled.Location = new System.Drawing.Point(233, 14);
+            this.checkBoxEnabled.Name = "checkBoxEnabled";
+            this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
+            this.checkBoxEnabled.TabIndex = 12;
+            this.checkBoxEnabled.Text = "Enabled";
+            this.checkBoxEnabled.UseVisualStyleBackColor = true;
+            this.checkBoxEnabled.CheckedChanged += new System.EventHandler(this.checkBoxEnabled_CheckedChanged);
+            // 
             // TestFormHookListeners
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -302,5 +317,6 @@ namespace Gma.UserActivityMonitorDemo
         private System.Windows.Forms.RadioButton radioApplication;
         private System.Windows.Forms.Panel panelSeparator;
         private System.Windows.Forms.RadioButton radioGlobal;
+        private System.Windows.Forms.CheckBox checkBoxEnabled;
     }
 }
