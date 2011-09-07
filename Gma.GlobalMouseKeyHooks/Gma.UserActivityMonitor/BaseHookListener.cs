@@ -4,12 +4,19 @@ using Gma.UserActivityMonitor.WinApi;
 namespace Gma.UserActivityMonitor
 {
     /// <summary>
-    /// TODO
+    /// Base class used to implement mouse or keybord hook listeners.
+    /// It provides base methods to subscribe and unsubscribe to hooks.
+    /// Common processing, error handling and cleanup logic.
     /// </summary>
     public abstract class BaseHookListener : IDisposable
     {
         private readonly BaseHooker m_Hooker;
 
+        /// <summary>
+        /// Base constructor of <see cref="BaseHookListener"/>
+        /// </summary>
+        /// <param name="hooker">Depending on this parameter the listener hooks either application or global keyboard events.</param>
+        /// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
         public BaseHookListener(BaseHooker hooker)
         {
             m_Hooker = hooker;
@@ -33,6 +40,9 @@ namespace Gma.UserActivityMonitor
             }
         }
 
+        /// <summary>
+        /// Override this method to modify logic of firing events.
+        /// </summary>
         protected abstract bool ProcessCallback(int wParam, IntPtr lParam);
 
         /// <summary>
@@ -54,11 +64,15 @@ namespace Gma.UserActivityMonitor
             return CallNextHook(nCode, wParam, lParam);
         }
 
-        protected int CallNextHook(int nCode, int wParam, IntPtr lParam)
+        private int CallNextHook(int nCode, int wParam, IntPtr lParam)
         {
             return BaseHooker.CallNextHookEx(HookHandle, nCode, wParam, lParam);
         }
 
+        /// <summary>
+        /// Subscribes to the hook and starts firing events.
+        /// </summary>
+        /// <exception cref="System.ComponentModel.Win32Exception"></exception>
         public void Start()
         {
             HookCallbackReferenceKeeper = new HookCallback(HookCallback);
@@ -73,6 +87,10 @@ namespace Gma.UserActivityMonitor
             }
         }
 
+        /// <summary>
+        /// Unsubscribes from the hook and stops firing events.
+        /// </summary>
+        /// <exception cref="System.ComponentModel.Win32Exception"></exception>
         public void Stop()
         {
             try
@@ -85,10 +103,14 @@ namespace Gma.UserActivityMonitor
             }
         }
 
+        /// <summary>
+        /// Override to deliver correct id to be used for <see cref="BaseHooker.SetWindowsHookEx"/> call.
+        /// </summary>
+        /// <returns></returns>
         protected abstract int GetHookId();
 
         /// <summary>
-        /// true - if component listens to global events and fires appropriate ones.
+        /// true - if component listens to hooks and fires appropriate ones.
         /// false - otherwise.
         /// </summary>
         public bool Enabled
@@ -115,7 +137,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Release delegates, unsubscribes from global hooks.
+        /// Release delegates, unsubscribes from hooks.
         /// </summary>
         /// <filterpriority>2</filterpriority>
         public virtual void Dispose()

@@ -10,17 +10,29 @@ using Gma.UserActivityMonitor.WinApi;
 namespace Gma.UserActivityMonitor
 {
     /// <summary>
-    ///   TODO
+    /// This class monitors all keyboard activities globally (also outside of the application) 
+    /// and provides appropriate events.
     /// </summary>
-    public class MouseHookListener : BaseHookListener, IMouseClickEventSource
+    public class MouseHookListener : BaseHookListener
     {
 
         private Point m_PreviousPosition = new Point(0,0);
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="MouseHookListener"/>
+        /// </summary>
+        /// <param name="hooker">Depending on this parameter the listener hooks either application or global mouse events.</param>
+        /// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
         public MouseHookListener(BaseHooker hooker) : base(hooker)
         {
         }
 
+        /// <summary>
+        /// Override this method to modify logic of firing events.
+        /// </summary>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
             MouseLLHookStruct mouseHookStruct = (MouseLLHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseLLHookStruct));
@@ -58,6 +70,10 @@ namespace Gma.UserActivityMonitor
             return e.Handled;
         }
 
+        /// <summary>
+        /// Override to deliver correct id to be used for <see cref="BaseHooker.SetWindowsHookEx"/> call.
+        /// </summary>
+        /// <returns></returns>
         protected override int GetHookId()
         {
             return IsGlobal ?
@@ -129,6 +145,10 @@ namespace Gma.UserActivityMonitor
         /// </summary>
         public event MouseEventHandler MouseWheel;
 
+        /// <summary>
+        /// Release delegates, unsubscribes from hooks.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
         public override void Dispose()
         {
             MouseClick = null;

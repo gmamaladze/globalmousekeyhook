@@ -6,16 +6,20 @@ using Gma.UserActivityMonitor.WinApi;
 namespace Gma.UserActivityMonitor
 {
     /// <summary>
-    /// This component monitors all mouse activities globally (also outside of the application) 
+    /// This component monitors all mouse activities globally (also outside of the application)
+    /// or application wide depending on \\TODO 
     /// and provides appropriate events.
     /// </summary>
-    public class GlobalEventProvider : Component
+    public class KeyboardAndMouseEventProvider : Component
     {
         private readonly KeyboardHookListener m_KeyboardHookManager;
-        private MouseHookListener m_MouseHookManager;
+        private readonly MouseHookListener m_MouseHookManager;
         private DoubleClickDetector m_DoubleClickDetector;
 
-        public GlobalEventProvider()
+        /// <summary>
+        /// Initializes a new instance of <see cref="KeyboardAndMouseEventProvider"/>
+        /// </summary>
+        public KeyboardAndMouseEventProvider()
         {
             m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
             m_KeyboardHookManager.Enabled = true;

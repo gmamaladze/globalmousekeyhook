@@ -10,11 +10,22 @@ namespace Gma.UserActivityMonitor
     /// </summary>
     public class KeyboardHookListener : BaseHookListener
     {
+        /// <summary>
+        /// Creates an instance of <see cref="KeyboardHookListener"/>
+        /// </summary>
+        /// <param name="hooker">Depending on this parameter the listener hooks either application or global keyboard events.</param>
+        /// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
         public KeyboardHookListener(BaseHooker hooker)
             : base(hooker)
         {
         }
 
+        /// <summary>
+        /// Override this method to modify logic of firing events.
+        /// </summary>
+        /// <param name="wParam"></param>
+        /// <param name="lParam"></param>
+        /// <returns></returns>
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
             KeyEventArgsExt e = KeyEventArgsExt.FromRawData(wParam, lParam, IsGlobal);
@@ -26,6 +37,10 @@ namespace Gma.UserActivityMonitor
             return e.Handled;
         }
 
+        /// <summary>
+        /// Override to deliver correct id to be used for <see cref="BaseHooker.SetWindowsHookEx"/> call.
+        /// </summary>
+        /// <returns></returns>
         protected override int GetHookId()
         {
             return IsGlobal ? 
@@ -86,6 +101,10 @@ namespace Gma.UserActivityMonitor
             handler(this, e);
         }
 
+        /// <summary>
+        /// Release delegates, unsubscribes from hooks.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
         public override void Dispose()
         {
             KeyPress = null;

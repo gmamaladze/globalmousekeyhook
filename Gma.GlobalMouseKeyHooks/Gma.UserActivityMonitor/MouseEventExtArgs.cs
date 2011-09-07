@@ -101,21 +101,33 @@ namespace Gma.UserActivityMonitor
         /// </summary>
         public bool Handled { get; set; }
 
+        /// <summary>
+        /// True if event contains information about wheel scroll.
+        /// </summary>
         public bool WheelScrolled
         {
             get { return Delta != 0; }
         }
 
+        /// <summary>
+        /// True if event signals a click. False if it was only a move or wheel scroll.
+        /// </summary>
         public bool Clicked
         {
             get { return Clicks > 0; }
         }
 
+        /// <summary>
+        /// True if event singnals mouse button down.
+        /// </summary>
         public bool IsMouseKeyDown
         {
             get; private set;
         }
 
+        /// <summary>
+        /// True if event singnals mouse button up.
+        /// </summary>
         public bool IsMouseKeyUp
         {
             get; private set;

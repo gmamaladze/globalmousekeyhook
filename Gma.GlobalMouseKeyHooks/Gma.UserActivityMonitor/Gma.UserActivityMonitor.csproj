@@ -118,11 +118,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DoubleClickDetector.cs" />
-    <Compile Include="GlobalEventProvider.cs">
+    <Compile Include="KeyboardAndMouseEventProvider.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BaseHookListener.cs" />
-    <Compile Include="IMouseClickEventSource.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
     <Compile Include="MouseHookListener.cs" />
     <Compile Include="WinApi\AppHooker.cs" />

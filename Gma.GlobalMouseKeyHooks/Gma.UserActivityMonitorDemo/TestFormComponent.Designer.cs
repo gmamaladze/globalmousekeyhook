@@ -31,7 +31,7 @@
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.labelWheel = new System.Windows.Forms.Label();
             this.labelMousePosition = new System.Windows.Forms.Label();
-            this.globalEventProvider1 = new Gma.UserActivityMonitor.GlobalEventProvider();
+            this.globalEventProvider1 = new Gma.UserActivityMonitor.KeyboardAndMouseEventProvider();
             this.SuspendLayout();
             // 
             // textBoxLog
@@ -42,7 +42,7 @@
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(341, 437);
+            this.textBoxLog.Size = new System.Drawing.Size(404, 437);
             this.textBoxLog.TabIndex = 8;
             this.textBoxLog.WordWrap = false;
             // 
@@ -51,7 +51,7 @@
             this.labelWheel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelWheel.AutoSize = true;
             this.labelWheel.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWheel.Location = new System.Drawing.Point(207, 25);
+            this.labelWheel.Location = new System.Drawing.Point(270, 25);
             this.labelWheel.Name = "labelWheel";
             this.labelWheel.Size = new System.Drawing.Size(106, 16);
             this.labelWheel.TabIndex = 9;
@@ -62,7 +62,7 @@
             this.labelMousePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMousePosition.AutoSize = true;
             this.labelMousePosition.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMousePosition.Location = new System.Drawing.Point(151, 9);
+            this.labelMousePosition.Location = new System.Drawing.Point(214, 9);
             this.labelMousePosition.Name = "labelMousePosition";
             this.labelMousePosition.Size = new System.Drawing.Size(162, 16);
             this.labelMousePosition.TabIndex = 7;
@@ -72,18 +72,18 @@
             // 
             this.globalEventProvider1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseMove);
             this.globalEventProvider1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseClick);
-            this.globalEventProvider1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HookManager_KeyPress);
-            this.globalEventProvider1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyDown);
             this.globalEventProvider1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseDown);
             this.globalEventProvider1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseUp);
-            this.globalEventProvider1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyUp);
             this.globalEventProvider1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseDoubleClick);
+            this.globalEventProvider1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.HookManager_KeyPress);
+            this.globalEventProvider1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyUp);
+            this.globalEventProvider1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.HookManager_KeyDown);
             // 
             // TestFormComponent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(341, 437);
+            this.ClientSize = new System.Drawing.Size(404, 437);
             this.Controls.Add(this.labelWheel);
             this.Controls.Add(this.labelMousePosition);
             this.Controls.Add(this.textBoxLog);
@@ -99,6 +99,6 @@
         private System.Windows.Forms.TextBox textBoxLog;
         private System.Windows.Forms.Label labelWheel;
         private System.Windows.Forms.Label labelMousePosition;
-        private Gma.UserActivityMonitor.GlobalEventProvider globalEventProvider1;
+        private Gma.UserActivityMonitor.KeyboardAndMouseEventProvider globalEventProvider1;
     }
 }

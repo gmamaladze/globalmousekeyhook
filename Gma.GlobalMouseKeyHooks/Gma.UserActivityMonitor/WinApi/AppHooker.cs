@@ -3,8 +3,21 @@ using System.Runtime.InteropServices;
 
 namespace Gma.UserActivityMonitor.WinApi
 {
+    /// <summary>
+    /// Provides methods for subscription and unsubscription to application mouse and keyboard hooks.
+    /// </summary>
     public class AppHooker : BaseHooker
     {
+        /// <summary>
+        /// Installs a hook procedure that monitors mouse messages. For more information, see the MouseProc hook procedure. 
+        /// </summary>
+        internal const int WH_MOUSE = 7;
+
+        /// <summary>
+        /// Installs a hook procedure that monitors keystroke messages. For more information, see the KeyboardProc hook procedure. 
+        /// </summary>
+        internal const int WH_KEYBOARD = 2;
+
         internal override int Subscribe(int hookId, HookCallback hookCallback)
         {
             int hookHandle = SetWindowsHookEx(
@@ -32,15 +45,5 @@ namespace Gma.UserActivityMonitor.WinApi
         /// <returns></returns>
         [DllImport("kernel32")]
         private static extern int GetCurrentThreadId();
-
-        /// <summary>
-        /// Installs a hook procedure that monitors mouse messages. For more information, see the MouseProc hook procedure. 
-        /// </summary>
-        internal const int WH_MOUSE = 7;
-
-        /// <summary>
-        /// Installs a hook procedure that monitors keystroke messages. For more information, see the KeyboardProc hook procedure. 
-        /// </summary>
-        internal const int WH_KEYBOARD = 2;
     }
 }

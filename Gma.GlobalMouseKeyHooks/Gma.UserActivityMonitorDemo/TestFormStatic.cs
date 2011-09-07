@@ -9,7 +9,7 @@ namespace Gma.UserActivityMonitorDemo
     {
         private readonly KeyboardHookListener m_KeyboardHookManager;
         private readonly MouseHookListener m_MouseHookManager;
-        private DoubleClickDetector m_DoubleClickDetector;
+        private readonly DoubleClickDetector m_DoubleClickDetector;
 
         public TestFormStatic()
         {
@@ -19,6 +19,8 @@ namespace Gma.UserActivityMonitorDemo
 
             m_MouseHookManager = new MouseHookListener(new GlobalHooker());
             m_MouseHookManager.Enabled = true;
+
+            m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
         }
 
 
@@ -77,14 +79,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxMouseDoubleClick.Checked)
             {
-                m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
                 m_DoubleClickDetector.MouseDoubleClick += HookManager_MouseDoubleClick;
             }
             else
             {
                 m_DoubleClickDetector.MouseDoubleClick -= HookManager_MouseDoubleClick;
-                m_DoubleClickDetector.Dispose();
-                m_DoubleClickDetector = null;
             }
         }
 
@@ -144,22 +143,19 @@ namespace Gma.UserActivityMonitorDemo
 
         private void HookManager_KeyDown(object sender, KeyEventArgs e)
         {
-            textBoxLog.AppendText(string.Format("KeyDown - {0}\n", e.KeyCode));
-            textBoxLog.ScrollToCaret();
+            Log(string.Format("KeyDown - {0}\n", e.KeyCode));
         }
 
         private void HookManager_KeyUp(object sender, KeyEventArgs e)
         {
-            textBoxLog.AppendText(string.Format("KeyUp - {0}\n", e.KeyCode));
-            textBoxLog.ScrollToCaret();
+            Log(string.Format("KeyUp - {0}\n", e.KeyCode));
         }
 
 
         private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
         {
-            textBoxLog.AppendText(string.Format("KeyPress - {0}\n", e.KeyChar));
-            textBoxLog.ScrollToCaret();
-        } 
+            Log(string.Format("KeyPress - {0}\n", e.KeyChar));
+        }
 
 
         private void HookManager_MouseMove(object sender, MouseEventArgs e)
@@ -169,35 +165,37 @@ namespace Gma.UserActivityMonitorDemo
 
         private void HookManager_MouseClick(object sender, MouseEventArgs e)
         {
-            textBoxLog.AppendText(string.Format("MouseClick - {0}\n", e.Button));
-            textBoxLog.ScrollToCaret();
+            Log(string.Format("MouseClick - {0}\n", e.Button));
         }
 
 
         private void HookManager_MouseUp(object sender, MouseEventArgs e)
         {
-            textBoxLog.AppendText(string.Format("MouseUp - {0}\n", e.Button));
-            textBoxLog.ScrollToCaret();
+            Log(string.Format("MouseUp - {0}\n", e.Button));
         }
 
 
         private void HookManager_MouseDown(object sender, MouseEventArgs e)
         {
-            textBoxLog.AppendText(string.Format("MouseDown - {0}\n", e.Button));
-            textBoxLog.ScrollToCaret();
+            Log(string.Format("MouseDown - {0}\n", e.Button));
         }
 
 
         private void HookManager_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            textBoxLog.AppendText(string.Format("MouseDoubleClick - {0}\n", e.Button));
-            textBoxLog.ScrollToCaret();
+            Log(string.Format("MouseDoubleClick - {0}\n", e.Button));
         }
 
 
         private void HookManager_MouseWheel(object sender, MouseEventArgs e)
         {
             labelWheel.Text = string.Format("Wheel={0:000}", e.Delta);
+        }
+
+        private void Log(string text)
+        {
+            textBoxLog.AppendText(text);
+            textBoxLog.ScrollToCaret();
         }
 
         #endregion

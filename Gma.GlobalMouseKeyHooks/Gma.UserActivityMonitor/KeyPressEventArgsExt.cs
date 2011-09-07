@@ -5,9 +5,16 @@ using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor
 {
+    ///<summary>
+    /// Provides extended data for the <see cref='System.Windows.Forms.Control.KeyPress'/> event.
+    ///</summary>
     public class KeyPressEventArgsExt : KeyPressEventArgs
     {
-        public KeyPressEventArgsExt(char keyChar) 
+        /// <summary>
+        /// Initializes a new instance of the <see cref='KeyPressEventArgsExt'/> class.
+        /// </summary>
+        /// <param name="keyChar">Character corresponding to the key pressed. 0 char if represens a system or functional non char key.</param>
+        public KeyPressEventArgsExt(char keyChar)
             : base(keyChar)
         {
             IsNonChar = false;
@@ -15,7 +22,7 @@ namespace Gma.UserActivityMonitor
 
         private static KeyPressEventArgsExt CreateNonChar()
         {
-            KeyPressEventArgsExt e = new KeyPressEventArgsExt((char) 0x0);
+            KeyPressEventArgsExt e = new KeyPressEventArgsExt((char)0x0);
             e.IsNonChar = true;
             return e;
         }
@@ -35,7 +42,7 @@ namespace Gma.UserActivityMonitor
             const uint maskKeyup = 0x80000000; // for bit 31
             const uint maskScanCode = 0xff0000; // for bit 23-16
 
-            uint flags = (uint) lParam; //Marshal.ReadInt32(lParam);
+            uint flags = (uint)lParam; //Marshal.ReadInt32(lParam);
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
             bool wasKeyDown = (flags & maskKeydown) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
@@ -81,11 +88,14 @@ namespace Gma.UserActivityMonitor
             {
                 return CreateNonChar();
             }
-            
+
             return new KeyPressEventArgsExt(ch);
-            
+
         }
 
+        /// <summary>
+        /// True if represens a system or functional non char key.
+        /// </summary>
         public bool IsNonChar { get; private set; }
     }
 }

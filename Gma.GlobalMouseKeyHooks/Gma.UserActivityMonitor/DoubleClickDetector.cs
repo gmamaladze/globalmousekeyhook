@@ -6,14 +6,23 @@ using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor
 {
+    /// <summary>
+    /// This class listens to <see cref="MouseHookListener.MouseClick"/> events.
+    /// Detects two sequential cliks of the same mouse button during the time span defined for double click
+    /// in system and fires <see cref="MouseDoubleClick"/> event.
+    /// </summary>
     public class DoubleClickDetector : IDisposable
     {
-        private readonly IMouseClickEventSource m_ClickEventSource;
+        private readonly MouseHookListener m_ClickEventSource;
         private MouseEventHandler m_MouseDoubleClick;
         private Timer m_DoubleClickTimer;
         private MouseButtons m_PrevClickedButton;
 
-        public DoubleClickDetector(IMouseClickEventSource clickEventSource)
+        /// <summary>
+        /// Initializes a new instance of <see cref="DoubleClickDetector"/>
+        /// </summary>
+        /// <param name="clickEventSource"></param>
+        public DoubleClickDetector(MouseHookListener clickEventSource)
         {
             if (clickEventSource == null)
             {
@@ -102,7 +111,10 @@ namespace Gma.UserActivityMonitor
             }
         }
 
-
+        /// <summary>
+        /// Stops and siposes the timer, releases delegates.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
             if (m_DoubleClickTimer != null)

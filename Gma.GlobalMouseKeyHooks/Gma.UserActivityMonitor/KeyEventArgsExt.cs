@@ -5,8 +5,15 @@ using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor
 {
+    /// <summary>
+    /// Provides extended data for the <see cref='System.Windows.Forms.Control.KeyDown'/> or <see cref='System.Windows.Forms.Control.KeyUp'/> event.
+    /// </summary>
     public class KeyEventArgsExt : KeyEventArgs
     {
+        /// <summary>
+        /// Initializes a new <see cref="KeyEventArgsExt"/>
+        /// </summary>
+        /// <param name="keyData"></param>
         public KeyEventArgsExt(Keys keyData) : base(keyData)
         {
         }
@@ -56,7 +63,7 @@ namespace Gma.UserActivityMonitor
             return new KeyEventArgsExt(keyData, isKeyDown, isKeyUp);
         }
 
-        public bool IsKeyDown { get; private set; }
-        public bool IsKeyUp { get; private set; }
+        internal bool IsKeyDown { get; private set; }
+        internal bool IsKeyUp { get; private set; }
     }
 }
