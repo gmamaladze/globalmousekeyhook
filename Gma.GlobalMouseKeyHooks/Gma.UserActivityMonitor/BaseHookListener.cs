@@ -8,6 +8,13 @@ namespace Gma.UserActivityMonitor
     /// </summary>
     public abstract class BaseHookListener : IDisposable
     {
+        private readonly BaseHooker m_Hooker;
+
+        public BaseHookListener(BaseHooker hooker)
+        {
+            m_Hooker = hooker;
+        }
+
         /// <summary>
         /// Stores the handle to the Keyboard or Mouse hook procedure.
         /// </summary>
@@ -16,34 +23,22 @@ namespace Gma.UserActivityMonitor
         /// <summary>
         /// Keeps the reference to prevent garbage collection of delegate. See: CallbackOnCollectedDelegate //TODO: URL
         /// </summary>
-        private HookCallback m_HookCallbackReferenceKeeper;
+        protected HookCallback HookCallbackReferenceKeeper { get; set; }
+
+        internal bool IsGlobal
+        {
+            get
+            {
+                return m_Hooker.IsGlobal;
+            }
+        }
 
         protected abstract bool ProcessCallback(int wParam, IntPtr lParam);
 
         /// <summary>
-        /// A callback function which will be called every Time a keyboard or mouse activity detected.
+        /// A callback function which will be called every time a keyboard or mouse activity detected.
+        /// <see cref="WinApi.HookCallback"/>
         /// </summary>
-        /// <param name="nCode">
-        /// [in] Specifies whether the hook procedure must process the message. 
-        /// If nCode is HC_ACTION, the hook procedure must process the message. 
-        /// If nCode is less than zero, the hook procedure must pass the message to the 
-        /// CallNextHookEx function without further processing and must return the 
-        /// value returned by CallNextHookEx.
-        /// </param>
-        /// <param name="wParam">
-        /// [in] Specifies whether the message was sent by the current thread. 
-        /// If the message was sent by the current thread, it is nonzero; otherwise, it is zero. 
-        /// </param>
-        /// <param name="lParam">
-        /// [in] Pointer to a CWPSTRUCT structure that contains details about the message. 
-        /// </param>
-        /// <returns>
-        /// If nCode is less than zero, the hook procedure must return the value returned by CallNextHookEx. 
-        /// If nCode is greater than or equal to zero, it is highly recommended that you call CallNextHookEx 
-        /// and return the value it returns; otherwise, other applications that have installed WH_CALLWNDPROC 
-        /// hooks will not receive hook notifications and may behave incorrectly as a result. If the hook 
-        /// procedure does not call CallNextHookEx, the return value should be zero. 
-        /// </returns>
         protected int HookCallback(int nCode, Int32 wParam, IntPtr lParam)
         {
             if (nCode >= 0)
@@ -61,19 +56,19 @@ namespace Gma.UserActivityMonitor
 
         protected int CallNextHook(int nCode, int wParam, IntPtr lParam)
         {
-            return Hooker.CallNextHookEx(HookHandle, nCode, wParam, lParam);
+            return BaseHooker.CallNextHookEx(HookHandle, nCode, wParam, lParam);
         }
 
         public void Start()
         {
-            m_HookCallbackReferenceKeeper = new HookCallback(HookCallback);
+            HookCallbackReferenceKeeper = new HookCallback(HookCallback);
             try
             {
-                HookHandle = Hooker.Subscribe(GetHookId(), m_HookCallbackReferenceKeeper);
+                HookHandle = m_Hooker.Subscribe(GetHookId(), HookCallbackReferenceKeeper);
             }
             catch(Exception)
             {
-                m_HookCallbackReferenceKeeper = null;
+                HookCallbackReferenceKeeper = null;
                 throw;
             }
         }
@@ -82,11 +77,11 @@ namespace Gma.UserActivityMonitor
         {
             try
             {
-                Hooker.Unsubscribe(HookHandle);
+                m_Hooker.Unsubscribe(HookHandle);
             }
             finally
             {
-                m_HookCallbackReferenceKeeper = null;
+                HookCallbackReferenceKeeper = null;
             }
         }
 
@@ -135,7 +130,7 @@ namespace Gma.UserActivityMonitor
         {
             if (HookHandle != 0)
             {
-                Hooker.UnhookWindowsHookEx(HookHandle);
+                BaseHooker.UnhookWindowsHookEx(HookHandle);
             }
         }
     }

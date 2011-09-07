@@ -17,6 +17,10 @@ namespace Gma.UserActivityMonitor
 
         private Point m_PreviousPosition = new Point(0,0);
 
+        public MouseHookListener(BaseHooker hooker) : base(hooker)
+        {
+        }
+
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
             MouseLLHookStruct mouseHookStruct = (MouseLLHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseLLHookStruct));
@@ -56,7 +60,9 @@ namespace Gma.UserActivityMonitor
 
         protected override int GetHookId()
         {
-            return Messages.WH_MOUSE_LL;
+            return IsGlobal ?
+                GlobalHooker.WH_MOUSE_LL :
+                AppHooker.WH_MOUSE;
         }
 
         private bool HasMoved(MouseLLHookStruct mouseHookStruct)
@@ -122,5 +128,17 @@ namespace Gma.UserActivityMonitor
         ///   Occurs when the mouse wheel moves.
         /// </summary>
         public event MouseEventHandler MouseWheel;
+
+        public override void Dispose()
+        {
+            MouseClick = null;
+            MouseClickExt = null;
+            MouseDown = null;
+            MouseMove = null;
+            MouseMoveExt = null;
+            MouseUp = null;
+            MouseWheel = null;
+            base.Dispose();
+        }
     }
 }

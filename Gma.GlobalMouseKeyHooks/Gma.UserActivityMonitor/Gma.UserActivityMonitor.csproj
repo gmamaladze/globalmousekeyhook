@@ -123,14 +123,18 @@
     </Compile>
     <Compile Include="BaseHookListener.cs" />
     <Compile Include="IMouseClickEventSource.cs" />
+    <Compile Include="KeyPressEventArgsExt.cs" />
     <Compile Include="MouseHookListener.cs" />
+    <Compile Include="WinApi\AppHooker.cs" />
+    <Compile Include="WinApi\GlobalHooker.cs" />
     <Compile Include="WinApi\KeyboardHookStruct.cs" />
+    <Compile Include="KeyEventArgsExt.cs" />
     <Compile Include="WinApi\MouseLLHookStruct.cs" />
     <Compile Include="WinApi\Point.cs" />
     <Compile Include="WinApi\HookCallback.cs" />
     <Compile Include="KeyboardHookListener.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
-    <Compile Include="WinApi\Hooker.cs" />
+    <Compile Include="WinApi\BaseHooker.cs" />
     <Compile Include="WinApi\Keyboard.cs" />
     <Compile Include="WinApi\Messages.cs" />
     <Compile Include="WinApi\Mouse.cs" />

@@ -1,6 +1,7 @@
 using System;
 using System.Windows.Forms;
 using Gma.UserActivityMonitor;
+using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitorDemo
 {
@@ -13,10 +14,10 @@ namespace Gma.UserActivityMonitorDemo
         public TestFormStatic()
         {
             InitializeComponent();
-            m_KeyboardHookManager = new KeyboardHookListener();
+            m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
             m_KeyboardHookManager.Enabled = true;
 
-            m_MouseHookManager = new MouseHookListener();
+            m_MouseHookManager = new MouseHookListener(new GlobalHooker());
             m_MouseHookManager.Enabled = true;
         }
 

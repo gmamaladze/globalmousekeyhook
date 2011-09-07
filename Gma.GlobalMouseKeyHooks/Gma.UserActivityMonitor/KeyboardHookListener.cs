@@ -1,5 +1,4 @@
 using System;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.UserActivityMonitor.WinApi;
 
@@ -11,21 +10,40 @@ namespace Gma.UserActivityMonitor
     /// </summary>
     public class KeyboardHookListener : BaseHookListener
     {
+        public KeyboardHookListener(BaseHooker hooker)
+            : base(hooker)
+        {
+        }
+
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
-            //read structure KeyboardHookStruct at lParam
-            KeyboardHookStruct keyboardHookStruct = (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
+            KeyEventArgsExt e = KeyEventArgsExt.FromRawData(wParam, lParam, IsGlobal);
 
-            return 
-                   InvokeKeyDown(wParam, keyboardHookStruct) ||
-                   InvokeKeyPress(wParam, keyboardHookStruct) ||
-                   InvokeKeyUp(wParam, keyboardHookStruct);
+            InvokeKeyDown(e);
+            InvokeKeyPress(wParam, lParam);
+            InvokeKeyUp(e);
+
+            return e.Handled;
+        }
+
+        protected override int GetHookId()
+        {
+            return IsGlobal ? 
+                GlobalHooker.WH_KEYBOARD_LL : 
+                AppHooker.WH_KEYBOARD;
         }
 
         /// <summary>
         /// Occurs when a key is preseed. 
         /// </summary>
         public event KeyEventHandler KeyDown;
+
+        private void InvokeKeyDown(KeyEventArgsExt e)
+        {
+            KeyEventHandler handler = KeyDown;
+            if (handler == null || e.Handled || !e.IsKeyDown) { return; }
+            handler(this, e);
+        }
 
         /// <summary>
         /// Occurs when a key is pressed.
@@ -44,55 +62,28 @@ namespace Gma.UserActivityMonitor
         /// </remarks>
         public event KeyPressEventHandler KeyPress;
 
+        private void InvokeKeyPress(int wParam, IntPtr lParam)
+        {
+            InvokeKeyPress(KeyPressEventArgsExt.FromRawData(wParam, lParam, IsGlobal));
+        }
+
+        private void InvokeKeyPress(KeyPressEventArgsExt e)
+        {
+            KeyPressEventHandler handler = KeyPress;
+            if (handler == null || e.Handled || e.IsNonChar) { return; }
+            handler(this, e);
+        }
+
         /// <summary>
         /// Occurs when a key is released. 
         /// </summary>
         public event KeyEventHandler KeyUp;
 
-        private bool InvokeKeyDown(int wParam, KeyboardHookStruct keyboardHookStruct)
+        private void InvokeKeyUp(KeyEventArgsExt e)
         {
-            return Keyboard.IsKeyDown(wParam)
-                       ? InvokeKeyEventHandler(KeyDown, keyboardHookStruct)
-                       : false;
-        }
-
-        private bool InvokeKeyUp(int wParam, KeyboardHookStruct keyboardHookStruct)
-        {
-            return Keyboard.IsKeyUp(wParam)
-                       ? InvokeKeyEventHandler(KeyUp, keyboardHookStruct)
-                       : false;
-        }
-
-        private static bool InvokeKeyEventHandler(KeyEventHandler keyEventHandler, KeyboardHookStruct keyboardHookStruct)
-        {
-            if (keyEventHandler == null)
-            {
-                return false;
-            }
-
-            Keys keyData = (Keys)keyboardHookStruct.VirtualKeyCode;
-            KeyEventArgs e = new KeyEventArgs(keyData);
-            keyEventHandler.Invoke(null, e);
-            return e.Handled;
-        }
-
-        private bool InvokeKeyPress(int wParam, KeyboardHookStruct keyboardHookStruct)
-        {
-            KeyPressEventHandler keyPress = KeyPress;
-            if (keyPress == null || wParam != Messages.WM_KEYDOWN)
-            {
-                return false;
-            }
-
-            char ch;
-            if (!Keyboard.TryGetCharFromKeyboardState(keyboardHookStruct, out ch))
-            {
-                return false;
-            }
-
-            KeyPressEventArgs e = new KeyPressEventArgs(ch);
-            keyPress.Invoke(null, e);
-            return e.Handled;
+            KeyEventHandler handler = KeyUp;
+            if (handler == null || e.Handled || !e.IsKeyUp) { return; }
+            handler(this, e);
         }
 
         public override void Dispose()
@@ -102,16 +93,6 @@ namespace Gma.UserActivityMonitor
             KeyUp = null;
 
             base.Dispose();
-        }
-
-        /// <summary>
-        /// Windows NT/2000/XP: Installs a hook procedure that monitors low-level keyboard  input events.
-        /// </summary>
-        private const int WH_KEYBOARD_LL = 13;
-
-        protected override int GetHookId()
-        {
-            return WH_KEYBOARD_LL;
         }
     }
 }

@@ -99,7 +99,7 @@ namespace Gma.UserActivityMonitor.WinApi
             return wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP;
         }
 
-        internal static bool TryGetCharFromKeyboardState(KeyboardHookStruct keyboardHookStruct, out char ch)
+        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char ch)
         {
             bool isDownShift = ((GetKeyState(VK_SHIFT) & 0x80) == 0x80 ? true : false);
             bool isDownCapslock = (GetKeyState(VK_CAPITAL) != 0 ? true : false);
@@ -108,11 +108,11 @@ namespace Gma.UserActivityMonitor.WinApi
             GetKeyboardState(keyState);
             byte[] inBuffer = new byte[2];
 
-            bool isSuccesfullyConverted = ToAscii(keyboardHookStruct.VirtualKeyCode,
-                                                  keyboardHookStruct.ScanCode,
+            bool isSuccesfullyConverted = ToAscii(virtualKeyCode,
+                                                  scanCode,
                                                   keyState,
                                                   inBuffer,
-                                                  keyboardHookStruct.Flags) == 1;
+                                                  fuState) == 1;
             if (!isSuccesfullyConverted)
             {
                 ch = (char) 0;

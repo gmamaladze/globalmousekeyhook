@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor
 {
@@ -16,10 +17,10 @@ namespace Gma.UserActivityMonitor
 
         public GlobalEventProvider()
         {
-            m_KeyboardHookManager = new KeyboardHookListener();
+            m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
             m_KeyboardHookManager.Enabled = true;
 
-            m_MouseHookManager = new MouseHookListener();
+            m_MouseHookManager = new MouseHookListener(new GlobalHooker());
             m_MouseHookManager.Enabled = true;
         }
 
