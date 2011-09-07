@@ -10,7 +10,7 @@ namespace Gma.UserActivityMonitor
     public class MouseEventExtArgs : MouseEventArgs
     {
 
-        internal static MouseEventExtArgs FromRawData(int wParam, MouseLLHookStruct mouseHookStruct)
+        internal static MouseEventExtArgs FromRawData(int wParam, MouseHookStruct mouseHookStruct)
         {
             MouseButtons button = MouseButtons.None;
             short mouseDelta = 0;

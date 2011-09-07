@@ -5,7 +5,7 @@ namespace Gma.UserActivityMonitor.WinApi
     /// <summary>
     /// Provides methods for subscription and unsubscription to global mouse and keyboard hooks.
     /// </summary>
-    public class GlobalHooker : BaseHooker
+    public class GlobalHooker : Hooker
     {
         internal override int Subscribe(int hookId, HookCallback hookCallback)
         {

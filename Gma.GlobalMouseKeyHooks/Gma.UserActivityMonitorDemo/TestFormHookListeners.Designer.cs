@@ -1,6 +1,6 @@
 namespace Gma.UserActivityMonitorDemo
 {
-    partial class TestFormStatic {
+    partial class TestFormHookListeners {
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -31,6 +31,9 @@ namespace Gma.UserActivityMonitorDemo
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.labelWheel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.panelSeparator = new System.Windows.Forms.Panel();
+            this.radioGlobal = new System.Windows.Forms.RadioButton();
+            this.radioApplication = new System.Windows.Forms.RadioButton();
             this.checkBoxKeyUp = new System.Windows.Forms.CheckBox();
             this.checkBoxKeyPress = new System.Windows.Forms.CheckBox();
             this.checkBoxKeyDown = new System.Windows.Forms.CheckBox();
@@ -47,22 +50,26 @@ namespace Gma.UserActivityMonitorDemo
             // 
             this.labelMousePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMousePosition.AutoSize = true;
-            this.labelMousePosition.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMousePosition.Location = new System.Drawing.Point(185, 92);
+            this.labelMousePosition.BackColor = System.Drawing.Color.White;
+            this.labelMousePosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelMousePosition.Location = new System.Drawing.Point(392, 59);
             this.labelMousePosition.Name = "labelMousePosition";
-            this.labelMousePosition.Size = new System.Drawing.Size(162, 16);
+            this.labelMousePosition.Size = new System.Drawing.Size(125, 13);
             this.labelMousePosition.TabIndex = 2;
             this.labelMousePosition.Text = "x={0:####}; y={1:####}";
             // 
             // textBoxLog
             // 
+            this.textBoxLog.BackColor = System.Drawing.Color.White;
+            this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLog.Location = new System.Drawing.Point(0, 162);
+            this.textBoxLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxLog.Location = new System.Drawing.Point(0, 212);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(353, 271);
+            this.textBoxLog.Size = new System.Drawing.Size(560, 241);
             this.textBoxLog.TabIndex = 5;
             this.textBoxLog.WordWrap = false;
             // 
@@ -70,15 +77,20 @@ namespace Gma.UserActivityMonitorDemo
             // 
             this.labelWheel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelWheel.AutoSize = true;
-            this.labelWheel.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWheel.Location = new System.Drawing.Point(185, 112);
+            this.labelWheel.BackColor = System.Drawing.Color.White;
+            this.labelWheel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelWheel.Location = new System.Drawing.Point(392, 79);
             this.labelWheel.Name = "labelWheel";
-            this.labelWheel.Size = new System.Drawing.Size(106, 16);
+            this.labelWheel.Size = new System.Drawing.Size(89, 13);
             this.labelWheel.TabIndex = 6;
             this.labelWheel.Text = "Wheel={0:####}";
             // 
             // groupBox2
             // 
+            this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.panelSeparator);
+            this.groupBox2.Controls.Add(this.radioGlobal);
+            this.groupBox2.Controls.Add(this.radioApplication);
             this.groupBox2.Controls.Add(this.checkBoxKeyUp);
             this.groupBox2.Controls.Add(this.labelWheel);
             this.groupBox2.Controls.Add(this.checkBoxKeyPress);
@@ -92,119 +104,178 @@ namespace Gma.UserActivityMonitorDemo
             this.groupBox2.Controls.Add(this.checkBoxOnMouseMove);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(353, 162);
+            this.groupBox2.Size = new System.Drawing.Size(560, 212);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
+            // 
+            // panelSeparator
+            // 
+            this.panelSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSeparator.BackColor = System.Drawing.Color.White;
+            this.panelSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelSeparator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.panelSeparator.Location = new System.Drawing.Point(6, 37);
+            this.panelSeparator.Name = "panelSeparator";
+            this.panelSeparator.Size = new System.Drawing.Size(542, 1);
+            this.panelSeparator.TabIndex = 11;
+            // 
+            // radioGlobal
+            // 
+            this.radioGlobal.AutoSize = true;
+            this.radioGlobal.BackColor = System.Drawing.Color.White;
+            this.radioGlobal.Checked = true;
+            this.radioGlobal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioGlobal.Location = new System.Drawing.Point(128, 13);
+            this.radioGlobal.Name = "radioGlobal";
+            this.radioGlobal.Size = new System.Drawing.Size(87, 17);
+            this.radioGlobal.TabIndex = 10;
+            this.radioGlobal.TabStop = true;
+            this.radioGlobal.Text = "Global hooks";
+            this.radioGlobal.UseVisualStyleBackColor = false;
+            this.radioGlobal.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
+            // 
+            // radioApplication
+            // 
+            this.radioApplication.AutoSize = true;
+            this.radioApplication.BackColor = System.Drawing.Color.White;
+            this.radioApplication.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioApplication.Location = new System.Drawing.Point(12, 13);
+            this.radioApplication.Name = "radioApplication";
+            this.radioApplication.Size = new System.Drawing.Size(109, 17);
+            this.radioApplication.TabIndex = 9;
+            this.radioApplication.Text = "Application hooks";
+            this.radioApplication.UseVisualStyleBackColor = false;
+            this.radioApplication.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
             // 
             // checkBoxKeyUp
             // 
             this.checkBoxKeyUp.AutoSize = true;
-            this.checkBoxKeyUp.Location = new System.Drawing.Point(190, 67);
+            this.checkBoxKeyUp.BackColor = System.Drawing.Color.White;
+            this.checkBoxKeyUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxKeyUp.Location = new System.Drawing.Point(189, 105);
             this.checkBoxKeyUp.Name = "checkBoxKeyUp";
             this.checkBoxKeyUp.Size = new System.Drawing.Size(58, 17);
             this.checkBoxKeyUp.TabIndex = 8;
             this.checkBoxKeyUp.Text = "KeyUp";
-            this.checkBoxKeyUp.UseVisualStyleBackColor = true;
+            this.checkBoxKeyUp.UseVisualStyleBackColor = false;
             this.checkBoxKeyUp.CheckedChanged += new System.EventHandler(this.checkBoxKeyUp_CheckedChanged);
             // 
             // checkBoxKeyPress
             // 
             this.checkBoxKeyPress.AutoSize = true;
-            this.checkBoxKeyPress.Location = new System.Drawing.Point(190, 43);
+            this.checkBoxKeyPress.BackColor = System.Drawing.Color.White;
+            this.checkBoxKeyPress.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxKeyPress.Location = new System.Drawing.Point(189, 81);
             this.checkBoxKeyPress.Name = "checkBoxKeyPress";
             this.checkBoxKeyPress.Size = new System.Drawing.Size(70, 17);
             this.checkBoxKeyPress.TabIndex = 7;
             this.checkBoxKeyPress.Text = "KeyPress";
-            this.checkBoxKeyPress.UseVisualStyleBackColor = true;
+            this.checkBoxKeyPress.UseVisualStyleBackColor = false;
             this.checkBoxKeyPress.CheckedChanged += new System.EventHandler(this.checkBoxKeyPress_CheckedChanged);
             // 
             // checkBoxKeyDown
             // 
             this.checkBoxKeyDown.AutoSize = true;
-            this.checkBoxKeyDown.Location = new System.Drawing.Point(190, 20);
+            this.checkBoxKeyDown.BackColor = System.Drawing.Color.White;
+            this.checkBoxKeyDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxKeyDown.Location = new System.Drawing.Point(189, 58);
             this.checkBoxKeyDown.Name = "checkBoxKeyDown";
             this.checkBoxKeyDown.Size = new System.Drawing.Size(72, 17);
             this.checkBoxKeyDown.TabIndex = 6;
             this.checkBoxKeyDown.Text = "KeyDown";
-            this.checkBoxKeyDown.UseVisualStyleBackColor = true;
+            this.checkBoxKeyDown.UseVisualStyleBackColor = false;
             this.checkBoxKeyDown.CheckedChanged += new System.EventHandler(this.checkBoxKeyDown_CheckedChanged);
             // 
             // checkBoxMouseWheel
             // 
             this.checkBoxMouseWheel.AutoSize = true;
-            this.checkBoxMouseWheel.Location = new System.Drawing.Point(13, 136);
+            this.checkBoxMouseWheel.BackColor = System.Drawing.Color.White;
+            this.checkBoxMouseWheel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxMouseWheel.Location = new System.Drawing.Point(12, 174);
             this.checkBoxMouseWheel.Name = "checkBoxMouseWheel";
             this.checkBoxMouseWheel.Size = new System.Drawing.Size(89, 17);
             this.checkBoxMouseWheel.TabIndex = 5;
             this.checkBoxMouseWheel.Text = "MouseWheel";
-            this.checkBoxMouseWheel.UseVisualStyleBackColor = true;
+            this.checkBoxMouseWheel.UseVisualStyleBackColor = false;
             this.checkBoxMouseWheel.CheckedChanged += new System.EventHandler(this.checkBoxMouseWheel_CheckedChanged);
             // 
             // checkBoxMouseDoubleClick
             // 
             this.checkBoxMouseDoubleClick.AutoSize = true;
-            this.checkBoxMouseDoubleClick.Location = new System.Drawing.Point(13, 112);
+            this.checkBoxMouseDoubleClick.BackColor = System.Drawing.Color.White;
+            this.checkBoxMouseDoubleClick.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxMouseDoubleClick.Location = new System.Drawing.Point(12, 150);
             this.checkBoxMouseDoubleClick.Name = "checkBoxMouseDoubleClick";
             this.checkBoxMouseDoubleClick.Size = new System.Drawing.Size(115, 17);
             this.checkBoxMouseDoubleClick.TabIndex = 4;
             this.checkBoxMouseDoubleClick.Text = "MouseDoubleClick";
-            this.checkBoxMouseDoubleClick.UseVisualStyleBackColor = true;
+            this.checkBoxMouseDoubleClick.UseVisualStyleBackColor = false;
             this.checkBoxMouseDoubleClick.CheckedChanged += new System.EventHandler(this.checkBoxMouseDoubleClick_CheckedChanged);
             // 
             // checkBoxOnMouseUp
             // 
             this.checkBoxOnMouseUp.AutoSize = true;
-            this.checkBoxOnMouseUp.Location = new System.Drawing.Point(13, 91);
+            this.checkBoxOnMouseUp.BackColor = System.Drawing.Color.White;
+            this.checkBoxOnMouseUp.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxOnMouseUp.Location = new System.Drawing.Point(12, 129);
             this.checkBoxOnMouseUp.Name = "checkBoxOnMouseUp";
             this.checkBoxOnMouseUp.Size = new System.Drawing.Size(72, 17);
             this.checkBoxOnMouseUp.TabIndex = 3;
             this.checkBoxOnMouseUp.Text = "MouseUp";
-            this.checkBoxOnMouseUp.UseVisualStyleBackColor = true;
+            this.checkBoxOnMouseUp.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseUp.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseUp_CheckedChanged);
             // 
             // checkBoxOnMouseDown
             // 
             this.checkBoxOnMouseDown.AutoSize = true;
-            this.checkBoxOnMouseDown.Location = new System.Drawing.Point(13, 67);
+            this.checkBoxOnMouseDown.BackColor = System.Drawing.Color.White;
+            this.checkBoxOnMouseDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxOnMouseDown.Location = new System.Drawing.Point(12, 105);
             this.checkBoxOnMouseDown.Name = "checkBoxOnMouseDown";
             this.checkBoxOnMouseDown.Size = new System.Drawing.Size(86, 17);
             this.checkBoxOnMouseDown.TabIndex = 2;
             this.checkBoxOnMouseDown.Text = "MouseDown";
-            this.checkBoxOnMouseDown.UseVisualStyleBackColor = true;
+            this.checkBoxOnMouseDown.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseDown.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseDown_CheckedChanged);
             // 
             // checkBoxOnMouseClick
             // 
             this.checkBoxOnMouseClick.AutoSize = true;
-            this.checkBoxOnMouseClick.Location = new System.Drawing.Point(13, 43);
+            this.checkBoxOnMouseClick.BackColor = System.Drawing.Color.White;
+            this.checkBoxOnMouseClick.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxOnMouseClick.Location = new System.Drawing.Point(12, 81);
             this.checkBoxOnMouseClick.Name = "checkBoxOnMouseClick";
             this.checkBoxOnMouseClick.Size = new System.Drawing.Size(81, 17);
             this.checkBoxOnMouseClick.TabIndex = 1;
             this.checkBoxOnMouseClick.Text = "MouseClick";
-            this.checkBoxOnMouseClick.UseVisualStyleBackColor = true;
+            this.checkBoxOnMouseClick.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseClick.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseClick_CheckedChanged);
             // 
             // checkBoxOnMouseMove
             // 
             this.checkBoxOnMouseMove.AutoSize = true;
-            this.checkBoxOnMouseMove.Location = new System.Drawing.Point(13, 20);
+            this.checkBoxOnMouseMove.BackColor = System.Drawing.Color.White;
+            this.checkBoxOnMouseMove.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxOnMouseMove.Location = new System.Drawing.Point(12, 58);
             this.checkBoxOnMouseMove.Name = "checkBoxOnMouseMove";
             this.checkBoxOnMouseMove.Size = new System.Drawing.Size(85, 17);
             this.checkBoxOnMouseMove.TabIndex = 0;
             this.checkBoxOnMouseMove.Text = "MouseMove";
-            this.checkBoxOnMouseMove.UseVisualStyleBackColor = true;
+            this.checkBoxOnMouseMove.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseMove.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseMove_CheckedChanged);
             // 
-            // TestFormStatic
+            // TestFormHookListeners
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 433);
+            this.ClientSize = new System.Drawing.Size(560, 453);
             this.Controls.Add(this.textBoxLog);
             this.Controls.Add(this.groupBox2);
-            this.Name = "TestFormStatic";
+            this.Name = "TestFormHookListeners";
             this.Text = "Test for the class HookManager";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -228,5 +299,8 @@ namespace Gma.UserActivityMonitorDemo
         private System.Windows.Forms.CheckBox checkBoxOnMouseDown;
         private System.Windows.Forms.CheckBox checkBoxOnMouseClick;
         private System.Windows.Forms.CheckBox checkBoxOnMouseMove;
+        private System.Windows.Forms.RadioButton radioApplication;
+        private System.Windows.Forms.Panel panelSeparator;
+        private System.Windows.Forms.RadioButton radioGlobal;
     }
 }

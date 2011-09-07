@@ -3,29 +3,65 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using Gma.UserActivityMonitor.WinApi;
 
-namespace Gma.UserActivityMonitor
+namespace Gma.UserActivityMonitor.Controls
 {
     /// <summary>
     /// This component monitors all mouse activities globally (also outside of the application)
     /// or application wide depending on \\TODO 
     /// and provides appropriate events.
     /// </summary>
-    public class KeyboardAndMouseEventProvider : Component
+    public class MouseKeyEventProvider : Component
     {
         private readonly KeyboardHookListener m_KeyboardHookManager;
         private readonly MouseHookListener m_MouseHookManager;
-        private DoubleClickDetector m_DoubleClickDetector;
+        private readonly DoubleClickDetector m_DoubleClickDetector;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="KeyboardAndMouseEventProvider"/>
+        /// Initializes a new instance of <see cref="MouseKeyEventProvider"/>
         /// </summary>
-        public KeyboardAndMouseEventProvider()
+        public MouseKeyEventProvider()
         {
             m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
             m_KeyboardHookManager.Enabled = true;
 
             m_MouseHookManager = new MouseHookListener(new GlobalHooker());
             m_MouseHookManager.Enabled = true;
+
+            m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
+
+        }
+
+        ///<summary>
+        /// Indicates which hooks to listen to application or global.
+        ///</summary>
+        public HookType HookType
+        {
+            get
+            {
+                return m_MouseHookManager.IsGlobal
+                           ? HookType.Global
+                           : HookType.Application;
+            }
+            set
+            {
+                Hooker hooker;
+                switch (value)
+                {
+                    case HookType.Global:
+                        hooker = new GlobalHooker();
+                        break;
+
+                    case HookType.Application:
+                        hooker = new AppHooker();
+                        break;
+
+                    default:
+                        return;
+                }
+
+                m_MouseHookManager.Restart(hooker);
+                m_KeyboardHookManager.Restart(hooker);
+            }
         }
 
         /// <summary>
@@ -189,7 +225,6 @@ namespace Gma.UserActivityMonitor
             {
                 if (m_MouseDoubleClick == null)
                 {
-                    m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
                     m_DoubleClickDetector.MouseDoubleClick += HookManager_MouseDoubleClick;
                 }
                 m_MouseDoubleClick += value;
@@ -201,8 +236,6 @@ namespace Gma.UserActivityMonitor
                 if (m_MouseDoubleClick == null)
                 {
                     m_DoubleClickDetector.MouseDoubleClick -= HookManager_MouseDoubleClick;
-                    m_DoubleClickDetector.Dispose();
-                    m_DoubleClickDetector = null;
                 }
             }
         }
@@ -319,9 +352,9 @@ namespace Gma.UserActivityMonitor
         {
             add
             {
-                if (m_KeyPress==null)
+                if (m_KeyPress == null)
                 {
-                    m_KeyboardHookManager.KeyPress +=HookManager_KeyPress;
+                    m_KeyboardHookManager.KeyPress += HookManager_KeyPress;
                 }
                 m_KeyPress += value;
             }
@@ -408,6 +441,6 @@ namespace Gma.UserActivityMonitor
 
         #endregion
 
-        
+
     }
 }

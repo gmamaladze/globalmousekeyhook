@@ -7,7 +7,7 @@ namespace Gma.UserActivityMonitor.WinApi
     /// <summary>
     /// Provides base implementation of methods for subscription and unsubscription to application and/or global mouse and keyboard hooks.
     /// </summary>
-    public abstract class BaseHooker
+    public abstract class Hooker
     {
         internal abstract int Subscribe(int hookId, HookCallback hookCallback);
 

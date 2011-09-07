@@ -10,15 +10,19 @@ namespace Gma.UserActivityMonitor
     /// </summary>
     public abstract class BaseHookListener : IDisposable
     {
-        private readonly BaseHooker m_Hooker;
+        private Hooker m_Hooker;
 
         /// <summary>
         /// Base constructor of <see cref="BaseHookListener"/>
         /// </summary>
         /// <param name="hooker">Depending on this parameter the listener hooks either application or global keyboard events.</param>
         /// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
-        public BaseHookListener(BaseHooker hooker)
+        protected BaseHookListener(Hooker hooker)
         {
+            if (hooker == null)
+            {
+                throw new ArgumentNullException("hooker");
+            }
             m_Hooker = hooker;
         }
 
@@ -66,7 +70,7 @@ namespace Gma.UserActivityMonitor
 
         private int CallNextHook(int nCode, int wParam, IntPtr lParam)
         {
-            return BaseHooker.CallNextHookEx(HookHandle, nCode, wParam, lParam);
+            return Hooker.CallNextHookEx(HookHandle, nCode, wParam, lParam);
         }
 
         /// <summary>
@@ -104,7 +108,20 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Override to deliver correct id to be used for <see cref="BaseHooker.SetWindowsHookEx"/> call.
+        /// Unsubscribes and subscribes again to the hooks.
+        /// Enables you to switch from application hooks to global hooks and vice versa on the fly
+        /// without unsubscribing from events.
+        /// </summary>
+        /// <param name="hooker"></param>
+        public void Restart(Hooker hooker)
+        {
+            Stop();
+            m_Hooker = hooker;
+            Start();
+        }
+
+        /// <summary>
+        /// Override to deliver correct id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
         /// </summary>
         /// <returns></returns>
         protected abstract int GetHookId();
@@ -152,7 +169,7 @@ namespace Gma.UserActivityMonitor
         {
             if (HookHandle != 0)
             {
-                BaseHooker.UnhookWindowsHookEx(HookHandle);
+                Hooker.UnhookWindowsHookEx(HookHandle);
             }
         }
     }

@@ -57,8 +57,8 @@ namespace Gma.UserActivityMonitor
         {
             KeyboardHookStruct keyboardHookStruct = (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
             Keys keyData = (Keys)keyboardHookStruct.VirtualKeyCode;
-            bool isKeyDown = Keyboard.IsKeyDown(wParam);
-            bool isKeyUp = Keyboard.IsKeyUp(wParam);
+            bool isKeyDown = (wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN);
+            bool isKeyUp = (wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP);
             
             return new KeyEventArgsExt(keyData, isKeyDown, isKeyUp);
         }

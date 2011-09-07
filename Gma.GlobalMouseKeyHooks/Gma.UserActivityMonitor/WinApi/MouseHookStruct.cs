@@ -6,7 +6,7 @@ namespace Gma.UserActivityMonitor.WinApi
     /// The MSLLHOOKSTRUCT structure contains information about a low-level keyboard input event. 
     /// </summary>
     [StructLayout(LayoutKind.Sequential)]
-    internal struct MouseLLHookStruct {
+    internal struct MouseHookStruct {
         /// <summary>
         /// Specifies a Point structure that contains the X- and Y-coordinates of the cursor, in screen coordinates. 
         /// </summary>

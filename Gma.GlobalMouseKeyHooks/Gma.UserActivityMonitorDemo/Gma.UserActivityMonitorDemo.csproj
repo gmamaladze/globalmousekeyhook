@@ -68,11 +68,11 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestFormStatic.cs">
+    <Compile Include="TestFormHookListeners.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestFormStatic.Designer.cs">
-      <DependentUpon>TestFormStatic.cs</DependentUpon>
+    <Compile Include="TestFormHookListeners.Designer.cs">
+      <DependentUpon>TestFormHookListeners.cs</DependentUpon>
     </Compile>
     <Compile Include="TestFormComponent.cs">
       <SubType>Form</SubType>
@@ -85,9 +85,9 @@
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestFormStatic.resx">
+    <EmbeddedResource Include="TestFormHookListeners.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>TestFormStatic.cs</DependentUpon>
+      <DependentUpon>TestFormHookListeners.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TestFormComponent.resx">
       <DependentUpon>TestFormComponent.cs</DependentUpon>

@@ -6,7 +6,7 @@ namespace Gma.UserActivityMonitor.WinApi
     /// <summary>
     /// Provides methods for subscription and unsubscription to application mouse and keyboard hooks.
     /// </summary>
-    public class AppHooker : BaseHooker
+    public class AppHooker : Hooker
     {
         /// <summary>
         /// Installs a hook procedure that monitors mouse messages. For more information, see the MouseProc hook procedure. 
@@ -40,7 +40,7 @@ namespace Gma.UserActivityMonitor.WinApi
         }
 
         /// <summary>
-        /// TODO
+        /// Retrieves the unmanaged thread identifier of the calling thread.
         /// </summary>
         /// <returns></returns>
         [DllImport("kernel32")]

@@ -10,6 +10,35 @@ namespace Gma.UserActivityMonitor.WinApi
         public const byte VK_CAPITAL = 0x14;
         public const byte VK_NUMLOCK = 0x90;
 
+        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char ch)
+        {
+            bool isDownShift = ((GetKeyState(VK_SHIFT) & 0x80) == 0x80 ? true : false);
+            bool isDownCapslock = (GetKeyState(VK_CAPITAL) != 0 ? true : false);
+
+            byte[] keyState = new byte[256];
+            GetKeyboardState(keyState);
+            byte[] inBuffer = new byte[2];
+
+            bool isSuccesfullyConverted = ToAscii(virtualKeyCode,
+                                                  scanCode,
+                                                  keyState,
+                                                  inBuffer,
+                                                  fuState) == 1;
+            if (!isSuccesfullyConverted)
+            {
+                ch = (char)0;
+                return false;
+            }
+
+            ch = (char)inBuffer[0];
+            if ((isDownCapslock ^ isDownShift) && Char.IsLetter(ch))
+            {
+                ch = Char.ToUpper(ch);
+            }
+            return true;
+        }
+
+
         /// <summary>
         /// The ToAscii function translates the specified virtual-key code and keyboard 
         /// state to the corresponding character or characters. The function translates the code 
@@ -88,43 +117,5 @@ namespace Gma.UserActivityMonitor.WinApi
         /// <remarks>http://msdn.microsoft.com/en-us/library/ms646301.aspx</remarks>
         [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
         public static extern short GetKeyState(int vKey);
-
-        internal static bool IsKeyDown(int wParam)
-        {
-            return wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN;
-        }
-
-        internal static bool IsKeyUp(int wParam)
-        {
-            return wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP;
-        }
-
-        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char ch)
-        {
-            bool isDownShift = ((GetKeyState(VK_SHIFT) & 0x80) == 0x80 ? true : false);
-            bool isDownCapslock = (GetKeyState(VK_CAPITAL) != 0 ? true : false);
-
-            byte[] keyState = new byte[256];
-            GetKeyboardState(keyState);
-            byte[] inBuffer = new byte[2];
-
-            bool isSuccesfullyConverted = ToAscii(virtualKeyCode,
-                                                  scanCode,
-                                                  keyState,
-                                                  inBuffer,
-                                                  fuState) == 1;
-            if (!isSuccesfullyConverted)
-            {
-                ch = (char) 0;
-                return false;
-            }
-
-            ch = (char) inBuffer[0];
-            if ((isDownCapslock ^ isDownShift) && Char.IsLetter(ch))
-            {
-                ch = Char.ToUpper(ch);
-            }
-            return true;
-        }
     }
 }

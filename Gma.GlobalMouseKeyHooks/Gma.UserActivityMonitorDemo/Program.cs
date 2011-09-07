@@ -11,7 +11,7 @@ namespace Gma.UserActivityMonitorDemo
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TestFormStatic());
+            Application.Run(new TestFormHookListeners());
             //Application.Run(new TestFormComponent());
         }
     }

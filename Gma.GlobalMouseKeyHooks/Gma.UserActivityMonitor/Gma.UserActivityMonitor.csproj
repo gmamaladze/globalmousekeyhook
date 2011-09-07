@@ -117,8 +117,9 @@
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Controls\HookType.cs" />
     <Compile Include="DoubleClickDetector.cs" />
-    <Compile Include="KeyboardAndMouseEventProvider.cs">
+    <Compile Include="Controls\MouseKeyEventProvider.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BaseHookListener.cs" />
@@ -128,12 +129,12 @@
     <Compile Include="WinApi\GlobalHooker.cs" />
     <Compile Include="WinApi\KeyboardHookStruct.cs" />
     <Compile Include="KeyEventArgsExt.cs" />
-    <Compile Include="WinApi\MouseLLHookStruct.cs" />
+    <Compile Include="WinApi\MouseHookStruct.cs" />
     <Compile Include="WinApi\Point.cs" />
     <Compile Include="WinApi\HookCallback.cs" />
     <Compile Include="KeyboardHookListener.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
-    <Compile Include="WinApi\BaseHooker.cs" />
+    <Compile Include="WinApi\Hooker.cs" />
     <Compile Include="WinApi\Keyboard.cs" />
     <Compile Include="WinApi\Messages.cs" />
     <Compile Include="WinApi\Mouse.cs" />

@@ -23,7 +23,7 @@ namespace Gma.UserActivityMonitor
         /// </summary>
         /// <param name="hooker">Depending on this parameter the listener hooks either application or global mouse events.</param>
         /// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
-        public MouseHookListener(BaseHooker hooker) : base(hooker)
+        public MouseHookListener(Hooker hooker) : base(hooker)
         {
         }
 
@@ -35,7 +35,7 @@ namespace Gma.UserActivityMonitor
         /// <returns></returns>
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
-            MouseLLHookStruct mouseHookStruct = (MouseLLHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseLLHookStruct));
+            MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
             MouseEventExtArgs e = MouseEventExtArgs.FromRawData(wParam, mouseHookStruct);
 
             if (e.IsMouseKeyUp)
@@ -71,7 +71,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Override to deliver correct id to be used for <see cref="BaseHooker.SetWindowsHookEx"/> call.
+        /// Override to deliver correct id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
         /// </summary>
         /// <returns></returns>
         protected override int GetHookId()
@@ -81,7 +81,7 @@ namespace Gma.UserActivityMonitor
                 AppHooker.WH_MOUSE;
         }
 
-        private bool HasMoved(MouseLLHookStruct mouseHookStruct)
+        private bool HasMoved(MouseHookStruct mouseHookStruct)
         {
             return m_PreviousPosition != mouseHookStruct.Point;
         }

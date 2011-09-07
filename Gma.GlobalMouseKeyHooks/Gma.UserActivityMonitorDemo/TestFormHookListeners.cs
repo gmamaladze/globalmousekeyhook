@@ -5,13 +5,13 @@ using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitorDemo
 {
-    public partial class TestFormStatic : Form
+    public partial class TestFormHookListeners : Form
     {
         private readonly KeyboardHookListener m_KeyboardHookManager;
         private readonly MouseHookListener m_MouseHookManager;
         private readonly DoubleClickDetector m_DoubleClickDetector;
 
-        public TestFormStatic()
+        public TestFormHookListeners()
         {
             InitializeComponent();
             m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
@@ -143,18 +143,18 @@ namespace Gma.UserActivityMonitorDemo
 
         private void HookManager_KeyDown(object sender, KeyEventArgs e)
         {
-            Log(string.Format("KeyDown - {0}\n", e.KeyCode));
+            Log(string.Format("KeyDown \t\t {0}\n", e.KeyCode));
         }
 
         private void HookManager_KeyUp(object sender, KeyEventArgs e)
         {
-            Log(string.Format("KeyUp - {0}\n", e.KeyCode));
+            Log(string.Format("KeyUp  \t\t {0}\n", e.KeyCode));
         }
 
 
         private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Log(string.Format("KeyPress - {0}\n", e.KeyChar));
+            Log(string.Format("KeyPress \t\t {0}\n", e.KeyChar));
         }
 
 
@@ -165,25 +165,25 @@ namespace Gma.UserActivityMonitorDemo
 
         private void HookManager_MouseClick(object sender, MouseEventArgs e)
         {
-            Log(string.Format("MouseClick - {0}\n", e.Button));
+            Log(string.Format("MouseClick \t\t {0}\n", e.Button));
         }
 
 
         private void HookManager_MouseUp(object sender, MouseEventArgs e)
         {
-            Log(string.Format("MouseUp - {0}\n", e.Button));
+            Log(string.Format("MouseUp \t\t {0}\n", e.Button));
         }
 
 
         private void HookManager_MouseDown(object sender, MouseEventArgs e)
         {
-            Log(string.Format("MouseDown - {0}\n", e.Button));
+            Log(string.Format("MouseDown \t\t {0}\n", e.Button));
         }
 
 
         private void HookManager_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Log(string.Format("MouseDoubleClick - {0}\n", e.Button));
+            Log(string.Format("MouseDoubleClick \t\t {0}\n", e.Button));
         }
 
 
@@ -199,5 +199,25 @@ namespace Gma.UserActivityMonitorDemo
         }
 
         #endregion
+
+        private void radio_CheckedChanged(object sender, EventArgs e)
+        {
+            Hooker hooker;
+            if (radioApplication.Checked)
+            {
+                hooker = new AppHooker();
+            }
+            else if (radioGlobal.Checked)
+            {
+                hooker = new GlobalHooker();
+            }
+            else
+            {
+                return;
+            }
+
+            m_MouseHookManager.Restart(hooker);
+            m_KeyboardHookManager.Restart(hooker);
+        }
     }
 }
