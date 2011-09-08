@@ -60,6 +60,25 @@
         public const int WM_MOUSEWHEEL = 0x020A;
 
         /// <summary>
+        /// The WM_XBUTTONDOWN message is posted when the user presses the first or second X mouse
+        /// button. 
+        /// </summary>
+        public const int WM_XBUTTONDOWN = 0x20B;
+
+        /// <summary>
+        /// The WM_XBUTTONUP message is posted when the user releases the first or second X  mouse
+        /// button.
+        /// </summary>
+        public const int WM_XBUTTONUP = 0x20C;
+
+        /// <summary>
+        /// The WM_XBUTTONDBLCLK message is posted when the user double-clicks the first or second
+        /// X mouse button.
+        /// </summary>
+        /// <remarks>Only windows that have the CS_DBLCLKS style can receive WM_XBUTTONDBLCLK messages.</remarks>
+        public const int WM_XBUTTONDBLCLK = 0x20D;
+
+        /// <summary>
         /// The WM_KEYDOWN message is posted to the window with the keyboard focus when a nonsystem 
         /// key is pressed. A nonsystem key is a key that is pressed when the ALT key is not pressed.
         /// </summary>
