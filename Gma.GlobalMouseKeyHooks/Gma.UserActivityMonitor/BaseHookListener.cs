@@ -79,6 +79,11 @@ namespace Gma.UserActivityMonitor
         /// <exception cref="System.ComponentModel.Win32Exception"></exception>
         public void Start()
         {
+            if (Enabled)
+            {
+                throw new InvalidOperationException("Hook listener is already started. Call Stop() method firts or use Enabled property.");
+            }
+
             HookCallbackReferenceKeeper = new HookCallback(HookCallback);
             try
             {

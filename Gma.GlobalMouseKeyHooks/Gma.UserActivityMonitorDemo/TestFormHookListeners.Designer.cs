@@ -31,6 +31,7 @@ namespace Gma.UserActivityMonitorDemo
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.labelWheel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
             this.panelSeparator = new System.Windows.Forms.Panel();
             this.radioGlobal = new System.Windows.Forms.RadioButton();
             this.radioApplication = new System.Windows.Forms.RadioButton();
@@ -43,7 +44,6 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseDown = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseClick = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseMove = new System.Windows.Forms.CheckBox();
-            this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -113,6 +113,18 @@ namespace Gma.UserActivityMonitorDemo
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             // 
+            // checkBoxEnabled
+            // 
+            this.checkBoxEnabled.AutoSize = true;
+            this.checkBoxEnabled.Checked = true;
+            this.checkBoxEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBoxEnabled.Location = new System.Drawing.Point(233, 14);
+            this.checkBoxEnabled.Name = "checkBoxEnabled";
+            this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
+            this.checkBoxEnabled.TabIndex = 12;
+            this.checkBoxEnabled.Text = "Enabled";
+            this.checkBoxEnabled.UseVisualStyleBackColor = true;
+            // 
             // panelSeparator
             // 
             this.panelSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -138,7 +150,6 @@ namespace Gma.UserActivityMonitorDemo
             this.radioGlobal.TabStop = true;
             this.radioGlobal.Text = "Global hooks";
             this.radioGlobal.UseVisualStyleBackColor = false;
-            this.radioGlobal.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
             // 
             // radioApplication
             // 
@@ -151,7 +162,7 @@ namespace Gma.UserActivityMonitorDemo
             this.radioApplication.TabIndex = 9;
             this.radioApplication.Text = "Application hooks";
             this.radioApplication.UseVisualStyleBackColor = false;
-            this.radioApplication.CheckedChanged += new System.EventHandler(this.radio_CheckedChanged);
+            this.radioApplication.CheckedChanged += new System.EventHandler(this.radioApplication_CheckedChanged);
             // 
             // checkBoxKeyUp
             // 
@@ -269,19 +280,6 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseMove.Text = "MouseMove";
             this.checkBoxOnMouseMove.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseMove.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseMove_CheckedChanged);
-            // 
-            // checkBoxEnabled
-            // 
-            this.checkBoxEnabled.AutoSize = true;
-            this.checkBoxEnabled.Checked = true;
-            this.checkBoxEnabled.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.checkBoxEnabled.Location = new System.Drawing.Point(233, 14);
-            this.checkBoxEnabled.Name = "checkBoxEnabled";
-            this.checkBoxEnabled.Size = new System.Drawing.Size(65, 17);
-            this.checkBoxEnabled.TabIndex = 12;
-            this.checkBoxEnabled.Text = "Enabled";
-            this.checkBoxEnabled.UseVisualStyleBackColor = true;
-            this.checkBoxEnabled.CheckedChanged += new System.EventHandler(this.checkBoxEnabled_CheckedChanged);
             // 
             // TestFormHookListeners
             // 

@@ -202,25 +202,10 @@ namespace Gma.UserActivityMonitorDemo
 
         private void radio_CheckedChanged(object sender, EventArgs e)
         {
-            Hooker hooker;
-            if (radioApplication.Checked)
-            {
-                hooker = new AppHooker();
-            }
-            else if (radioGlobal.Checked)
-            {
-                hooker = new GlobalHooker();
-            }
-            else
-            {
-                return;
-            }
 
-            m_MouseHookManager.Replace(hooker);
-            m_KeyboardHookManager.Replace(hooker);
         }
 
-        private void checkBoxEnabled_CheckedChanged(object sender, EventArgs e)
+        private void radioApplication_CheckedChanged(object sender, EventArgs e)
         {
             m_MouseHookManager.Enabled = checkBoxEnabled.Checked;
             m_KeyboardHookManager.Enabled = checkBoxEnabled.Checked;

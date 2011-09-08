@@ -48,7 +48,7 @@ namespace Gma.UserActivityMonitor
                 InvokeMouseEventHandler(MouseDown, e);
             }
 
-            if (e.Clicked)
+            if (e.Clicked && e.IsMouseKeyUp)
             {
                 InvokeMouseEventHandler(MouseClick, e);
                 InvokeMouseEventHandlerExt(MouseClickExt, e);
