@@ -64,12 +64,14 @@ namespace Gma.UserActivityMonitor
                     //Otherwise, MouseData is not used.
                     button = (mouseHookStruct.MouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
+                    isMouseKeyDown = true;
                     clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONUP:
                     button = (mouseHookStruct.MouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
+                    isMouseKeyUp = true;
                     clickCount = 1;
                     break;
 
