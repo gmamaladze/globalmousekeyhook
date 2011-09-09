@@ -124,11 +124,12 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxEnabled.TabIndex = 12;
             this.checkBoxEnabled.Text = "Enabled";
             this.checkBoxEnabled.UseVisualStyleBackColor = true;
+            this.checkBoxEnabled.CheckedChanged += new System.EventHandler(this.checkBoxEnabled_CheckedChanged);
             // 
             // panelSeparator
             // 
-            this.panelSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSeparator.BackColor = System.Drawing.Color.White;
             this.panelSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelSeparator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -150,6 +151,7 @@ namespace Gma.UserActivityMonitorDemo
             this.radioGlobal.TabStop = true;
             this.radioGlobal.Text = "Global hooks";
             this.radioGlobal.UseVisualStyleBackColor = false;
+            this.radioGlobal.CheckedChanged += new System.EventHandler(this.radioHooksType_CheckedChanged);
             // 
             // radioApplication
             // 
@@ -162,7 +164,7 @@ namespace Gma.UserActivityMonitorDemo
             this.radioApplication.TabIndex = 9;
             this.radioApplication.Text = "Application hooks";
             this.radioApplication.UseVisualStyleBackColor = false;
-            this.radioApplication.CheckedChanged += new System.EventHandler(this.radioApplication_CheckedChanged);
+            this.radioApplication.CheckedChanged += new System.EventHandler(this.radioHooksType_CheckedChanged);
             // 
             // checkBoxKeyUp
             // 
