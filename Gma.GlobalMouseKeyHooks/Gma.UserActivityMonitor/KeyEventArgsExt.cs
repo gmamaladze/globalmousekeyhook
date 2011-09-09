@@ -39,7 +39,21 @@ namespace Gma.UserActivityMonitor
             const uint maskKeydown = 0x40000000; // for bit 30
             const uint maskKeyup = 0x80000000; // for bit 31
 
-            uint flags = (uint)lParam; //Marshal.ReadInt32(lParam);
+
+            uint flags = 0u;
+            if (IntPtr.Size == 4)
+            {
+                flags = (uint)lParam;
+            }
+            else if (IntPtr.Size == 8)      // 64bit support
+            {
+                // both of these are ugly hacks. Is there a better way to convert a 64bit IntPtr to uint?
+
+               // flags = uint.Parse(lParam.ToString());
+               flags = Convert.ToUInt32(lParam.ToInt64());
+            }
+
+
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
             bool wasKeyDown = (flags & maskKeydown) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
