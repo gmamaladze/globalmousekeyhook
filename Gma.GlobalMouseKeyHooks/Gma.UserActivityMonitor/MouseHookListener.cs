@@ -1,4 +1,6 @@
-﻿#region
+﻿#define ENABLE_MOUSE_SUPRESSION
+
+#region
 
 using System;
 using System.Runtime.InteropServices;
@@ -96,7 +98,11 @@ namespace Gma.UserActivityMonitor
 
         private void InvokeMouseEventHandlerExt(EventHandler<MouseEventExtArgs> handler, MouseEventExtArgs e)
         {
+#if ENABLE_MOUSE_SUPPRESSION
+            if (handler != null && e.Handled == false)
+#else
             if (handler != null)
+#endif
             {
                 handler(this, e);
             }
