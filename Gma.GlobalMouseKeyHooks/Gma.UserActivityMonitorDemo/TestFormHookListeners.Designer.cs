@@ -44,6 +44,7 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseDown = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseClick = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseMove = new System.Windows.Forms.CheckBox();
+            this.checkBoxSuppressMouse = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -89,6 +90,7 @@ namespace Gma.UserActivityMonitorDemo
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.checkBoxSuppressMouse);
             this.groupBox2.Controls.Add(this.checkBoxEnabled);
             this.groupBox2.Controls.Add(this.panelSeparator);
             this.groupBox2.Controls.Add(this.radioGlobal);
@@ -283,6 +285,17 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseMove.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseMove.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseMove_CheckedChanged);
             // 
+            // checkBoxSuppressMouse
+            // 
+            this.checkBoxSuppressMouse.AutoSize = true;
+            this.checkBoxSuppressMouse.Location = new System.Drawing.Point(395, 105);
+            this.checkBoxSuppressMouse.Name = "checkBoxSuppressMouse";
+            this.checkBoxSuppressMouse.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxSuppressMouse.TabIndex = 13;
+            this.checkBoxSuppressMouse.Text = "Suppress Right Mouse Click";
+            this.checkBoxSuppressMouse.UseVisualStyleBackColor = true;
+            this.checkBoxSuppressMouse.Visible = false;
+            // 
             // TestFormHookListeners
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -318,5 +331,6 @@ namespace Gma.UserActivityMonitorDemo
         private System.Windows.Forms.Panel panelSeparator;
         private System.Windows.Forms.RadioButton radioGlobal;
         private System.Windows.Forms.CheckBox checkBoxEnabled;
+        private System.Windows.Forms.CheckBox checkBoxSuppressMouse;
     }
 }
