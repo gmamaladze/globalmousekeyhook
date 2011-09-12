@@ -1,6 +1,4 @@
-﻿#define ENABLE_MOUSE_SUPRESSION
-
-#region
+﻿#region
 
 using System;
 using System.Runtime.InteropServices;
@@ -19,6 +17,7 @@ namespace Gma.UserActivityMonitor
     {
 
         private Point m_PreviousPosition = new Point(0,0);
+        private MouseButtons m_UpButtonToSuppress = MouseButtons.None;
 
         /// <summary>
         /// Initializes a new instance of <see cref="MouseHookListener"/>
@@ -40,17 +39,31 @@ namespace Gma.UserActivityMonitor
             MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
             MouseEventExtArgs e = MouseEventExtArgs.FromRawData(wParam, mouseHookStruct);
 
-            if (e.IsMouseKeyUp)
-            {
-                InvokeMouseEventHandler(MouseUp, e);
-            }
-
             if (e.IsMouseKeyDown)
             {
                 InvokeMouseEventHandler(MouseDown, e);
+                InvokeMouseEventHandlerExt(MouseDownExt, e);
+                if (e.Handled)
+                {
+                    m_UpButtonToSuppress = e.Button;
+                    e.Handled = true;
+                }
             }
 
-            if (e.Clicked && e.IsMouseKeyUp)
+            if (e.IsMouseKeyUp)
+            {
+                if (e.Button != m_UpButtonToSuppress)
+                {
+                    InvokeMouseEventHandler(MouseUp, e);
+                }
+                else
+                {
+                    m_UpButtonToSuppress = MouseButtons.None;
+                    e.Handled = true;
+                }
+            }
+
+            if (e.Clicked && e.IsMouseKeyUp && !e.Handled)
             {
                 InvokeMouseEventHandler(MouseClick, e);
                 InvokeMouseEventHandlerExt(MouseClickExt, e);
@@ -96,13 +109,10 @@ namespace Gma.UserActivityMonitor
             }
         }
 
+        
         private void InvokeMouseEventHandlerExt(EventHandler<MouseEventExtArgs> handler, MouseEventExtArgs e)
         {
-#if ENABLE_MOUSE_SUPPRESSION
-            if (handler != null && e.Handled == false)
-#else
             if (handler != null)
-#endif
             {
                 handler(this, e);
             }
@@ -134,12 +144,22 @@ namespace Gma.UserActivityMonitor
         ///   This event provides extended arguments of type <see cref = "MouseEventArgs" /> enabling you to 
         ///   supress further processing of mouse click in other applications.
         /// </remarks>
+        [Obsolete("To supress mouse clicks use MouseDownExt event instead.")]
         public event EventHandler<MouseEventExtArgs> MouseClickExt;
 
         /// <summary>
         ///   Occurs when the mouse a mouse button is pressed.
         /// </summary>
         public event MouseEventHandler MouseDown;
+
+        /// <summary>
+        ///   Occurs when the mouse a mouse button is pressed.
+        /// </summary>
+        /// <remarks>
+        ///   This event provides extended arguments of type <see cref = "MouseEventArgs" /> enabling you to 
+        ///   supress further processing of mouse click in other applications.
+        /// </remarks>
+        public event EventHandler<MouseEventExtArgs> MouseDownExt;
 
         /// <summary>
         ///   Occurs when a mouse button is released.
@@ -160,6 +180,7 @@ namespace Gma.UserActivityMonitor
             MouseClick = null;
             MouseClickExt = null;
             MouseDown = null;
+            MouseDownExt = null;
             MouseMove = null;
             MouseMoveExt = null;
             MouseUp = null;

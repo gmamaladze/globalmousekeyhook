@@ -31,6 +31,7 @@ namespace Gma.UserActivityMonitorDemo
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.labelWheel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.checkBoxSuppressMouse = new System.Windows.Forms.CheckBox();
             this.checkBoxEnabled = new System.Windows.Forms.CheckBox();
             this.panelSeparator = new System.Windows.Forms.Panel();
             this.radioGlobal = new System.Windows.Forms.RadioButton();
@@ -44,7 +45,6 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseDown = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseClick = new System.Windows.Forms.CheckBox();
             this.checkBoxOnMouseMove = new System.Windows.Forms.CheckBox();
-            this.checkBoxSuppressMouse = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -115,6 +115,17 @@ namespace Gma.UserActivityMonitorDemo
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
             // 
+            // checkBoxSuppressMouse
+            // 
+            this.checkBoxSuppressMouse.AutoSize = true;
+            this.checkBoxSuppressMouse.Location = new System.Drawing.Point(395, 105);
+            this.checkBoxSuppressMouse.Name = "checkBoxSuppressMouse";
+            this.checkBoxSuppressMouse.Size = new System.Drawing.Size(159, 17);
+            this.checkBoxSuppressMouse.TabIndex = 13;
+            this.checkBoxSuppressMouse.Text = "Suppress Right Mouse Click";
+            this.checkBoxSuppressMouse.UseVisualStyleBackColor = true;
+            this.checkBoxSuppressMouse.CheckedChanged += new System.EventHandler(this.checkBoxSuppressMouse_CheckedChanged);
+            // 
             // checkBoxEnabled
             // 
             this.checkBoxEnabled.AutoSize = true;
@@ -130,8 +141,8 @@ namespace Gma.UserActivityMonitorDemo
             // 
             // panelSeparator
             // 
-            this.panelSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSeparator.BackColor = System.Drawing.Color.White;
             this.panelSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelSeparator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -284,17 +295,6 @@ namespace Gma.UserActivityMonitorDemo
             this.checkBoxOnMouseMove.Text = "MouseMove";
             this.checkBoxOnMouseMove.UseVisualStyleBackColor = false;
             this.checkBoxOnMouseMove.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseMove_CheckedChanged);
-            // 
-            // checkBoxSuppressMouse
-            // 
-            this.checkBoxSuppressMouse.AutoSize = true;
-            this.checkBoxSuppressMouse.Location = new System.Drawing.Point(395, 105);
-            this.checkBoxSuppressMouse.Name = "checkBoxSuppressMouse";
-            this.checkBoxSuppressMouse.Size = new System.Drawing.Size(159, 17);
-            this.checkBoxSuppressMouse.TabIndex = 13;
-            this.checkBoxSuppressMouse.Text = "Suppress Right Mouse Click";
-            this.checkBoxSuppressMouse.UseVisualStyleBackColor = true;
-            this.checkBoxSuppressMouse.Visible = false;
             // 
             // TestFormHookListeners
             // 

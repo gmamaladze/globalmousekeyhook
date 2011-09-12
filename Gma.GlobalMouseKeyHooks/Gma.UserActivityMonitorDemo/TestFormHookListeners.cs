@@ -43,15 +43,12 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxOnMouseClick.Checked)
             {
-                checkBoxSuppressMouse.Visible = true;
-                checkBoxSuppressMouse.Checked = false;
-                m_MouseHookManager.MouseClickExt += m_MouseHookManager_MouseClickExt;
+                m_MouseHookManager.MouseClickExt += HookManager_MouseClick;
             }
             else
             {
-                checkBoxSuppressMouse.Visible = false;
                 checkBoxSuppressMouse.Checked = false;
-                m_MouseHookManager.MouseClickExt -= m_MouseHookManager_MouseClickExt;
+                m_MouseHookManager.MouseClickExt -= HookManager_MouseClick;
             }
         }
 
@@ -100,6 +97,18 @@ namespace Gma.UserActivityMonitorDemo
             else
             {
                 m_MouseHookManager.MouseWheel -= HookManager_MouseWheel;
+            }
+        }
+
+        private void checkBoxSuppressMouse_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBoxSuppressMouse.Checked)
+            {
+                m_MouseHookManager.MouseDownExt += HookManager_Supress;
+            }
+            else
+            {
+                m_MouseHookManager.MouseDownExt -= HookManager_Supress;
             }
         }
 
@@ -167,17 +176,9 @@ namespace Gma.UserActivityMonitorDemo
             labelMousePosition.Text = string.Format("x={0:0000}; y={1:0000}", e.X, e.Y);
         }
 
-        private void m_MouseHookManager_MouseClickExt(object sender, MouseEventExtArgs e)
+        private void HookManager_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right && checkBoxSuppressMouse.Checked)
-            {
-                Log("Mouse input suppressed.\n");
-                e.Handled = true;
-            }
-            else
-            {
-                Log(string.Format("MouseClick \t\t {0}\n", e.Button));
-            }
+            Log(string.Format("MouseClick \t\t {0}\n", e.Button));
         }
 
         private void HookManager_MouseUp(object sender, MouseEventArgs e)
@@ -234,6 +235,11 @@ namespace Gma.UserActivityMonitorDemo
             m_MouseHookManager.Replace(hook);
         }
 
-
+        private void HookManager_Supress(object sender, MouseEventExtArgs e)
+        {
+            if (e.Button != MouseButtons.Right) { return;}
+            Log("Suppressed.\n");
+            e.Handled = true;
+        }
     }
 }
