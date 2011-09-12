@@ -1,6 +1,7 @@
 ﻿#region
 
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.UserActivityMonitor.WinApi;
@@ -17,7 +18,7 @@ namespace Gma.UserActivityMonitor
     {
 
         private Point m_PreviousPosition = new Point(0,0);
-        private MouseButtons m_UpButtonToSuppress = MouseButtons.None;
+        private MouseButtons m_SuppressButtonUpFlags = MouseButtons.None;
 
         /// <summary>
         /// Initializes a new instance of <see cref="MouseHookListener"/>
@@ -45,20 +46,20 @@ namespace Gma.UserActivityMonitor
                 InvokeMouseEventHandlerExt(MouseDownExt, e);
                 if (e.Handled)
                 {
-                    m_UpButtonToSuppress = e.Button;
+                    SetSupressButtonUpFlag(e.Button);
                     e.Handled = true;
                 }
             }
 
             if (e.IsMouseKeyUp)
             {
-                if (e.Button != m_UpButtonToSuppress)
+                if (!HasSupressButtonUpFlag(e.Button))
                 {
                     InvokeMouseEventHandler(MouseUp, e);
                 }
                 else
                 {
-                    m_UpButtonToSuppress = MouseButtons.None;
+                    RemoveSupressButtonUpFlag(e.Button);
                     e.Handled = true;
                 }
             }
@@ -83,6 +84,24 @@ namespace Gma.UserActivityMonitor
             }
 
             return e.Handled;
+        }
+
+        private void RemoveSupressButtonUpFlag(MouseButtons button)
+        {
+            Debug.WriteLine(string.Format("{0} {1} {2} = {3}", m_SuppressButtonUpFlags, "^", button, m_SuppressButtonUpFlags ^ button));
+            m_SuppressButtonUpFlags = m_SuppressButtonUpFlags ^ button;
+        }
+
+        private bool HasSupressButtonUpFlag(MouseButtons button)
+        {
+            Debug.WriteLine(string.Format("{0} {1} {2} = {3}", m_SuppressButtonUpFlags, "&", button, (m_SuppressButtonUpFlags & button) != 0));
+            return (m_SuppressButtonUpFlags & button) != 0;
+        }
+
+        private void SetSupressButtonUpFlag(MouseButtons button)
+        {
+            Debug.WriteLine(string.Format("{0} {1} {2} = {3}", m_SuppressButtonUpFlags, "|", button, m_SuppressButtonUpFlags | button));
+            m_SuppressButtonUpFlags = m_SuppressButtonUpFlags | button;
         }
 
         /// <summary>
