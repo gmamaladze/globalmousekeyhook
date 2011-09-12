@@ -7,7 +7,7 @@ namespace Gma.UserActivityMonitor.Controls
 {
     /// <summary>
     /// This component monitors all mouse activities globally (also outside of the application)
-    /// or application wide depending on \\TODO 
+    /// or application wide depending on <see cref="MouseHookListener"/> 
     /// and provides appropriate events.
     /// </summary>
     public class MouseKeyEventProvider : Component
@@ -120,7 +120,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event MouseEventHandler m_MouseMove;
 
         /// <summary>
-        /// Occurs when the mouse pointer is moved. 
+        /// Activated when the user moves the mouse. 
         /// </summary>
         public event MouseEventHandler MouseMove
         {
@@ -153,7 +153,7 @@ namespace Gma.UserActivityMonitor.Controls
 
         private event MouseEventHandler m_MouseClick;
         /// <summary>
-        /// Occurs when a click was performed by the mouse. 
+        /// Activated upon a single click of the mouse.
         /// </summary>
         public event MouseEventHandler MouseClick
         {
@@ -187,7 +187,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event MouseEventHandler m_MouseDown;
 
         /// <summary>
-        /// Occurs when the mouse a mouse button is pressed. 
+        /// Activated when the user presses a mouse button.
         /// </summary>
         public event MouseEventHandler MouseDown
         {
@@ -223,7 +223,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event MouseEventHandler m_MouseUp;
 
         /// <summary>
-        /// Occurs when a mouse button is released. 
+        /// Activated when the user releases a mouse button.
         /// </summary>
         public event MouseEventHandler MouseUp
         {
@@ -257,7 +257,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event MouseEventHandler m_MouseDoubleClick;
 
         /// <summary>
-        /// Occurs when a double clicked was performed by the mouse. 
+        /// Activated when the user double-clicks with the mouse.
         /// </summary>
         public event MouseEventHandler MouseDoubleClick
         {
@@ -292,7 +292,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event EventHandler<MouseEventExtArgs> m_MouseMoveExt;
 
         /// <summary>
-        /// Occurs when the mouse pointer is moved. 
+        /// Activated when the user moves the mouse. 
         /// </summary>
         /// <remarks>
         /// This event provides extended arguments of type <see cref="MouseEventArgs"/> enabling you to 
@@ -330,7 +330,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event EventHandler<MouseEventExtArgs> m_MouseClickExt;
 
         /// <summary>
-        /// Occurs when a click was performed by the mouse. 
+        /// Activated upon a single click of the mouse.
         /// </summary>
         /// <remarks>
         /// This event provides extended arguments of type <see cref="MouseEventArgs"/> enabling you to 
@@ -374,7 +374,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event KeyPressEventHandler m_KeyPress;
 
         /// <summary>
-        /// Occurs when a key is pressed.
+        /// Activated when the user presses a key.
         /// </summary>
         /// <remarks>
         /// Key events occur in the following order: 
@@ -419,7 +419,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event KeyEventHandler m_KeyUp;
 
         /// <summary>
-        /// Occurs when a key is released. 
+        /// Activated upon the release of a key.
         /// </summary>
         public event KeyEventHandler KeyUp
         {
@@ -452,7 +452,7 @@ namespace Gma.UserActivityMonitor.Controls
         private event KeyEventHandler m_KeyDown;
 
         /// <summary>
-        /// Occurs when a key is preseed. 
+        /// Activated when a key is pushed.
         /// </summary>
         public event KeyEventHandler KeyDown
         {

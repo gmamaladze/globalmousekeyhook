@@ -27,6 +27,13 @@ namespace Gma.UserActivityMonitor
             return e;
         }
 
+        /// <summary>
+        /// Creates <see cref="KeyPressEventArgsExt"/> from Windows Message parameters.
+        /// </summary>
+        /// <param name="wParam">The first Windows Message parameter.</param>
+        /// <param name="lParam">The second Windows Message parameter.</param>
+        /// <param name="isGlobal">Specifies if the hook is local or global.</param>
+        /// <returns>A new KeyPressEventArgsExt object.</returns>
         internal static KeyPressEventArgsExt FromRawData(int wParam, IntPtr lParam, bool isGlobal)
         {
             return isGlobal ?
@@ -34,6 +41,13 @@ namespace Gma.UserActivityMonitor
                 FromRawDataApp(wParam, lParam);
         }
 
+        /// <summary>
+        /// Creates <see cref="KeyPressEventArgsExt"/> from Windows Message parameters,
+        /// based upon a local application hook.
+        /// </summary>
+        /// <param name="wParam">The first Windows Message parameter.</param>
+        /// <param name="lParam">The second Windows Message parameter.</param>
+        /// <returns>A new KeyPressEventArgsExt object.</returns>
         private static KeyPressEventArgsExt FromRawDataApp(int wParam, IntPtr lParam)
         {
             //http://msdn.microsoft.com/en-us/library/ms644984(v=VS.85).aspx
@@ -81,7 +95,13 @@ namespace Gma.UserActivityMonitor
 
         }
 
-
+        /// <summary>
+        /// Creates <see cref="KeyPressEventArgsExt"/> from Windows Message parameters,
+        /// based upon a system-wide hook.
+        /// </summary>
+        /// <param name="wParam">The first Windows Message parameter.</param>
+        /// <param name="lParam">The second Windows Message parameter.</param>
+        /// <returns>A new KeyPressEventArgsExt object.</returns>
         internal static KeyPressEventArgsExt FromRawDataGlobal(int wParam, IntPtr lParam)
         {
             if (wParam != Messages.WM_KEYDOWN)

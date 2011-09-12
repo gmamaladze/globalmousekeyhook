@@ -3,8 +3,11 @@
 namespace Gma.UserActivityMonitor.WinApi
 {
     /// <summary>
-    /// The MSLLHOOKSTRUCT structure contains information about a low-level keyboard input event. 
+    /// The MSLLHOOKSTRUCT structure contains information about a low-level mouse input event. 
     /// </summary>
+    /// <remarks>
+    /// http://msdn.microsoft.com/en-us/library/ms644970(VS.85).aspx
+    /// </remarks>
     [StructLayout(LayoutKind.Sequential)]
     internal struct MouseHookStruct {
         /// <summary>

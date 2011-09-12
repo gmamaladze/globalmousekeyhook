@@ -12,6 +12,13 @@ namespace Gma.UserActivityMonitor
     /// </summary>
     public class MouseEventExtArgs : MouseEventArgs
     {
+        /// <summary>
+        /// Creates <see cref="MouseEventExtArgs"/> from Windows Message parameters.
+        /// </summary>
+        /// <param name="wParam">The first Windows Message parameter.</param>
+        /// <param name="lParam">The second Windows Message parameter.</param>
+        /// <param name="isGlobal">Specifies if the hook is local or global.</param>
+        /// <returns>A new MouseEventExtArgs object.</returns>
         internal static MouseEventExtArgs FromRawData(int wParam, IntPtr lParam, bool isGlobal)
         {
             return isGlobal ?
@@ -19,18 +26,39 @@ namespace Gma.UserActivityMonitor
                 FromRawDataApp(wParam, lParam);
         }
 
+        /// <summary>
+        /// Creates <see cref="MouseEventExtArgs"/> from Windows Message parameters, 
+        /// based upon a local application hook.
+        /// </summary>
+        /// <param name="wParam">The first Windows Message parameter.</param>
+        /// <param name="lParam">The second Windows Message parameter.</param>
+        /// <returns>A new MouseEventExtArgs object.</returns>
         private static MouseEventExtArgs FromRawDataApp(int wParam, IntPtr lParam)
         {
             MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
             return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.ExtraInfo);
         }
 
+        /// <summary>
+        /// Creates <see cref="MouseEventExtArgs"/> from Windows Message parameters, 
+        /// based upon a system-wide global hook.
+        /// </summary>
+        /// <param name="wParam">The first Windows Message parameter.</param>
+        /// <param name="lParam">The second Windows Message parameter.</param>
+        /// <returns>A new MouseEventExtArgs object.</returns>
         internal static MouseEventExtArgs FromRawDataGlobal(int wParam, IntPtr lParam)
         {
             MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
             return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.MouseData);
         }
 
+        /// <summary>
+        /// Creates <see cref="MouseEventExtArgs"/> from relevant mouse data. 
+        /// </summary>
+        /// <param name="wParam">First Windows Message parameter.</param>
+        /// <param name="point">Mouse location.</param>
+        /// <param name="mouseData">Information regarding XButton clicks and scroll data.</param>
+        /// <returns></returns>
         private static MouseEventExtArgs FromRawDataUniversal(int wParam, Point point, int mouseData)
         {
             MouseButtons button = MouseButtons.None;

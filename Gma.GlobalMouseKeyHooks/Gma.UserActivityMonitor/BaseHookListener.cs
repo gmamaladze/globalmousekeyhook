@@ -32,7 +32,7 @@ namespace Gma.UserActivityMonitor
         protected int HookHandle { get; set; }
 
         /// <summary>
-        /// Keeps the reference to prevent garbage collection of delegate. See: CallbackOnCollectedDelegate //TODO: URL
+        /// Keeps the reference to prevent garbage collection of delegate. See: CallbackOnCollectedDelegate http://msdn.microsoft.com/en-us/library/43yky316(v=VS.100).aspx
         /// </summary>
         protected HookCallback HookCallbackReferenceKeeper { get; set; }
 
@@ -118,7 +118,7 @@ namespace Gma.UserActivityMonitor
         /// Enables you to switch from application hooks to global hooks and vice versa on the fly
         /// without unsubscribing from events. Component remains enabled or disabled state after this call as it was before.
         /// </summary>
-        /// <param name="hooker"></param>
+        /// <param name="hooker">An AppHooker or GlobalHooker object.</param>
         public void Replace(Hooker hooker)
         {
             bool rememberEnabled = Enabled;
@@ -134,9 +134,12 @@ namespace Gma.UserActivityMonitor
         protected abstract int GetHookId();
 
         /// <summary>
-        /// true - if component listens to hooks and fires appropriate ones.
-        /// false - otherwise.
+        /// Gets or Sets the enabled status of the Hook.
         /// </summary>
+        /// <value>
+        /// True - The Hook is presently installed, activated, and will fire events.
+        /// False - The Hook is not part of the hook chain, and will not fire events.
+        /// </value>
         public bool Enabled
         {
             get { return HookHandle != 0; }

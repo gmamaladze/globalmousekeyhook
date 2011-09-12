@@ -30,7 +30,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        ///   Occurs when a double clicked was performed by the mouse.
+        /// Occurs when a double clicked was performed by the mouse.
         /// </summary>
         public event MouseEventHandler MouseDoubleClick
         {
@@ -77,11 +77,11 @@ namespace Gma.UserActivityMonitor
 
 
         /// <summary>
-        ///   This method is designed to monitor mouse clicks in order to fire a double click event if interval between 
-        ///   clicks was short enaugh.
+        /// This method is designed to monitor mouse clicks in order to fire a double click event if interval between 
+        /// clicks was short enaugh.
         /// </summary>
-        /// <param name = "sender">Is always null</param>
-        /// <param name = "e">Some information about click heppened.</param>
+        /// <param name = "sender">Always null.</param>
+        /// <param name = "e">Contains event data.</param>
         private void OnMouseUp(object sender, MouseEventArgs e)
         {
             //This should not heppen
@@ -89,7 +89,7 @@ namespace Gma.UserActivityMonitor
             {
                 return;
             }
-            //If the secon click heppened on the same button
+            //If the secon click happened on the same button
             if (e.Button.Equals(m_PrevClickedButton))
             {
                 if (m_MouseDoubleClick != null)
