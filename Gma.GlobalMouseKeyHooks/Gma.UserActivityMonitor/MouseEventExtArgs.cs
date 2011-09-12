@@ -1,4 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Gma.UserActivityMonitor.WinApi;
 
 namespace Gma.UserActivityMonitor
@@ -9,8 +12,26 @@ namespace Gma.UserActivityMonitor
     /// </summary>
     public class MouseEventExtArgs : MouseEventArgs
     {
+        internal static MouseEventExtArgs FromRawData(int wParam, IntPtr lParam, bool isGlobal)
+        {
+            return isGlobal ?
+                FromRawDataGlobal(wParam, lParam) :
+                FromRawDataApp(wParam, lParam);
+        }
 
-        internal static MouseEventExtArgs FromRawData(int wParam, MouseHookStruct mouseHookStruct)
+        private static MouseEventExtArgs FromRawDataApp(int wParam, IntPtr lParam)
+        {
+            MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
+            return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.ExtraInfo);
+        }
+
+        internal static MouseEventExtArgs FromRawDataGlobal(int wParam, IntPtr lParam)
+        {
+            MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
+            return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.MouseData);
+        }
+
+        private static MouseEventExtArgs FromRawDataUniversal(int wParam, Point point, int mouseData)
         {
             MouseButtons button = MouseButtons.None;
             short mouseDelta = 0;
@@ -54,7 +75,8 @@ namespace Gma.UserActivityMonitor
                     //If the message is WM_MOUSEWHEEL, the high-order word of MouseData member is the wheel delta. 
                     //One wheel click is defined as WHEEL_DELTA, which is 120. 
                     //(value >> 16) & 0xffff; retrieves the high-order word from the given 32-bit value
-                    mouseDelta = (short)((mouseHookStruct.MouseData >> 16) & 0xffff);
+                    mouseDelta = (short)((mouseData >> 16) & 0xffff);
+
                     break;
 
                 case Messages.WM_XBUTTONDOWN:
@@ -62,21 +84,21 @@ namespace Gma.UserActivityMonitor
                     //or WM_NCXBUTTONDBLCLK, the high-order word specifies which X button was pressed or released, 
                     //and the low-order word is reserved. This value can be one or more of the following values. 
                     //Otherwise, MouseData is not used.
-                    button = (mouseHookStruct.MouseData == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyDown = true;
                     clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONUP:
-                    button = (mouseHookStruct.MouseData == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyUp = true;
                     clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONDBLCLK:
-                    button = (mouseHookStruct.MouseData == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     clickCount = 2;
                     break;
@@ -85,8 +107,7 @@ namespace Gma.UserActivityMonitor
             var e = new MouseEventExtArgs(
                 button,
                 clickCount,
-                mouseHookStruct.Point.X,
-                mouseHookStruct.Point.Y,
+                point,
                 mouseDelta);
 
             e.IsMouseKeyDown = isMouseKeyDown;
@@ -106,6 +127,11 @@ namespace Gma.UserActivityMonitor
         public MouseEventExtArgs(MouseButtons buttons, int clicks, int x, int y, int delta)
             : base(buttons, clicks, x, y, delta)
         {}
+
+        internal MouseEventExtArgs(MouseButtons button, int clickCount, Point point, short mouseDelta)
+            : this(button, clickCount, point.X, point.Y, mouseDelta)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the MouseEventArgs class. 
@@ -150,5 +176,7 @@ namespace Gma.UserActivityMonitor
         {
             get; private set;
         }
+
+        internal Point Point { get; private set; }
     }
 }

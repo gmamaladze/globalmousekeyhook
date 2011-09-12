@@ -37,8 +37,7 @@ namespace Gma.UserActivityMonitor
         /// <returns></returns>
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
-            MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
-            MouseEventExtArgs e = MouseEventExtArgs.FromRawData(wParam, mouseHookStruct);
+            MouseEventExtArgs e = MouseEventExtArgs.FromRawData(wParam, lParam, IsGlobal);
 
             if (e.IsMouseKeyDown)
             {
@@ -75,9 +74,9 @@ namespace Gma.UserActivityMonitor
                 InvokeMouseEventHandler(MouseWheel, e);
             }
 
-            if (HasMoved(mouseHookStruct))
+            if (HasMoved(e.Point))
             {
-                m_PreviousPosition = mouseHookStruct.Point;
+                m_PreviousPosition = e.Point;
 
                 InvokeMouseEventHandler(MouseMove, e);
                 InvokeMouseEventHandlerExt(MouseMoveExt, e);
@@ -112,9 +111,9 @@ namespace Gma.UserActivityMonitor
                 AppHooker.WH_MOUSE;
         }
 
-        private bool HasMoved(MouseHookStruct mouseHookStruct)
+        private bool HasMoved(Point actualPoint)
         {
-            return m_PreviousPosition != mouseHookStruct.Point;
+            return m_PreviousPosition != actualPoint;
         }
 
         private void InvokeMouseEventHandler(MouseEventHandler handler, MouseEventArgs e)
