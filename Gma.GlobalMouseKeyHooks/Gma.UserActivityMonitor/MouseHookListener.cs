@@ -88,19 +88,16 @@ namespace Gma.UserActivityMonitor
 
         private void RemoveSupressButtonUpFlag(MouseButtons button)
         {
-            Debug.WriteLine(string.Format("{0} {1} {2} = {3}", m_SuppressButtonUpFlags, "^", button, m_SuppressButtonUpFlags ^ button));
             m_SuppressButtonUpFlags = m_SuppressButtonUpFlags ^ button;
         }
 
         private bool HasSupressButtonUpFlag(MouseButtons button)
         {
-            Debug.WriteLine(string.Format("{0} {1} {2} = {3}", m_SuppressButtonUpFlags, "&", button, (m_SuppressButtonUpFlags & button) != 0));
             return (m_SuppressButtonUpFlags & button) != 0;
         }
 
         private void SetSupressButtonUpFlag(MouseButtons button)
         {
-            Debug.WriteLine(string.Format("{0} {1} {2} = {3}", m_SuppressButtonUpFlags, "|", button, m_SuppressButtonUpFlags | button));
             m_SuppressButtonUpFlags = m_SuppressButtonUpFlags | button;
         }
 
