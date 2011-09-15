@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.UserActivityMonitor.WinApi;
@@ -74,7 +73,6 @@ namespace Gma.UserActivityMonitor
                 case Messages.WM_LBUTTONDOWN:
                     isMouseKeyDown = true;
                     button = MouseButtons.Left;
-                    clickCount = 1;
                     break;
                 case Messages.WM_LBUTTONUP:
                     isMouseKeyUp = true;
@@ -88,7 +86,6 @@ namespace Gma.UserActivityMonitor
                 case Messages.WM_RBUTTONDOWN:
                     isMouseKeyDown = true;
                     button = MouseButtons.Right;
-                    clickCount = 1;
                     break;
                 case Messages.WM_RBUTTONUP:
                     isMouseKeyUp = true;
@@ -97,6 +94,19 @@ namespace Gma.UserActivityMonitor
                     break;
                 case Messages.WM_RBUTTONDBLCLK:
                     button = MouseButtons.Right;
+                    clickCount = 2;
+                    break;
+                case Messages.WM_MBUTTONDOWN:
+                    isMouseKeyDown = true;
+                    button = MouseButtons.Middle;
+                    break;
+                case Messages.WM_MBUTTONUP:
+                    isMouseKeyUp = true;
+                    button = MouseButtons.Middle;
+                    clickCount = 1;
+                    break;
+                case Messages.WM_MBUTTONDBLCLK:
+                    button = MouseButtons.Middle;
                     clickCount = 2;
                     break;
                 case Messages.WM_MOUSEWHEEL:
@@ -115,7 +125,6 @@ namespace Gma.UserActivityMonitor
                     button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyDown = true;
-                    clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONUP:
@@ -154,7 +163,7 @@ namespace Gma.UserActivityMonitor
         /// <param name="delta">A signed count of the number of detents the wheel has rotated.</param>
         public MouseEventExtArgs(MouseButtons buttons, int clicks, int x, int y, int delta)
             : base(buttons, clicks, x, y, delta)
-        {}
+        { }
 
         internal MouseEventExtArgs(MouseButtons button, int clickCount, Point point, short mouseDelta)
             : this(button, clickCount, point.X, point.Y, mouseDelta)
@@ -165,8 +174,9 @@ namespace Gma.UserActivityMonitor
         /// Initializes a new instance of the MouseEventArgs class. 
         /// </summary>
         /// <param name="e">An ordinary <see cref="MouseEventArgs"/> argument to be extended.</param>
-        internal MouseEventExtArgs(MouseEventArgs e) : base(e.Button, e.Clicks, e.X, e.Y, e.Delta)
-        {}
+        internal MouseEventExtArgs(MouseEventArgs e)
+            : base(e.Button, e.Clicks, e.X, e.Y, e.Delta)
+        { }
 
         /// <summary>
         /// Set this property to <b>true</b> inside your event handler to prevent further processing of the event in other applications.
@@ -194,7 +204,8 @@ namespace Gma.UserActivityMonitor
         /// </summary>
         public bool IsMouseKeyDown
         {
-            get; private set;
+            get;
+            private set;
         }
 
         /// <summary>
@@ -202,7 +213,8 @@ namespace Gma.UserActivityMonitor
         /// </summary>
         public bool IsMouseKeyUp
         {
-            get; private set;
+            get;
+            private set;
         }
 
         internal Point Point { get; private set; }
