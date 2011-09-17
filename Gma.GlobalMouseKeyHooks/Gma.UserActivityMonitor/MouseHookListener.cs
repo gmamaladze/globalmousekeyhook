@@ -113,7 +113,7 @@ namespace Gma.UserActivityMonitor
 
         private bool HasMoved(Point actualPoint)
         {
-            return m_PreviousPosition != actualPoint;
+            return m_PreviousPosition == actualPoint;
         }
 
         private void InvokeMouseEventHandler(MouseEventHandler handler, MouseEventArgs e)
