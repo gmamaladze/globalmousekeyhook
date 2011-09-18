@@ -73,6 +73,7 @@ namespace Gma.UserActivityMonitor
                 case Messages.WM_LBUTTONDOWN:
                     isMouseKeyDown = true;
                     button = MouseButtons.Left;
+                    clickCount = 1;
                     break;
                 case Messages.WM_LBUTTONUP:
                     isMouseKeyUp = true;
@@ -86,6 +87,7 @@ namespace Gma.UserActivityMonitor
                 case Messages.WM_RBUTTONDOWN:
                     isMouseKeyDown = true;
                     button = MouseButtons.Right;
+                    clickCount = 1;
                     break;
                 case Messages.WM_RBUTTONUP:
                     isMouseKeyUp = true;
@@ -99,6 +101,7 @@ namespace Gma.UserActivityMonitor
                 case Messages.WM_MBUTTONDOWN:
                     isMouseKeyDown = true;
                     button = MouseButtons.Middle;
+                    clickCount = 1;
                     break;
                 case Messages.WM_MBUTTONUP:
                     isMouseKeyUp = true;
@@ -125,6 +128,7 @@ namespace Gma.UserActivityMonitor
                     button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyDown = true;
+                    clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONUP:
