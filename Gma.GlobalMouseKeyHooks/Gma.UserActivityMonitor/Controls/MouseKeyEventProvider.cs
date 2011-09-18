@@ -365,6 +365,40 @@ namespace Gma.UserActivityMonitor.Controls
             }
         }
 
+        private event EventHandler<MouseEventArgs> m_MouseWheel;
+
+        /// <summary>
+        /// Activated upon mouse scrolling.
+        /// </summary>
+        public event EventHandler<MouseEventArgs> MouseWheel
+        {
+            add
+            {
+                if (m_MouseWheel == null)
+                {
+                    m_MouseHookManager.MouseWheel += HookManager_MouseWheel;
+                }
+                m_MouseWheel += value;
+            }
+
+            remove
+            {
+                m_MouseWheel -= value;
+                if (m_MouseWheel == null)
+                {
+                    m_MouseHookManager.MouseWheel -= HookManager_MouseWheel;
+                }
+            }
+        }
+
+        void HookManager_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (m_MouseWheel != null)
+            {
+                m_MouseWheel.Invoke(this, e);
+            }
+        }
+
 
         #endregion
 
