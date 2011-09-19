@@ -30,90 +30,114 @@ namespace Gma.UserActivityMonitor
 			m_PreviousClicked = MouseButtons.None;
 		}
 
-		/// <summary>
-		/// This method processes the data from the hook and initiates event firing.
-		/// </summary>
-		/// <param name="wParam">The first Windows Messages parameter.</param>
-		/// <param name="lParam">The second Windows Messages parameter.</param>
-		/// <returns>
+        //##################################################################
+        #region ProcessCallback and related subroutines
+
+        /// <summary>
+        /// This method processes the data from the hook and initiates event firing.
+        /// </summary>
+        /// <param name="wParam">The first Windows Messages parameter.</param>
+        /// <param name="lParam">The second Windows Messages parameter.</param>
+        /// <returns>
         /// True - The hook will be passed along to other applications.
         /// False - The hook will not be given to other applications, effectively blocking input.
         /// </returns>
-		protected override bool ProcessCallback(int wParam, IntPtr lParam)
-		{
-			MouseEventExtArgs e = MouseEventExtArgs.FromRawData(wParam, lParam, IsGlobal);
+        protected override bool ProcessCallback(int wParam, IntPtr lParam)
+        {
+            MouseEventExtArgs e = MouseEventExtArgs.FromRawData(wParam, lParam, IsGlobal);
 
-			if (e.IsMouseKeyDown)
-			{
-				if (IsDoubleClick(e.Button))
-				{
-					e = e.ToDoubleClickEventArgs();
-					m_DownButtonsWaitingForMouseUp = MouseButtons.None;
-					m_PreviousClicked = MouseButtons.None;
-					m_PreviousClickedTime = DateTime.MinValue;
-				}
-				else
-				{
-					m_DownButtonsWaitingForMouseUp |= e.Button;
-					m_PreviousClickedTime = DateTime.UtcNow;
-				}
+            if (e.IsMouseKeyDown)
+            {
+                ProcessMouseDown(ref e);
+            }
 
-				InvokeMouseEventHandler(MouseDown, e);
-				InvokeMouseEventHandlerExt(MouseDownExt, e);
-				if (e.Handled)
-				{
-					SetSupressButtonUpFlag(e.Button);
-					e.Handled = true;
-				}
-			}
+            if (e.Clicks == 1 && e.IsMouseKeyUp && !e.Handled)
+            {
+                ProcessMouseClick(ref e);
+            }
 
-			if (e.Clicks == 1 && e.IsMouseKeyUp && !e.Handled)
-			{
-				if ((m_DownButtonsWaitingForMouseUp & e.Button) != MouseButtons.None)
-				{
-					m_PreviousClicked = e.Button;
-					m_DownButtonsWaitingForMouseUp = MouseButtons.None;
-					InvokeMouseEventHandler(MouseClick, e);
-					InvokeMouseEventHandlerExt(MouseClickExt, e);
-				}
-			}
+            if (e.Clicks == 2 && !e.Handled)
+            {
+                InvokeMouseEventHandler(MouseDoubleClick, e);
+            }
 
-			if (e.Clicks == 2 && !e.Handled)
-			{
-				InvokeMouseEventHandler(MouseDoubleClick, e);
-			}
+            if (e.IsMouseKeyUp)
+            {
+                ProcessMouseUp(ref e);
+            }
 
+            if (e.WheelScrolled)
+            {
+                InvokeMouseEventHandler(MouseWheel, e);
+            }
 
-			if (e.IsMouseKeyUp)
-			{
-				if (!HasSupressButtonUpFlag(e.Button))
-				{
-					InvokeMouseEventHandler(MouseUp, e);
-				}
-				else
-				{
-					RemoveSupressButtonUpFlag(e.Button);
-					e.Handled = true;
-				}
-			}
+            if (HasMoved(e.Point))
+            {
+                ProcessMouseMove(ref e);
+            }
 
-			if (e.WheelScrolled)
-			{
-				InvokeMouseEventHandler(MouseWheel, e);
-			}
+            return !e.Handled;
+        }
 
-			if (HasMoved(e.Point))
-			{
-				m_PreviousPosition = e.Point;
+        private void ProcessMouseDown(ref MouseEventExtArgs e)
+        {
+            if (IsDoubleClick(e.Button))
+            {
+                e = e.ToDoubleClickEventArgs();
+                m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+                m_PreviousClicked = MouseButtons.None;
+                m_PreviousClickedTime = DateTime.MinValue;
+            }
+            else
+            {
+                m_DownButtonsWaitingForMouseUp |= e.Button;
+                m_PreviousClickedTime = DateTime.UtcNow;
+            }
 
-				InvokeMouseEventHandler(MouseMove, e);
-				InvokeMouseEventHandlerExt(MouseMoveExt, e);
-			}
+            InvokeMouseEventHandler(MouseDown, e);
+            InvokeMouseEventHandlerExt(MouseDownExt, e);
+            if (e.Handled)
+            {
+                SetSupressButtonUpFlag(e.Button);
+                e.Handled = true;
+            }
+        }
 
-			return !e.Handled;
-		}
+        private void ProcessMouseClick(ref MouseEventExtArgs e)
+        {
+            if ((m_DownButtonsWaitingForMouseUp & e.Button) != MouseButtons.None)
+            {
+                m_PreviousClicked = e.Button;
+                m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+                InvokeMouseEventHandler(MouseClick, e);
+                InvokeMouseEventHandlerExt(MouseClickExt, e);
+            }
+        }
 
-		private void RemoveSupressButtonUpFlag(MouseButtons button)
+        private void ProcessMouseUp(ref MouseEventExtArgs e)
+        {
+            if (!HasSupressButtonUpFlag(e.Button))
+            {
+                InvokeMouseEventHandler(MouseUp, e);
+            }
+            else
+            {
+                RemoveSupressButtonUpFlag(e.Button);
+                e.Handled = true;
+            }
+        }
+
+        private void ProcessMouseMove(ref MouseEventExtArgs e)
+        {
+            m_PreviousPosition = e.Point;
+
+            InvokeMouseEventHandler(MouseMove, e);
+            InvokeMouseEventHandlerExt(MouseMoveExt, e);
+        }
+
+        #endregion
+
+        private void RemoveSupressButtonUpFlag(MouseButtons button)
 		{
 			m_SuppressButtonUpFlags = m_SuppressButtonUpFlags ^ button;
 		}
