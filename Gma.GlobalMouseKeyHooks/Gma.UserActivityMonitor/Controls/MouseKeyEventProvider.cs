@@ -365,6 +365,44 @@ namespace Gma.UserActivityMonitor.Controls
             }
         }
 
+        private event EventHandler<MouseEventExtArgs> m_MouseDownExt;
+
+        /// <summary>
+        /// Activated when the user presses a mouse button.
+        /// </summary>
+        /// <remarks>
+        /// This event provides extended arguments of type <see cref="MouseEventArgs"/> enabling you to 
+        /// supress further processing of mouse down in other applications.
+        /// </remarks>
+        public event EventHandler<MouseEventExtArgs> MouseDownExt
+        {
+            add
+            {
+                if (m_MouseDownExt == null)
+                {
+                    m_MouseHookManager.MouseDownExt += HookManager_MouseDownExt;
+                }
+                m_MouseDownExt += value;
+            }
+
+            remove
+            {
+                m_MouseDownExt -= value;
+                if (m_MouseDownExt == null)
+                {
+                    m_MouseHookManager.MouseDownExt -= HookManager_MouseDownExt;
+                }
+            }
+        }
+
+        void HookManager_MouseDownExt(object sender, MouseEventExtArgs e)
+        {
+            if (m_MouseDownExt != null)
+            {
+                m_MouseDownExt.Invoke(this, e);
+            }
+        }
+
         private event EventHandler<MouseEventArgs> m_MouseWheel;
 
         /// <summary>
