@@ -14,7 +14,6 @@ namespace Gma.UserActivityMonitorDemo
             if (disposing && (components != null)) {
                 components.Dispose();
                 m_KeyboardHookManager.Dispose();
-                m_DoubleClickDetector.Dispose();
                 m_MouseHookManager.Dispose();
             }
             base.Dispose(disposing);

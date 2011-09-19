@@ -14,7 +14,6 @@ namespace Gma.UserActivityMonitor.Controls
     {
         private readonly KeyboardHookListener m_KeyboardHookManager;
         private readonly MouseHookListener m_MouseHookManager;
-        private readonly DoubleClickDetector m_DoubleClickDetector;
 
         /// <summary>
         /// Initializes a new instance of <see cref="MouseKeyEventProvider"/>
@@ -23,7 +22,6 @@ namespace Gma.UserActivityMonitor.Controls
         {
             m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
             m_MouseHookManager = new MouseHookListener(new GlobalHooker());
-            m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
         }
 
         /// <summary>
@@ -268,7 +266,7 @@ namespace Gma.UserActivityMonitor.Controls
             {
                 if (m_MouseDoubleClick == null)
                 {
-                    m_DoubleClickDetector.MouseDoubleClick += HookManager_MouseDoubleClick;
+                    m_MouseHookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
                 }
                 m_MouseDoubleClick += value;
             }
@@ -278,7 +276,7 @@ namespace Gma.UserActivityMonitor.Controls
                 m_MouseDoubleClick -= value;
                 if (m_MouseDoubleClick == null)
                 {
-                    m_DoubleClickDetector.MouseDoubleClick -= HookManager_MouseDoubleClick;
+                    m_MouseHookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
                 }
             }
         }

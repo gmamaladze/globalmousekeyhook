@@ -9,7 +9,6 @@ namespace Gma.UserActivityMonitorDemo
     {
         private readonly KeyboardHookListener m_KeyboardHookManager;
         private readonly MouseHookListener m_MouseHookManager;
-        private readonly DoubleClickDetector m_DoubleClickDetector;
 
         public TestFormHookListeners()
         {
@@ -19,8 +18,6 @@ namespace Gma.UserActivityMonitorDemo
 
             m_MouseHookManager = new MouseHookListener(new GlobalHooker());
             m_MouseHookManager.Enabled = true;
-
-            m_DoubleClickDetector = new DoubleClickDetector(m_MouseHookManager);
         }
 
 
@@ -80,11 +77,11 @@ namespace Gma.UserActivityMonitorDemo
         {
             if (checkBoxMouseDoubleClick.Checked)
             {
-                m_DoubleClickDetector.MouseDoubleClick += HookManager_MouseDoubleClick;
+                m_MouseHookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
             }
             else
             {
-                m_DoubleClickDetector.MouseDoubleClick -= HookManager_MouseDoubleClick;
+                m_MouseHookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
             }
         }
 
