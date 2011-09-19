@@ -33,9 +33,12 @@ namespace Gma.UserActivityMonitor
 		/// <summary>
 		/// This method processes the data from the hook and initiates event firing.
 		/// </summary>
-		/// <param name="wParam"></param>
-		/// <param name="lParam"></param>
-		/// <returns></returns>
+		/// <param name="wParam">The first Windows Messages parameter.</param>
+		/// <param name="lParam">The second Windows Messages parameter.</param>
+		/// <returns>
+        /// True - The hook will be passed along to other applications.
+        /// False - The hook will not be given to other applications, effectively blocking input.
+        /// </returns>
 		protected override bool ProcessCallback(int wParam, IntPtr lParam)
 		{
 			MouseEventExtArgs e = MouseEventExtArgs.FromRawData(wParam, lParam, IsGlobal);
@@ -107,7 +110,7 @@ namespace Gma.UserActivityMonitor
 				InvokeMouseEventHandlerExt(MouseMoveExt, e);
 			}
 
-			return e.Handled;
+			return !e.Handled;
 		}
 
 		private void RemoveSupressButtonUpFlag(MouseButtons button)
@@ -128,7 +131,7 @@ namespace Gma.UserActivityMonitor
 		/// <summary>
 		/// Returns the correct hook id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
 		/// </summary>
-		/// <returns></returns>
+		/// <returns>WH_MOUSE (0x07) or WH_MOUSE_LL (0x14) constant.</returns>
 		protected override int GetHookId()
 		{
 			return IsGlobal ?

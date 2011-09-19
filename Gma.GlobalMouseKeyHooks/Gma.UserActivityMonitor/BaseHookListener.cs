@@ -57,9 +57,9 @@ namespace Gma.UserActivityMonitor
         {
             if (nCode == 0)
             {
-                bool handled = ProcessCallback(wParam, lParam);
+                bool shouldProcess = ProcessCallback(wParam, lParam);
 
-                if (handled)
+                if (!shouldProcess)
                 {
                     return -1;
                 }
