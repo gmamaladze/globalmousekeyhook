@@ -5,13 +5,12 @@ using Gma.UserActivityMonitor.WinApi;
 namespace Gma.UserActivityMonitor
 {
     /// <summary>
-    /// This class monitors all mouse activities globally (also outside of the application) 
-    /// and provides appropriate events.
+    /// This class monitors all keyboard activities and provides appropriate events.
     /// </summary>
     public class KeyboardHookListener : BaseHookListener
     {
         /// <summary>
-        /// Creates an instance of <see cref="KeyboardHookListener"/>
+        /// Initializes a new instance of <see cref="KeyboardHookListener"/>.
         /// </summary>
         /// <param name="hooker">Depending on this parameter the listener hooks either application or global keyboard events.</param>
         /// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
@@ -21,7 +20,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Override this method to modify logic of firing events.
+        /// This method processes the data from the hook and initiates event firing.
         /// </summary>
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
@@ -38,7 +37,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Override to deliver correct id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
+        /// Returns the correct hook id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
         /// </summary>
         /// <returns></returns>
         protected override int GetHookId()

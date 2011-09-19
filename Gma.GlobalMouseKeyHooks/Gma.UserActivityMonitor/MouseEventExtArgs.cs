@@ -6,8 +6,7 @@ using Gma.UserActivityMonitor.WinApi;
 namespace Gma.UserActivityMonitor
 {
     /// <summary>
-    /// Provides data for the MouseClickExt and MouseMoveExt events. It also provides a property Handled.
-    /// Set this property to <b>true</b> to prevent further processing of the event in other applications.
+    /// Provides extended data for the MouseClickExt and MouseMoveExt events. 
     /// </summary>
     public class MouseEventExtArgs : MouseEventArgs
     {
@@ -158,7 +157,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Initializes a new instance of the MouseEventArgs class. 
+        /// Initializes a new instance of the MouseEventExtArgs class. 
         /// </summary>
         /// <param name="buttons">One of the MouseButtons values indicating which mouse button was pressed.</param>
         /// <param name="clicks">The number of times a mouse button was pressed.</param>
@@ -175,7 +174,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Initializes a new instance of the MouseEventArgs class. 
+        /// Initializes a new instance of the MouseEventExtArgs class. 
         /// </summary>
         /// <param name="e">An ordinary <see cref="MouseEventArgs"/> argument to be extended.</param>
         internal MouseEventExtArgs(MouseEventArgs e)

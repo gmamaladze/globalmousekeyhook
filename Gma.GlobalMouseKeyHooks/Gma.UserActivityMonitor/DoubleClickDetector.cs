@@ -70,7 +70,7 @@ namespace Gma.UserActivityMonitor
 
         private void DoubleClickTimeElapsed(object sender, EventArgs e)
         {
-            //Timer is alapsed and no second click ocuured
+            // Timed out after one second. No 2nd click.
             m_DoubleClickTimer.Enabled = false;
             m_PrevClickedButton = MouseButtons.None;
         }
@@ -78,7 +78,7 @@ namespace Gma.UserActivityMonitor
 
         /// <summary>
         /// This method is designed to monitor mouse clicks in order to fire a double click event if interval between 
-        /// clicks was short enaugh.
+        /// clicks was short enough.
         /// </summary>
         /// <param name = "sender">Always null.</param>
         /// <param name = "e">Contains event data.</param>
@@ -110,7 +110,7 @@ namespace Gma.UserActivityMonitor
         }
 
         /// <summary>
-        /// Stops and siposes the timer, releases delegates.
+        /// Stops and disposes the timer, releases delegates.
         /// </summary>
         /// <filterpriority>2</filterpriority>
         public void Dispose()

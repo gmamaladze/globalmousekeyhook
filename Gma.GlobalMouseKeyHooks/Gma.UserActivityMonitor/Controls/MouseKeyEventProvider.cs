@@ -6,10 +6,10 @@ using Gma.UserActivityMonitor.WinApi;
 namespace Gma.UserActivityMonitor.Controls
 {
     /// <summary>
-    /// This component monitors all mouse activities globally (also outside of the application)
-    /// or application wide depending on <see cref="MouseHookListener"/> 
-    /// and provides appropriate events.
-    /// </summary>
+    /// This component monitors Application or Global input, depending on 
+	/// <see cref="MouseKeyEventProvider.Enabled"/> and provides appropriate
+	/// events.
+	/// </summary>
     public class MouseKeyEventProvider : Component
     {
         private readonly KeyboardHookListener m_KeyboardHookManager;
@@ -27,9 +27,12 @@ namespace Gma.UserActivityMonitor.Controls
         }
 
         /// <summary>
-        /// true - if component listens to hooks and fires appropriate events.
-        /// false - otherwise.
+        /// Gets or Sets the enabled status of the component.
         /// </summary>
+        /// <value>
+        /// True - The component is presently activated and will fire events.
+        /// False - The component is not active and will not fire events.
+        /// </value>
         public bool Enabled
         {
             get
