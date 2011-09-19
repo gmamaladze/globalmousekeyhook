@@ -118,7 +118,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Controls\HookType.cs" />
-    <Compile Include="DoubleClickDetector.cs" />
     <Compile Include="Controls\MouseKeyEventProvider.cs">
       <SubType>Component</SubType>
     </Compile>

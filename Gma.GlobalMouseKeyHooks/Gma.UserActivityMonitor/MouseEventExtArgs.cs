@@ -80,6 +80,7 @@ namespace Gma.UserActivityMonitor
                     clickCount = 1;
                     break;
                 case Messages.WM_LBUTTONDBLCLK:
+                    isMouseKeyDown = true;
                     button = MouseButtons.Left;
                     clickCount = 2;
                     break;
@@ -94,6 +95,7 @@ namespace Gma.UserActivityMonitor
                     clickCount = 1;
                     break;
                 case Messages.WM_RBUTTONDBLCLK:
+                    isMouseKeyDown = true;
                     button = MouseButtons.Right;
                     clickCount = 2;
                     break;
@@ -108,6 +110,7 @@ namespace Gma.UserActivityMonitor
                     clickCount = 1;
                     break;
                 case Messages.WM_MBUTTONDBLCLK:
+                    isMouseKeyDown = true;
                     button = MouseButtons.Middle;
                     clickCount = 2;
                     break;
@@ -138,6 +141,7 @@ namespace Gma.UserActivityMonitor
                     break;
 
                 case Messages.WM_XBUTTONDBLCLK:
+                    isMouseKeyDown = true;
                     button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     clickCount = 2;
@@ -171,6 +175,10 @@ namespace Gma.UserActivityMonitor
             IsMouseKeyUp = isMouseKeyUp;
         }
 
+        internal MouseEventExtArgs ToDoubleClickEventArgs()
+        {
+            return new MouseEventExtArgs(Button, 2, Point, Delta, IsMouseKeyDown, IsMouseKeyUp); 
+        }
 
         /// <summary>
         /// Set this property to <b>true</b> inside your event handler to prevent further processing of the event in other applications.

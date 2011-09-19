@@ -9,9 +9,11 @@ namespace Gma.UserActivityMonitor
 	/// </summary>
 	public class MouseHookListener : BaseHookListener
 	{
-		private readonly DoubleClickDetector m_DoubleClickDetector;
 
-		private Point m_PreviousPosition = new Point(0,0);
+		private Point m_PreviousPosition;
+		private DateTime m_PreviousClickedTime;
+		private MouseButtons m_PreviousClicked;
+		private MouseButtons m_DownButtonsWaitingForMouseUp;
 		private MouseButtons m_SuppressButtonUpFlags = MouseButtons.None;
 
 		/// <summary>
@@ -19,16 +21,13 @@ namespace Gma.UserActivityMonitor
 		/// </summary>
 		/// <param name="hooker">Depending on this parameter the listener hooks either application or global mouse events.</param>
 		/// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
-		public MouseHookListener(Hooker hooker) 
-			: this(hooker, new DoubleClickDetector())
-		{
-			
-		}
-		
-		private MouseHookListener(Hooker hooker, DoubleClickDetector doubleClickDetector) 
+		public MouseHookListener(Hooker hooker)
 			: base(hooker)
 		{
-			m_DoubleClickDetector = doubleClickDetector;
+			m_PreviousPosition = new Point(-1, -1);
+			m_PreviousClickedTime = DateTime.MinValue;
+			m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+			m_PreviousClicked = MouseButtons.None;
 		}
 
 		/// <summary>
@@ -43,7 +42,19 @@ namespace Gma.UserActivityMonitor
 
 			if (e.IsMouseKeyDown)
 			{
-			    e = m_DoubleClickDetector.OnMouseDown(e);
+				if (IsDoubleClick(e.Button))
+				{
+					e = e.ToDoubleClickEventArgs();
+					m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+					m_PreviousClicked = MouseButtons.None;
+					m_PreviousClickedTime = DateTime.MinValue;
+				}
+				else
+				{
+					m_DownButtonsWaitingForMouseUp |= e.Button;
+					m_PreviousClickedTime = DateTime.UtcNow;
+				}
+
 				InvokeMouseEventHandler(MouseDown, e);
 				InvokeMouseEventHandlerExt(MouseDownExt, e);
 				if (e.Handled)
@@ -53,16 +64,22 @@ namespace Gma.UserActivityMonitor
 				}
 			}
 
-			if (e.Clicks == 2 && e.IsMouseKeyDown && !e.Handled)
+			if (e.Clicks == 1 && e.IsMouseKeyUp && !e.Handled)
+			{
+				if ((m_DownButtonsWaitingForMouseUp & e.Button) != MouseButtons.None)
+				{
+					m_PreviousClicked = e.Button;
+					m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+					InvokeMouseEventHandler(MouseClick, e);
+					InvokeMouseEventHandlerExt(MouseClickExt, e);
+				}
+			}
+
+			if (e.Clicks == 2 && !e.Handled)
 			{
 				InvokeMouseEventHandler(MouseDoubleClick, e);
 			}
 
-			if (e.Clicks==1 && e.IsMouseKeyUp && !e.Handled)
-			{
-				InvokeMouseEventHandler(MouseClick, e);
-				InvokeMouseEventHandlerExt(MouseClickExt, e);
-			}
 
 			if (e.IsMouseKeyUp)
 			{
@@ -121,7 +138,14 @@ namespace Gma.UserActivityMonitor
 
 		private bool HasMoved(Point actualPoint)
 		{
-			return m_PreviousPosition == actualPoint;
+			return m_PreviousPosition != actualPoint;
+		}
+
+		private bool IsDoubleClick(MouseButtons button)
+		{
+			return
+				button == m_PreviousClicked &&
+				(DateTime.UtcNow - m_PreviousClickedTime).TotalMilliseconds <= Mouse.GetDoubleClickTime();
 		}
 
 		private void InvokeMouseEventHandler(MouseEventHandler handler, MouseEventArgs e)
@@ -132,7 +156,7 @@ namespace Gma.UserActivityMonitor
 			}
 		}
 
-		
+
 		private void InvokeMouseEventHandlerExt(EventHandler<MouseEventExtArgs> handler, MouseEventExtArgs e)
 		{
 			if (handler != null)
@@ -194,18 +218,17 @@ namespace Gma.UserActivityMonitor
 		/// </summary>
 		public event MouseEventHandler MouseWheel;
 
-	    /// <summary>
-	    /// TODO
-	    /// </summary>
-	    public event MouseEventHandler MouseDoubleClick;
+		/// <summary>
+		/// TODO
+		/// </summary>
+		public event MouseEventHandler MouseDoubleClick;
 
-	    /// <summary>
+		/// <summary>
 		/// Release delegates, unsubscribes from hooks.
 		/// </summary>
 		/// <filterpriority>2</filterpriority>
 		public override void Dispose()
 		{
-			m_DoubleClickDetector.Dispose();
 			MouseClick = null;
 			MouseClickExt = null;
 			MouseDown = null;
@@ -214,6 +237,7 @@ namespace Gma.UserActivityMonitor
 			MouseMoveExt = null;
 			MouseUp = null;
 			MouseWheel = null;
+			MouseDoubleClick = null;
 			base.Dispose();
 		}
 	}

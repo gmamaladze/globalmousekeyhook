@@ -12,7 +12,7 @@ namespace Gma.UserActivityMonitorDemo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new TestFormHookListeners());
-            //Application.Run(new TestFormComponent());
+            //Application.Run(new TestCommonWinFormsBehaviour());
         }
     }
 }
