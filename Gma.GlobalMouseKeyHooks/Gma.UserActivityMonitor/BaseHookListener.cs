@@ -55,7 +55,7 @@ namespace Gma.UserActivityMonitor
         /// </summary>
         protected int HookCallback(int nCode, Int32 wParam, IntPtr lParam)
         {
-            if (nCode >= 0)
+            if (nCode == 0)
             {
                 bool handled = ProcessCallback(wParam, lParam);
 
