@@ -27,7 +27,7 @@ namespace Gma.UserActivityMonitor.WinApi
         ///XBUTTON2
         ///The second X button was pressed or released.
         /// </summary>
-        public int MouseData;
+        public System.IntPtr MouseData;
         /// <summary>
         /// Specifies the event-injected flag. An application can use the following value to test the mouse Flags. Value Purpose 
         ///LLMHF_INJECTED Test the event-injected flag.  
@@ -36,14 +36,14 @@ namespace Gma.UserActivityMonitor.WinApi
         ///1-15
         ///Reserved.
         /// </summary>
-        public int Flags;
+        public System.IntPtr Flags;
         /// <summary>
         /// Specifies the Time stamp for this message.
         /// </summary>
-        public int Time;
+        public System.IntPtr Time;
         /// <summary>
         /// Specifies extra information associated with the message. 
         /// </summary>
-        public int ExtraInfo;
+        public System.IntPtr ExtraInfo;
     }
 }

@@ -47,7 +47,7 @@ namespace Gma.UserActivityMonitor
         internal static MouseEventExtArgs FromRawDataGlobal(int wParam, IntPtr lParam)
         {
             MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
-            return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.MouseData);
+            return FromRawDataUniversal(wParam, mouseHookStruct.Point, (IntPtr)mouseHookStruct.MouseData);
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace Gma.UserActivityMonitor
         /// <param name="wParam">First Windows Message parameter.</param>
         /// <param name="point">Mouse location.</param>
         /// <param name="mouseData">Information regarding XButton clicks and scroll data.</param>
-        /// <returns></returns>
-        private static MouseEventExtArgs FromRawDataUniversal(int wParam, Point point, int mouseData)
+        /// <returns>A new MouseEventExtArgs object.</returns>
+        private static MouseEventExtArgs FromRawDataUniversal(int wParam, Point point, IntPtr mouseData)
         {
             MouseButtons button = MouseButtons.None;
             short mouseDelta = 0;
@@ -118,7 +118,14 @@ namespace Gma.UserActivityMonitor
                     //If the message is WM_MOUSEWHEEL, the high-order word of MouseData member is the wheel delta. 
                     //One wheel click is defined as WHEEL_DELTA, which is 120. 
                     //(value >> 16) & 0xffff; retrieves the high-order word from the given 32-bit value
-                    mouseDelta = (short)((mouseData >> 16) & 0xffff);
+                    if (IntPtr.Size == 4)
+                    {
+                        mouseDelta = (short)((mouseData.ToInt32() >> 16) & 0xffff);
+                    }
+                    else
+                    {
+                        mouseDelta = (short)((mouseData.ToInt64() >> 16) & 0xffff);
+                    }
 
                     break;
 
@@ -127,14 +134,14 @@ namespace Gma.UserActivityMonitor
                     //or WM_NCXBUTTONDBLCLK, the high-order word specifies which X button was pressed or released, 
                     //and the low-order word is reserved. This value can be one or more of the following values. 
                     //Otherwise, MouseData is not used.
-                    button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseData.ToInt32() == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyDown = true;
                     clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONUP:
-                    button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseData.ToInt32() == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyUp = true;
                     clickCount = 1;
@@ -142,7 +149,7 @@ namespace Gma.UserActivityMonitor
 
                 case Messages.WM_XBUTTONDBLCLK:
                     isMouseKeyDown = true;
-                    button = (mouseData == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseData.ToInt32() == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     clickCount = 2;
                     break;

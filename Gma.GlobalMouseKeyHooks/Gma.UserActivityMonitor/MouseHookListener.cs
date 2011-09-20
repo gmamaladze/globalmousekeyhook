@@ -246,7 +246,7 @@ namespace Gma.UserActivityMonitor
 		public event MouseEventHandler MouseWheel;
 
 		/// <summary>
-		/// TODO
+		/// Occurs when a mouse button is double-clicked.
 		/// </summary>
 		public event MouseEventHandler MouseDoubleClick;
 
