@@ -24,6 +24,7 @@ namespace MouseKeyboardActivityMonitor.WinApi
         public Point Point;
 
         /// <summary>
+        /// Specifies information associated with the message.
         /// </summary>
         /// <remarks>
         /// If the hook is global and the message is <see cref="Messages.WM_MOUSEWHEEL"/>, the high order word is the wheel delta.

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-using Gma.UserActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor.WinApi;
 
-namespace Gma.UserActivityMonitor.Controls
+namespace MouseKeyboardActivityMonitor.Controls
 {
     /// <summary>
     /// This component monitors Application or Global input, depending on 
@@ -29,7 +29,9 @@ namespace Gma.UserActivityMonitor.Controls
         /// </summary>
         /// <value>
         /// True - The component is presently activated and will fire events.
+        /// <para>
         /// False - The component is not active and will not fire events.
+        /// </para>
         /// </value>
         public bool Enabled
         {
@@ -115,11 +117,41 @@ namespace Gma.UserActivityMonitor.Controls
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="inputEvent"></param>
+        /// <param name="e"></param>
+        /// <remarks>
+        /// Modified from http://stackoverflow.com/questions/1698889/raise-events-in-net-on-the-main-ui-thread
+        /// </remarks>
+        private void RaiseEventOnUIThread(Delegate inputEvent, EventArgs e)
+        {
+            object sender = this;
+            foreach (Delegate d in inputEvent.GetInvocationList())
+            {
+                ISynchronizeInvoke syncer = d.Target as ISynchronizeInvoke;
+
+                if (syncer == null)
+                {
+                    d.DynamicInvoke(new[] { sender, e });
+                }
+                else
+                {
+                    // I don't know if ASyncronous is really the way to go.
+                    //  If the programmer wants to suppress input,
+                    //  will asyncronous make that happen consistently?
+
+                    //syncer.EndInvoke(syncer.BeginInvoke(inputEvent, new[] { sender, e }));
+                    syncer.Invoke(inputEvent, new[] { sender, e });
+                }
+            }
+        }
+
         //################################################################
         #region Mouse events
 
         private event MouseEventHandler m_MouseMove;
-
         /// <summary>
         /// Activated when the user moves the mouse. 
         /// </summary>
@@ -148,7 +180,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseMove != null)
             {
-                m_MouseMove.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseMove, e);
             }
         }
 
@@ -181,7 +213,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseClick != null)
             {
-                m_MouseClick.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseClick, e);
             }
         }
 
@@ -215,8 +247,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseDown != null)
             {
-                
-                m_MouseDown.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseDown, e);
             }
         }
 
@@ -251,7 +282,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseUp != null)
             {
-                m_MouseUp.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseUp, e);
             }
         }
 
@@ -285,7 +316,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseDoubleClick != null)
             {
-                m_MouseDoubleClick.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseDoubleClick, e);
             }
         }
 
@@ -324,12 +355,11 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseMoveExt != null)
             {
-                m_MouseMoveExt.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseMoveExt, e);
             }
         }
 
         private event EventHandler<MouseEventExtArgs> m_MouseClickExt;
-
         /// <summary>
         /// Activated upon a single click of the mouse.
         /// </summary>
@@ -341,6 +371,8 @@ namespace Gma.UserActivityMonitor.Controls
         {
             add
             {
+                // Disable warning that MouseClickExt is obsolete
+#pragma warning disable 618
                 if (m_MouseClickExt == null)
                 {
                     m_MouseHookManager.MouseClickExt += HookManager_MouseClickExt;
@@ -355,6 +387,7 @@ namespace Gma.UserActivityMonitor.Controls
                 {
                     m_MouseHookManager.MouseClickExt -= HookManager_MouseClickExt;
                 }
+#pragma warning restore 618
             }
         }
 
@@ -362,7 +395,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseClickExt != null)
             {
-                m_MouseClickExt.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseClickExt, e);
             }
         }
 
@@ -400,12 +433,11 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseDownExt != null)
             {
-                m_MouseDownExt.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseDownExt, e);
             }
         }
-
+        
         private event EventHandler<MouseEventArgs> m_MouseWheel;
-
         /// <summary>
         /// Activated upon mouse scrolling.
         /// </summary>
@@ -434,7 +466,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_MouseWheel != null)
             {
-                m_MouseWheel.Invoke(this, e);
+                RaiseEventOnUIThread(m_MouseWheel, e);
             }
         }
 
@@ -485,7 +517,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_KeyPress != null)
             {
-                m_KeyPress.Invoke(this, e);
+                RaiseEventOnUIThread(m_KeyPress, e);
             }
         }
 
@@ -518,7 +550,7 @@ namespace Gma.UserActivityMonitor.Controls
         {
             if (m_KeyUp != null)
             {
-                m_KeyUp.Invoke(this, e);
+                RaiseEventOnUIThread(m_KeyUp, e);
             }
         }
 
@@ -549,7 +581,7 @@ namespace Gma.UserActivityMonitor.Controls
 
         private void HookManager_KeyDown(object sender, KeyEventArgs e)
         {
-            m_KeyDown.Invoke(this, e);
+            RaiseEventOnUIThread(m_KeyDown, e);
         }
 
         #endregion

@@ -204,13 +204,22 @@
             Initializes a new instance of <see cref="T:MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider"/>
             </summary>
         </member>
+        <member name="M:MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider.RaiseEventOnUIThread(System.Delegate,System.EventArgs)">
+            <summary>
+            
+            </summary>
+            <param name="inputEvent"></param>
+            <param name="e"></param>
+        </member>
         <member name="P:MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider.Enabled">
             <summary>
             Gets or Sets the enabled status of the component.
             </summary>
             <value>
             True - The component is presently activated and will fire events.
+            <para>
             False - The component is not active and will not fire events.
+            </para>
             </value>
         </member>
         <member name="P:MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider.HookType">
@@ -375,6 +384,7 @@
         </member>
         <member name="F:MouseKeyboardActivityMonitor.WinApi.MouseHookStruct.MouseData">
             <summary>
+            Specifies information associated with the message.
             </summary>
             <remarks>
             If the hook is global and the message is <see cref="F:MouseKeyboardActivityMonitor.WinApi.Messages.WM_MOUSEWHEEL"/>, the high order word is the wheel delta.
@@ -835,7 +845,7 @@
         </member>
         <member name="F:MouseKeyboardActivityMonitor.Controls.HookType.Application">
             <summary>
-            Only events inside application are monitored and fired.
+            Only events inside the application are monitored and fired.
             </summary>
         </member>
         <member name="F:MouseKeyboardActivityMonitor.Controls.HookType.Global">

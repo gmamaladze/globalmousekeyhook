@@ -181,8 +181,6 @@ namespace MouseKeyboardActivityMonitor
         /// </summary>
         ~BaseHookListener()
         {
-            Dispose();
-
             if (HookHandle != 0)
             {
                 Hooker.UnhookWindowsHookEx(HookHandle);
