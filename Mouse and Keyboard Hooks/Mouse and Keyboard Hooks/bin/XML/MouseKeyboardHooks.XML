@@ -210,6 +210,9 @@
             </summary>
             <param name="inputEvent"></param>
             <param name="e"></param>
+            <remarks>
+            Modified from http://stackoverflow.com/questions/1698889/raise-events-in-net-on-the-main-ui-thread
+            </remarks>
         </member>
         <member name="P:MouseKeyboardActivityMonitor.Controls.MouseKeyEventProvider.Enabled">
             <summary>
