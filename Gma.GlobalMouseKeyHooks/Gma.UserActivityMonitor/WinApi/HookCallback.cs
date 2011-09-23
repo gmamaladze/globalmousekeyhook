@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Gma.UserActivityMonitor.WinApi
+namespace MouseKeyboardActivityMonitor.WinApi
 {
     /// <summary>
     /// The CallWndProc hook procedure is an application-defined or library-defined callback 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Gma.UserActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor.WinApi;
 
-namespace Gma.UserActivityMonitor
+namespace MouseKeyboardActivityMonitor
 {
     /// <summary>
     /// Provides extended data for the MouseClickExt and MouseMoveExt events. 

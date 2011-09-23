@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Gma.UserActivityMonitorDemo
+namespace MouseKeyboardActivityMonitor.Demo
 {
     static class Program {
         /// <summary>

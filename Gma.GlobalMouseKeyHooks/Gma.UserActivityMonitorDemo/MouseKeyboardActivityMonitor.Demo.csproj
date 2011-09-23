@@ -8,8 +8,8 @@
     <ProjectGuid>{EBA5CBDF-2049-4278-93A2-AFFD3C802715}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Gma.UserActivityMonitorDemo</RootNamespace>
-    <AssemblyName>Gma.UserActivityMonitorDemo</AssemblyName>
+    <RootNamespace>MouseKeyboardActivityMonitor.Demo</RootNamespace>
+    <AssemblyName>MouseKeyboardActivityMonitor.Demo</AssemblyName>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
@@ -55,7 +55,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>Gma.UserActivityMonitorDemo.Program</StartupObject>
+    <StartupObject>MouseKeyboardActivityMonitor.Demo.Program</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -128,9 +128,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gma.UserActivityMonitor\Gma.UserActivityMonitor.csproj">
+    <ProjectReference Include="..\Gma.UserActivityMonitor\MouseKeyboardActivityMonitor.csproj">
       <Project>{F52AA97E-180A-40ED-8F2B-09080171D6C7}</Project>
-      <Name>Gma.UserActivityMonitor</Name>
+      <Name>MouseKeyboardActivityMonitor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

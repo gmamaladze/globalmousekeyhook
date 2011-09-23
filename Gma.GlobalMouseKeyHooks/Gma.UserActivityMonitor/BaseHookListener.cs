@@ -1,7 +1,7 @@
 using System;
-using Gma.UserActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor.WinApi;
 
-namespace Gma.UserActivityMonitor
+namespace MouseKeyboardActivityMonitor
 {
     /// <summary>
     /// Base class used to implement mouse or keybord hook listeners.

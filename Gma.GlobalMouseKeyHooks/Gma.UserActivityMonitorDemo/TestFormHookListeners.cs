@@ -1,9 +1,8 @@
 using System;
 using System.Windows.Forms;
-using Gma.UserActivityMonitor;
-using Gma.UserActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor.WinApi;
 
-namespace Gma.UserActivityMonitorDemo
+namespace MouseKeyboardActivityMonitor.Demo
 {
     public partial class TestFormHookListeners : Form
     {

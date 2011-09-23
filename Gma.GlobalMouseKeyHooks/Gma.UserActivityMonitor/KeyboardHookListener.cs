@@ -1,8 +1,8 @@
 using System;
 using System.Windows.Forms;
-using Gma.UserActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor.WinApi;
 
-namespace Gma.UserActivityMonitor
+namespace MouseKeyboardActivityMonitor
 {
     /// <summary>
     /// This class monitors all keyboard activities and provides appropriate events.

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace Gma.UserActivityMonitor.WinApi
+namespace MouseKeyboardActivityMonitor.WinApi
 {
     /// <summary>
     /// Provides base implementation of methods for subscription and unsubscription to application and/or global mouse and keyboard hooks.

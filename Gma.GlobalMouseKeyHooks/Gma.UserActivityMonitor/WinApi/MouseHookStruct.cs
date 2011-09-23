@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Gma.UserActivityMonitor.WinApi
+namespace MouseKeyboardActivityMonitor.WinApi
 {
     /// <summary>
     /// The MSLLHOOKSTRUCT structure contains information about a low-level mouse input event. 

@@ -1,4 +1,4 @@
-﻿namespace Gma.UserActivityMonitorDemo
+﻿namespace MouseKeyboardActivityMonitor.Demo
 {
     partial class TestCommonWinFormsBehaviour
     {

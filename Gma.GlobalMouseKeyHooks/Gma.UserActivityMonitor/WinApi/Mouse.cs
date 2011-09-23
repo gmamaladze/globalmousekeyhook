@@ -1,7 +1,6 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
-namespace Gma.UserActivityMonitor.WinApi
+namespace MouseKeyboardActivityMonitor.WinApi
 {
     internal class Mouse
     {

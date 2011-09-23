@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Gma.UserActivityMonitor.WinApi
+namespace MouseKeyboardActivityMonitor.WinApi
 {
     /// <summary>
     /// The KBDLLHOOKSTRUCT structure contains information about a low-level keyboard input event. 

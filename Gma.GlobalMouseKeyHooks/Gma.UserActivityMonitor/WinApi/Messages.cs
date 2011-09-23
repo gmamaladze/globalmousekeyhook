@@ -1,4 +1,4 @@
-﻿namespace Gma.UserActivityMonitor.WinApi
+﻿namespace MouseKeyboardActivityMonitor.WinApi
 {
     internal static class Messages
     {

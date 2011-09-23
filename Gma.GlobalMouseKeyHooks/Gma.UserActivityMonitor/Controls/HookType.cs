@@ -1,4 +1,4 @@
-﻿namespace Gma.UserActivityMonitor.Controls
+﻿namespace MouseKeyboardActivityMonitor.Controls
 {
     /// <summary>
     /// Indicates which hooks to listen to application or global.

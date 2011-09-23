@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Gma.UserActivityMonitorDemo
+namespace MouseKeyboardActivityMonitor.Demo
 {
     public partial class TestFormComponent : Form
     {

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 
-namespace Gma.UserActivityMonitor.WinApi
+namespace MouseKeyboardActivityMonitor.WinApi
 {
     /// <summary>
     /// Provides methods for subscription and unsubscription to global mouse and keyboard hooks.

@@ -1,6 +1,6 @@
-﻿using Gma.UserActivityMonitor.Controls;
+﻿using MouseKeyboardActivityMonitor.Controls;
 
-namespace Gma.UserActivityMonitorDemo
+namespace MouseKeyboardActivityMonitor.Demo
 {
     partial class TestFormComponent
     {
@@ -33,7 +33,7 @@ namespace Gma.UserActivityMonitorDemo
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.labelWheel = new System.Windows.Forms.Label();
             this.labelMousePosition = new System.Windows.Forms.Label();
-            this.m_KeyMouseEventProvider1 = new Gma.UserActivityMonitor.Controls.MouseKeyEventProvider();
+            this.m_KeyMouseEventProvider1 = new MouseKeyEventProvider();
             this.SuspendLayout();
             // 
             // textBoxLog
@@ -73,7 +73,7 @@ namespace Gma.UserActivityMonitorDemo
             // m_KeyMouseEventProvider1
             // 
             this.m_KeyMouseEventProvider1.Enabled = true;
-            this.m_KeyMouseEventProvider1.HookType = Gma.UserActivityMonitor.Controls.HookType.Global;
+            this.m_KeyMouseEventProvider1.HookType = HookType.Global;
             this.m_KeyMouseEventProvider1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseMove);
             this.m_KeyMouseEventProvider1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseClick);
             this.m_KeyMouseEventProvider1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.HookManager_MouseDown);
