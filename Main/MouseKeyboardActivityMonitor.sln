@@ -1,8 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyboardActivityMonitor", "Gma.UserActivityMonitor\MouseKeyboardActivityMonitor.csproj", "{F52AA97E-180A-40ED-8F2B-09080171D6C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyboardActivityMonitor", "MouseKeyboardActivityMonitor\MouseKeyboardActivityMonitor.csproj", "{F52AA97E-180A-40ED-8F2B-09080171D6C7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyboardActivityMonitor.Demo", "Gma.UserActivityMonitorDemo\MouseKeyboardActivityMonitor.Demo.csproj", "{EBA5CBDF-2049-4278-93A2-AFFD3C802715}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyboardActivityMonitor.Demo", "MouseKeyboardActivityMonitor.Demo\MouseKeyboardActivityMonitor.Demo.csproj", "{EBA5CBDF-2049-4278-93A2-AFFD3C802715}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -10,12 +10,12 @@ Global
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
 		SccLocalPath0 = .
-		SccProjectUniqueName1 = Gma.UserActivityMonitor\\MouseKeyboardActivityMonitor.csproj
-		SccProjectName1 = Gma.UserActivityMonitor
-		SccLocalPath1 = Gma.UserActivityMonitor
-		SccProjectUniqueName2 = Gma.UserActivityMonitorDemo\\MouseKeyboardActivityMonitor.Demo.csproj
-		SccProjectName2 = Gma.UserActivityMonitorDemo
-		SccLocalPath2 = Gma.UserActivityMonitorDemo
+		SccProjectUniqueName1 = MouseKeyboardActivityMonitor\\MouseKeyboardActivityMonitor.csproj
+		SccProjectName1 = MouseKeyboardActivityMonitor
+		SccLocalPath1 = MouseKeyboardActivityMonitor
+		SccProjectUniqueName2 = MouseKeyboardActivityMonitor.Demo\\MouseKeyboardActivityMonitor.Demo.csproj
+		SccProjectName2 = MouseKeyboardActivityMonitor.Demo
+		SccLocalPath2 = MouseKeyboardActivityMonitor.Demo
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

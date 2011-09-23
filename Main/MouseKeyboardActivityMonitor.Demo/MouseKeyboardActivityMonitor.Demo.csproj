@@ -128,7 +128,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gma.UserActivityMonitor\MouseKeyboardActivityMonitor.csproj">
+    <ProjectReference Include="..\MouseKeyboardActivityMonitor\MouseKeyboardActivityMonitor.csproj">
       <Project>{F52AA97E-180A-40ED-8F2B-09080171D6C7}</Project>
       <Name>MouseKeyboardActivityMonitor</Name>
     </ProjectReference>
