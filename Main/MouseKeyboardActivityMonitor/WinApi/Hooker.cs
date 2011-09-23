@@ -37,7 +37,7 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Auto,
             CallingConvention = CallingConvention.StdCall)]
-        public static extern int CallNextHookEx(
+        internal static extern int CallNextHookEx(
             int idHook,
             int nCode,
             int wParam,
@@ -75,7 +75,7 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Auto,
             CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        public static extern int SetWindowsHookEx(
+        internal static extern int SetWindowsHookEx(
             int idHook,
             HookCallback lpfn,
             IntPtr hMod,
@@ -96,7 +96,7 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Auto,
             CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-        public static extern int UnhookWindowsHookEx(int idHook);
+        internal static extern int UnhookWindowsHookEx(int idHook);
 
         internal static void ThrowLastUnmanagedErrorAsException()
         {

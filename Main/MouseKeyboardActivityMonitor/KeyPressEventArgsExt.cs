@@ -6,7 +6,7 @@ using MouseKeyboardActivityMonitor.WinApi;
 namespace MouseKeyboardActivityMonitor
 {
     ///<summary>
-    /// Provides extended data for the <see cref='System.Windows.Forms.Control.KeyPress'/> event.
+    /// Provides extended data for the <see cref='KeyboardHookListener.KeyPress'/> event.
     ///</summary>
     public class KeyPressEventArgsExt : KeyPressEventArgs
     {
@@ -52,17 +52,16 @@ namespace MouseKeyboardActivityMonitor
         {
             //http://msdn.microsoft.com/en-us/library/ms644984(v=VS.85).aspx
 
-            const uint maskKeydown = 0x40000000; // for bit 30
-            const uint maskKeyup = 0x80000000; // for bit 31
-            const uint maskScanCode = 0xff0000; // for bit 23-16
+            const uint maskKeydown = 0x40000000;         // for bit 30
+            const uint maskKeyup = 0x80000000;           // for bit 31
+            const uint maskScanCode = 0xff0000;          // for bit 23-16
 
-            //uint flags = (uint)lParam; //Marshal.ReadInt32(lParam);
             uint flags = 0u;
             if (IntPtr.Size == 4)
             {
                 flags = (uint)lParam;
             }
-            else if (IntPtr.Size == 8)      // 64bit support
+            else if (IntPtr.Size == 8) 
             {
                 // both of these are ugly hacks. Is there a better way to convert a 64bit IntPtr to uint?
 
@@ -127,7 +126,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// True if represens a system or functional non char key.
+        /// True if represents a system or functional non char key.
         /// </summary>
         public bool IsNonChar { get; private set; }
     }

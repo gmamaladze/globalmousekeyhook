@@ -6,12 +6,12 @@ using MouseKeyboardActivityMonitor.WinApi;
 namespace MouseKeyboardActivityMonitor
 {
     /// <summary>
-    /// Provides extended data for the <see cref='System.Windows.Forms.Control.KeyDown'/> or <see cref='System.Windows.Forms.Control.KeyUp'/> event.
+    /// Provides extended argument data for the <see cref='KeyboardHookListener.KeyDown'/> or <see cref='KeyboardHookListener.KeyUp'/> event.
     /// </summary>
     public class KeyEventArgsExt : KeyEventArgs
     {
         /// <summary>
-        /// Initializes a new <see cref="KeyEventArgsExt"/>
+        /// Initializes a new instance of the <see cref="KeyEventArgsExt"/> class.
         /// </summary>
         /// <param name="keyData"></param>
         public KeyEventArgsExt(Keys keyData) : base(keyData)

@@ -16,7 +16,9 @@ namespace MouseKeyboardActivityMonitor
         /// Base constructor of <see cref="BaseHookListener"/>
         /// </summary>
         /// <param name="hooker">Depending on this parameter the listener hooks either application or global keyboard events.</param>
-        /// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
+        /// <remarks>
+        /// Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.
+        /// </remarks>
         protected BaseHookListener(Hooker hooker)
         {
             if (hooker == null)
@@ -138,7 +140,9 @@ namespace MouseKeyboardActivityMonitor
         /// </summary>
         /// <value>
         /// True - The Hook is presently installed, activated, and will fire events.
+        /// <para>
         /// False - The Hook is not part of the hook chain, and will not fire events.
+        /// </para>
         /// </value>
         public bool Enabled
         {

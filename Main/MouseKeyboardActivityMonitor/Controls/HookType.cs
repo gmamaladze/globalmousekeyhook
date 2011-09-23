@@ -6,7 +6,7 @@
     public enum HookType
     {
         /// <summary>
-        /// Only events inside application are monitored and fired.
+        /// Only events inside the application are monitored and fired.
         /// </summary>
         Application,
 

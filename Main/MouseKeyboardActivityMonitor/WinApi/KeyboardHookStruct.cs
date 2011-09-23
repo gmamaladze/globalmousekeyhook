@@ -3,7 +3,7 @@
 namespace MouseKeyboardActivityMonitor.WinApi
 {
     /// <summary>
-    /// The KBDLLHOOKSTRUCT structure contains information about a low-level keyboard input event. 
+    /// The KeyboardHookStruct structure contains information about a low-level keyboard input event. 
     /// </summary>
     /// <remarks>
     /// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/windowing/hooks/hookreference/hookstructures/cwpstruct.asp

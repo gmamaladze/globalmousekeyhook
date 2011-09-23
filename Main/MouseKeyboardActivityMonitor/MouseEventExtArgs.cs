@@ -47,7 +47,7 @@ namespace MouseKeyboardActivityMonitor
         internal static MouseEventExtArgs FromRawDataGlobal(int wParam, IntPtr lParam)
         {
             MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
-            return FromRawDataUniversal(wParam, mouseHookStruct.Point, (IntPtr)mouseHookStruct.MouseData);
+            return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.MouseData);
         }
 
         /// <summary>
@@ -115,9 +115,8 @@ namespace MouseKeyboardActivityMonitor
                     clickCount = 2;
                     break;
                 case Messages.WM_MOUSEWHEEL:
-                    //If the message is WM_MOUSEWHEEL, the high-order word of MouseData member is the wheel delta. 
-                    //One wheel click is defined as WHEEL_DELTA, which is 120. 
-                    //(value >> 16) & 0xffff; retrieves the high-order word from the given 32-bit value
+                    //the high-order word is the wheel delta
+                    //(value >> 16) & 0xffff retrieves the high-order word from the given value
                     if (IntPtr.Size == 4)
                     {
                         mouseDelta = (short)((mouseData.ToInt32() >> 16) & 0xffff);
@@ -130,10 +129,6 @@ namespace MouseKeyboardActivityMonitor
                     break;
 
                 case Messages.WM_XBUTTONDOWN:
-                    //If the message is WM_XBUTTONDOWN, WM_XBUTTONUP, WM_XBUTTONDBLCLK, WM_NCXBUTTONDOWN, WM_NCXBUTTONUP, 
-                    //or WM_NCXBUTTONDBLCLK, the high-order word specifies which X button was pressed or released, 
-                    //and the low-order word is reserved. This value can be one or more of the following values. 
-                    //Otherwise, MouseData is not used.
                     button = (mouseData.ToInt32() == 0x00010000) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyDown = true;
@@ -167,7 +162,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Initializes a new instance of the MouseEventExtArgs class. 
+        /// Initializes a new instance of the <see cref="MouseEventExtArgs"/> class. 
         /// </summary>
         /// <param name="buttons">One of the MouseButtons values indicating which mouse button was pressed.</param>
         /// <param name="clicks">The number of times a mouse button was pressed.</param>

@@ -26,7 +26,9 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="lParam">The second Windows Messages parameter.</param>
         /// <returns>
         /// True - The hook will be passed along to other applications.
+        /// <para>
         /// False - The hook will not be given to other applications, effectively blocking input.
+        /// </para>
         /// </returns>
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
@@ -75,7 +77,7 @@ namespace MouseKeyboardActivityMonitor
         ///The KeyPress event is not raised by noncharacter keys; however, the noncharacter keys do raise the KeyDown and KeyUp events. 
         ///Use the KeyChar property to sample keystrokes at run time and to consume or modify a subset of common keystrokes. 
         ///To handle keyboard events only in your application and not enable other applications to receive keyboard events, 
-        /// set the KeyPressEventArgs.Handled property in your form's KeyPress event-handling method to <b>true</b>. 
+        ///set the <see cref="KeyPressEventArgs.Handled"/> property in your form's KeyPress event-handling method to <b>true</b>. 
         /// </remarks>
         public event KeyPressEventHandler KeyPress;
 

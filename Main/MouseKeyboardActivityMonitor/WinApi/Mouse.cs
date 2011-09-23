@@ -16,6 +16,6 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// http://msdn.microsoft.com/en-us/library/ms646258(VS.85).aspx
         /// </remarks>
         [DllImport("user32")]
-        public static extern int GetDoubleClickTime();
+        internal static extern int GetDoubleClickTime();
     }
 }

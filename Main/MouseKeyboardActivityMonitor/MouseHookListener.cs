@@ -20,7 +20,9 @@ namespace MouseKeyboardActivityMonitor
 		/// Initializes a new instance of <see cref="MouseHookListener"/>.
 		/// </summary>
 		/// <param name="hooker">Depending on this parameter the listener hooks either application or global mouse events.</param>
-		/// <remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
+		/// <remarks>
+        /// Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.
+        /// </remarks>
 		public MouseHookListener(Hooker hooker)
 			: base(hooker)
 		{
@@ -40,7 +42,9 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="lParam">The second Windows Messages parameter.</param>
         /// <returns>
         /// True - The hook will be passed along to other applications.
+        /// <para>
         /// False - The hook will not be given to other applications, effectively blocking input.
+        /// </para>
         /// </returns>
         protected override bool ProcessCallback(int wParam, IntPtr lParam)
         {
