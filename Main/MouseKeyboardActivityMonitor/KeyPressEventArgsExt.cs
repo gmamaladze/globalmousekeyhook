@@ -57,17 +57,14 @@ namespace MouseKeyboardActivityMonitor
             const uint maskScanCode = 0xff0000;          // for bit 23-16
 
             uint flags = 0u;
-            if (IntPtr.Size == 4)
-            {
-                flags = (uint)lParam;
-            }
-            else if (IntPtr.Size == 8) 
-            {
-                // both of these are ugly hacks. Is there a better way to convert a 64bit IntPtr to uint?
+#if IS_X64
+            // both of these are ugly hacks. Is there a better way to convert a 64bit IntPtr to uint?
 
-                //flags = uint.Parse(lParam.ToString());
-                flags = Convert.ToUInt32(lParam.ToInt64());
-            }
+            // flags = uint.Parse(lParam.ToString());
+            flags = Convert.ToUInt32(lParam.ToInt64());
+#else
+            flags = (uint)lParam;
+#endif
 
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
             bool wasKeyDown = (flags & maskKeydown) > 0;

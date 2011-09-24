@@ -98,7 +98,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <DocumentationFile>bin\XML\MouseKeyboardActivityMonitor.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
@@ -137,7 +137,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;IS_X64</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <DocumentationFile>bin\XML\MouseKeyboardActivityMonitor.xml</DocumentationFile>
     <FileAlignment>4096</FileAlignment>
@@ -156,7 +156,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;IS_X64</DefineConstants>
     <BaseAddress>285212672</BaseAddress>
     <DocumentationFile>bin\XML\MouseKeyboardActivityMonitor.xml</DocumentationFile>
     <Optimize>true</Optimize>
@@ -191,12 +191,13 @@
     </Compile>
     <Compile Include="BaseHookListener.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
+    <Compile Include="WinApi\Mouse.cs" />
     <Compile Include="MouseHookListener.cs" />
     <Compile Include="WinApi\AppHooker.cs" />
     <Compile Include="WinApi\GlobalHooker.cs" />
+    <Compile Include="WinApi\MouseStructures.cs" />
     <Compile Include="WinApi\KeyboardHookStruct.cs" />
     <Compile Include="KeyEventArgsExt.cs" />
-    <Compile Include="WinApi\MouseHookStruct.cs" />
     <Compile Include="WinApi\Point.cs" />
     <Compile Include="WinApi\HookCallback.cs" />
     <Compile Include="KeyboardHookListener.cs" />
@@ -204,7 +205,6 @@
     <Compile Include="WinApi\Hooker.cs" />
     <Compile Include="WinApi\Keyboard.cs" />
     <Compile Include="WinApi\Messages.cs" />
-    <Compile Include="WinApi\Mouse.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

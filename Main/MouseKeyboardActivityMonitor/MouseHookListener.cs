@@ -11,25 +11,29 @@ namespace MouseKeyboardActivityMonitor
 	{
 
 		private Point m_PreviousPosition;
-		private DateTime m_PreviousClickedTime;
+		private int m_PreviousClickedTime;
+        //private DateTime m_PreviousClickedTime;
 		private MouseButtons m_PreviousClicked;
 		private MouseButtons m_DownButtonsWaitingForMouseUp;
-		private MouseButtons m_SuppressButtonUpFlags = MouseButtons.None;
+		private MouseButtons m_SuppressButtonUpFlags;
+        private int m_SystemDoubleClickTime;
 
 		/// <summary>
 		/// Initializes a new instance of <see cref="MouseHookListener"/>.
 		/// </summary>
 		/// <param name="hooker">Depending on this parameter the listener hooks either application or global mouse events.</param>
 		/// <remarks>
-        /// Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.
+        /// Hooks are not active after installation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.
         /// </remarks>
 		public MouseHookListener(Hooker hooker)
 			: base(hooker)
 		{
 			m_PreviousPosition = new Point(-1, -1);
-			m_PreviousClickedTime = DateTime.MinValue;
+            m_PreviousClickedTime = 0; //DateTime.MinValue;
 			m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+            m_SuppressButtonUpFlags = MouseButtons.None;
 			m_PreviousClicked = MouseButtons.None;
+            m_SystemDoubleClickTime = Mouse.GetDoubleClickTime();
 		}
 
         //##################################################################
@@ -83,19 +87,32 @@ namespace MouseKeyboardActivityMonitor
             return !e.Handled;
         }
 
+        // TODO: Refactor
         private void ProcessMouseDown(ref MouseEventExtArgs e)
         {
-            if (IsDoubleClick(e.Button))
+            // Handles Application DoubleClick
+            if (e.Clicks == 2)
             {
-                e = e.ToDoubleClickEventArgs();
                 m_DownButtonsWaitingForMouseUp = MouseButtons.None;
                 m_PreviousClicked = MouseButtons.None;
-                m_PreviousClickedTime = DateTime.MinValue;
+                m_PreviousClickedTime = 0;
             }
             else
             {
-                m_DownButtonsWaitingForMouseUp |= e.Button;
-                m_PreviousClickedTime = DateTime.UtcNow;
+                // Handles Global DoubleClick
+                if (IsDoubleClick(e.Button, e.Timestamp))
+                {
+                    e = e.ToDoubleClickEventArgs();
+                    m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+                    m_PreviousClicked = MouseButtons.None;
+                    m_PreviousClickedTime = 0;
+                }
+                // No DoubleClick
+                else
+                {
+                    m_DownButtonsWaitingForMouseUp |= e.Button;
+                    m_PreviousClickedTime = e.Timestamp;
+                }
             }
 
             InvokeMouseEventHandler(MouseDown, e);
@@ -172,11 +189,11 @@ namespace MouseKeyboardActivityMonitor
 			return m_PreviousPosition != actualPoint;
 		}
 
-		private bool IsDoubleClick(MouseButtons button)
+		private bool IsDoubleClick(MouseButtons button, int timestamp)
 		{
-			return
-				button == m_PreviousClicked &&
-				(DateTime.UtcNow - m_PreviousClickedTime).TotalMilliseconds <= Mouse.GetDoubleClickTime();
+            return
+                button == m_PreviousClicked &&
+                timestamp - m_PreviousClickedTime <= m_SystemDoubleClickTime;
 		}
 
 		private void InvokeMouseEventHandler(MouseEventHandler handler, MouseEventArgs e)

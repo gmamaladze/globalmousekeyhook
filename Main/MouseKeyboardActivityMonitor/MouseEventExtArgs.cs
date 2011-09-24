@@ -33,8 +33,8 @@ namespace MouseKeyboardActivityMonitor
         /// <returns>A new MouseEventExtArgs object.</returns>
         private static MouseEventExtArgs FromRawDataApp(int wParam, IntPtr lParam)
         {
-            MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
-            return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.ExtraInfo);
+            AppMouseStruct marshalledMouseStruct = (AppMouseStruct)Marshal.PtrToStructure(lParam, typeof(AppMouseStruct));
+            return FromRawDataUniversal(wParam, marshalledMouseStruct.ToMouseStruct());
         }
 
         /// <summary>
@@ -46,18 +46,17 @@ namespace MouseKeyboardActivityMonitor
         /// <returns>A new MouseEventExtArgs object.</returns>
         internal static MouseEventExtArgs FromRawDataGlobal(int wParam, IntPtr lParam)
         {
-            MouseHookStruct mouseHookStruct = (MouseHookStruct)Marshal.PtrToStructure(lParam, typeof(MouseHookStruct));
-            return FromRawDataUniversal(wParam, mouseHookStruct.Point, mouseHookStruct.MouseData);
+            GlobalMouseStruct marshalledMouseStruct = (GlobalMouseStruct)Marshal.PtrToStructure(lParam, typeof(GlobalMouseStruct));
+            return FromRawDataUniversal(wParam, marshalledMouseStruct.ToMouseStruct());
         }
 
         /// <summary>
         /// Creates <see cref="MouseEventExtArgs"/> from relevant mouse data. 
         /// </summary>
         /// <param name="wParam">First Windows Message parameter.</param>
-        /// <param name="point">Mouse location.</param>
-        /// <param name="mouseData">Information regarding XButton clicks and scroll data.</param>
+        /// <param name="mouseInfo">A MouseStruct containing information from which to contruct MouseEventExtArgs.</param>
         /// <returns>A new MouseEventExtArgs object.</returns>
-        private static MouseEventExtArgs FromRawDataUniversal(int wParam, Point point, IntPtr mouseData)
+        private static MouseEventExtArgs FromRawDataUniversal(int wParam, MouseStruct mouseInfo)
         {
             MouseButtons button = MouseButtons.None;
             short mouseDelta = 0;
@@ -115,28 +114,17 @@ namespace MouseKeyboardActivityMonitor
                     clickCount = 2;
                     break;
                 case Messages.WM_MOUSEWHEEL:
-                    //the high-order word is the wheel delta
-                    //(value >> 16) & 0xffff retrieves the high-order word from the given value
-                    if (IntPtr.Size == 4)
-                    {
-                        mouseDelta = (short)((mouseData.ToInt32() >> 16) & 0xffff);
-                    }
-                    else
-                    {
-                        mouseDelta = (short)((mouseData.ToInt64() >> 16) & 0xffff);
-                    }
-
+                    mouseDelta = mouseInfo.MouseData;
                     break;
-
                 case Messages.WM_XBUTTONDOWN:
-                    button = (mouseData.ToInt32() == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseInfo.MouseData == 0x01) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyDown = true;
                     clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONUP:
-                    button = (mouseData.ToInt32() == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseInfo.MouseData == 0x01) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyUp = true;
                     clickCount = 1;
@@ -144,7 +132,7 @@ namespace MouseKeyboardActivityMonitor
 
                 case Messages.WM_XBUTTONDBLCLK:
                     isMouseKeyDown = true;
-                    button = (mouseData.ToInt32() == 0x00010000) ? MouseButtons.XButton1 :
+                    button = (mouseInfo.MouseData == 0x01) ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     clickCount = 2;
                     break;
@@ -153,8 +141,9 @@ namespace MouseKeyboardActivityMonitor
             var e = new MouseEventExtArgs(
                 button,
                 clickCount,
-                point,
+                mouseInfo.Point,
                 mouseDelta,
+                mouseInfo.Timestamp,
                 isMouseKeyDown,
                 isMouseKeyUp);
 
@@ -168,18 +157,20 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="clicks">The number of times a mouse button was pressed.</param>
         /// <param name="point">The x and y -coordinate of a mouse click, in pixels.</param>
         /// <param name="delta">A signed count of the number of detents the wheel has rotated.</param>
+        /// <param name="timestamp">The system time, in milliseconds, when the event occured.</param>
         /// <param name="isMouseKeyDown">True if event singnals mouse button down.</param>
         /// <param name="isMouseKeyUp">True if event singnals mouse button up.</param>
-        internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, bool isMouseKeyDown, bool isMouseKeyUp)
+        internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, int timestamp,  bool isMouseKeyDown, bool isMouseKeyUp)
             : base(buttons, clicks, point.X, point.Y, delta)
         {
             IsMouseKeyDown = isMouseKeyDown;
             IsMouseKeyUp = isMouseKeyUp;
+            Timestamp = timestamp;
         }
 
         internal MouseEventExtArgs ToDoubleClickEventArgs()
         {
-            return new MouseEventExtArgs(Button, 2, Point, Delta, IsMouseKeyDown, IsMouseKeyUp); 
+            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseKeyDown, IsMouseKeyUp); 
         }
 
         /// <summary>
@@ -216,6 +207,15 @@ namespace MouseKeyboardActivityMonitor
         /// True if event singnals mouse button up.
         /// </summary>
         public bool IsMouseKeyUp
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// The time when the mouse action was taken.
+        /// </summary>
+        public int Timestamp
         {
             get;
             private set;

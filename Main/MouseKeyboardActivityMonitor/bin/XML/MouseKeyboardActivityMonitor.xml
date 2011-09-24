@@ -530,19 +530,6 @@
             <param name="lParam">The second Windows Message parameter.</param>
             <returns>A new KeyEventArgsExt object.</returns>
         </member>
-        <member name="M:MouseKeyboardActivityMonitor.WinApi.Mouse.GetDoubleClickTime">
-            <summary>
-            The GetDoubleClickTime function retrieves the current double-click time for the mouse. A double-click is a series of two clicks of the 
-            mouse button, the second occurring within a specified time after the first. The double-click time is the maximum number of 
-            milliseconds that may occur between the first and second click of a double-click. 
-            </summary>
-            <returns>
-            The return value specifies the current double-click time, in milliseconds. 
-            </returns>
-            <remarks>
-            http://msdn.microsoft.com/en-us/library/ms646258(VS.85).aspx
-            </remarks>
-        </member>
         <member name="T:MouseKeyboardActivityMonitor.MouseHookListener">
             <summary>
             This class monitors all mouse activities and provides appropriate events.
@@ -554,7 +541,7 @@
             </summary>
             <param name="hooker">Depending on this parameter the listener hooks either application or global mouse events.</param>
             <remarks>
-            Hooks are not active after instantiation. You need to use either <see cref="P:MouseKeyboardActivityMonitor.BaseHookListener.Enabled"/> property or call <see cref="M:MouseKeyboardActivityMonitor.BaseHookListener.Start"/> method.
+            Hooks are not active after installation. You need to use either <see cref="P:MouseKeyboardActivityMonitor.BaseHookListener.Enabled"/> property or call <see cref="M:MouseKeyboardActivityMonitor.BaseHookListener.Start"/> method.
             </remarks>
         </member>
         <member name="M:MouseKeyboardActivityMonitor.MouseHookListener.ProcessCallback(System.Int32,System.IntPtr)">
@@ -723,16 +710,15 @@
             <param name="lParam">The second Windows Message parameter.</param>
             <returns>A new MouseEventExtArgs object.</returns>
         </member>
-        <member name="M:MouseKeyboardActivityMonitor.MouseEventExtArgs.FromRawDataUniversal(System.Int32,MouseKeyboardActivityMonitor.WinApi.Point,System.IntPtr)">
+        <member name="M:MouseKeyboardActivityMonitor.MouseEventExtArgs.FromRawDataUniversal(System.Int32,MouseKeyboardActivityMonitor.WinApi.MouseStruct)">
             <summary>
             Creates <see cref="T:MouseKeyboardActivityMonitor.MouseEventExtArgs"/> from relevant mouse data. 
             </summary>
             <param name="wParam">First Windows Message parameter.</param>
-            <param name="point">Mouse location.</param>
-            <param name="mouseData">Information regarding XButton clicks and scroll data.</param>
+            <param name="mouseInfo">A MouseStruct containing information from which to contruct MouseEventExtArgs.</param>
             <returns>A new MouseEventExtArgs object.</returns>
         </member>
-        <member name="M:MouseKeyboardActivityMonitor.MouseEventExtArgs.#ctor(System.Windows.Forms.MouseButtons,System.Int32,MouseKeyboardActivityMonitor.WinApi.Point,System.Int32,System.Boolean,System.Boolean)">
+        <member name="M:MouseKeyboardActivityMonitor.MouseEventExtArgs.#ctor(System.Windows.Forms.MouseButtons,System.Int32,MouseKeyboardActivityMonitor.WinApi.Point,System.Int32,System.Int32,System.Boolean,System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:MouseKeyboardActivityMonitor.MouseEventExtArgs"/> class. 
             </summary>
@@ -740,6 +726,7 @@
             <param name="clicks">The number of times a mouse button was pressed.</param>
             <param name="point">The x and y -coordinate of a mouse click, in pixels.</param>
             <param name="delta">A signed count of the number of detents the wheel has rotated.</param>
+            <param name="timestamp">The system time, in milliseconds, when the event occured.</param>
             <param name="isMouseKeyDown">True if event singnals mouse button down.</param>
             <param name="isMouseKeyUp">True if event singnals mouse button up.</param>
         </member>
@@ -766,6 +753,11 @@
         <member name="P:MouseKeyboardActivityMonitor.MouseEventExtArgs.IsMouseKeyUp">
             <summary>
             True if event singnals mouse button up.
+            </summary>
+        </member>
+        <member name="P:MouseKeyboardActivityMonitor.MouseEventExtArgs.Timestamp">
+            <summary>
+            The time when the mouse action was taken.
             </summary>
         </member>
         <member name="P:MouseKeyboardActivityMonitor.MouseEventExtArgs.Point">
@@ -979,6 +971,158 @@
             <summary>
             Specifies extra information associated with the message. 
             </summary>
+        </member>
+        <member name="T:MouseKeyboardActivityMonitor.WinApi.GlobalMouseStruct">
+            <summary>
+            The <see cref="T:MouseKeyboardActivityMonitor.WinApi.GlobalMouseStruct"/> structure contains information about a system-level mouse input event.
+            </summary>
+            <remarks>
+            See full documentation at TODO: Post Online Documentation
+            </remarks>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.GlobalMouseStruct.Point">
+            <summary>
+            Specifies a Point structure that contains the X- and Y-coordinates of the cursor, in screen coordinates. 
+            </summary>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.GlobalMouseStruct.MouseData">
+            <summary>
+            Specifies information associated with the message.
+            </summary>
+            <remarks>
+            The possible values are:
+            <list type="bullet">
+            <item>
+            <description>0 - No Information</description>
+            </item>
+            <item>
+            <description>1 - X-Button1 Click</description>
+            </item>
+            /// <item>
+            <description>2 - X-Button2 Click</description>
+            </item>
+            /// <item>
+            <description>120 - Mouse Scroll Away from User</description>
+            </item>
+            /// <item>
+            <description>-120 - Mouse Scroll Toward User</description>
+            </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.GlobalMouseStruct.Timestamp">
+            <summary>
+            Returns a Timestamp associated with the input, in System Ticks.
+            </summary>
+        </member>
+        <member name="M:MouseKeyboardActivityMonitor.WinApi.GlobalMouseStruct.ToMouseStruct">
+            <summary>
+            Converts the current <see cref="T:MouseKeyboardActivityMonitor.WinApi.GlobalMouseStruct"/> into a <see cref="T:MouseKeyboardActivityMonitor.WinApi.MouseStruct"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:MouseKeyboardActivityMonitor.WinApi.AppMouseStruct">
+            <summary>
+            The AppMouseStruct structure contains information about a application-level mouse input event.
+            </summary>
+            <remarks>
+            See full documentation at TODO: Post Online Documentation
+            </remarks>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.AppMouseStruct.Point">
+            <summary>
+            Specifies a Point structure that contains the X- and Y-coordinates of the cursor, in screen coordinates. 
+            </summary>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.AppMouseStruct.MouseData">
+            <summary>
+            Specifies information associated with the message.
+            </summary>
+            <remarks>
+            The possible values are:
+            <list type="bullet">
+            <item>
+            <description>0 - No Information</description>
+            </item>
+            <item>
+            <description>1 - X-Button1 Click</description>
+            </item>
+            /// <item>
+            <description>2 - X-Button2 Click</description>
+            </item>
+            /// <item>
+            <description>120 - Mouse Scroll Away from User</description>
+            </item>
+            /// <item>
+            <description>-120 - Mouse Scroll Toward User</description>
+            </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="M:MouseKeyboardActivityMonitor.WinApi.AppMouseStruct.ToMouseStruct">
+            <summary>
+            Converts the current <see cref="T:MouseKeyboardActivityMonitor.WinApi.AppMouseStruct"/> into a <see cref="T:MouseKeyboardActivityMonitor.WinApi.MouseStruct"/>.
+            </summary>
+            <returns></returns>
+            <remarks>
+            The AppMouseStruct does not have a timestamp, thus one is generated at the time of this call.
+            </remarks>
+        </member>
+        <member name="T:MouseKeyboardActivityMonitor.WinApi.MouseStruct">
+            <summary>
+            The MouseStruct contains information regarding the mouse input event.
+            </summary>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.MouseStruct.Point">
+            <summary>
+            Specifies a Point structure that contains the X- and Y-coordinates of the cursor, in screen coordinates. 
+            </summary>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.MouseStruct.MouseData">
+            <summary>
+            Specifies information associated with the message.
+            </summary>
+            <remarks>
+            The possible values are:
+            <list type="bullet">
+            <item>
+            <description>0 - No Information</description>
+            </item>
+            <item>
+            <description>1 - X-Button1 Click</description>
+            </item>
+            /// <item>
+            <description>2 - X-Button2 Click</description>
+            </item>
+            /// <item>
+            <description>120 - Mouse Scroll Away from User</description>
+            </item>
+            /// <item>
+            <description>-120 - Mouse Scroll Toward User</description>
+            </item>
+            </list>
+            </remarks>
+        </member>
+        <member name="F:MouseKeyboardActivityMonitor.WinApi.MouseStruct.Timestamp">
+            <summary>
+            Returns a Timestamp associated with the input, in System Ticks.
+            </summary>
+            <remarks>
+            For Application Hooks, the Timestamp is generated during hook processing, not at the instant the message occured.
+            </remarks>
+        </member>
+        <member name="M:MouseKeyboardActivityMonitor.WinApi.Mouse.GetDoubleClickTime">
+            <summary>
+            The GetDoubleClickTime function retrieves the current double-click time for the mouse. A double-click is a series of two clicks of the 
+            mouse button, the second occurring within a specified time after the first. The double-click time is the maximum number of 
+            milliseconds that may occur between the first and second click of a double-click. 
+            </summary>
+            <returns>
+            The return value specifies the current double-click time, in milliseconds. 
+            </returns>
+            <remarks>
+            http://msdn.microsoft.com/en-us/library/ms646258(VS.85).aspx
+            </remarks>
         </member>
     </members>
 </doc>
