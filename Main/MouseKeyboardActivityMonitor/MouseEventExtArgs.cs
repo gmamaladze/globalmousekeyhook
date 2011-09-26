@@ -46,8 +46,8 @@ namespace MouseKeyboardActivityMonitor
         /// <returns>A new MouseEventExtArgs object.</returns>
         internal static MouseEventExtArgs FromRawDataGlobal(int wParam, IntPtr lParam)
         {
-            GlobalMouseStruct marshalledMouseStruct = (GlobalMouseStruct)Marshal.PtrToStructure(lParam, typeof(GlobalMouseStruct));
-            return FromRawDataUniversal(wParam, marshalledMouseStruct.ToMouseStruct());
+            MouseStruct marshalledMouseStruct = (MouseStruct)Marshal.PtrToStructure(lParam, typeof(MouseStruct));
+            return FromRawDataUniversal(wParam, marshalledMouseStruct);
         }
 
         /// <summary>
@@ -117,14 +117,14 @@ namespace MouseKeyboardActivityMonitor
                     mouseDelta = mouseInfo.MouseData;
                     break;
                 case Messages.WM_XBUTTONDOWN:
-                    button = (mouseInfo.MouseData == 0x01) ? MouseButtons.XButton1 :
+                    button = mouseInfo.MouseData == 1 ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyDown = true;
                     clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONUP:
-                    button = (mouseInfo.MouseData == 0x01) ? MouseButtons.XButton1 :
+                    button = mouseInfo.MouseData == 1 ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     isMouseKeyUp = true;
                     clickCount = 1;
@@ -132,7 +132,7 @@ namespace MouseKeyboardActivityMonitor
 
                 case Messages.WM_XBUTTONDBLCLK:
                     isMouseKeyDown = true;
-                    button = (mouseInfo.MouseData == 0x01) ? MouseButtons.XButton1 :
+                    button = mouseInfo.MouseData == 1 ? MouseButtons.XButton1 :
                                                                          MouseButtons.XButton2;
                     clickCount = 2;
                     break;

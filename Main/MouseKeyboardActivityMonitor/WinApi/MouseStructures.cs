@@ -5,13 +5,13 @@ namespace MouseKeyboardActivityMonitor.WinApi
 {
 
     /// <summary>
-    /// The <see cref="GlobalMouseStruct"/> structure contains information about a system-level mouse input event.
+    /// The <see cref="MouseStruct"/> structure contains information about a mouse input event.
     /// </summary>
     /// <remarks>
-    /// See full documentation at TODO: Post Online Documentation
+    /// See full documentation at http://globalmousekeyhook.codeplex.com/wikipage?title=MouseStruct
     /// </remarks>
     [StructLayout(LayoutKind.Explicit)]
-    internal struct GlobalMouseStruct
+    internal struct MouseStruct
     {
         /// <summary>
         /// Specifies a Point structure that contains the X- and Y-coordinates of the cursor, in screen coordinates. 
@@ -31,13 +31,13 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// <item>
         /// <description>1 - X-Button1 Click</description>
         /// </item>
-        /// /// <item>
+        /// <item>
         /// <description>2 - X-Button2 Click</description>
         /// </item>
-        /// /// <item>
+        /// <item>
         /// <description>120 - Mouse Scroll Away from User</description>
         /// </item>
-        /// /// <item>
+        /// <item>
         /// <description>-120 - Mouse Scroll Toward User</description>
         /// </item>
         /// </list>
@@ -50,26 +50,13 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// </summary>
         [FieldOffset(0x10)]
         public Int32 Timestamp;
-
-        /// <summary>
-        /// Converts the current <see cref="GlobalMouseStruct"/> into a <see cref="MouseStruct"/>.
-        /// </summary>
-        /// <returns></returns>
-        public MouseStruct ToMouseStruct()
-        {
-            MouseStruct tmp = new MouseStruct();
-            tmp.Point = this.Point;
-            tmp.MouseData = this.MouseData;
-            tmp.Timestamp = this.Timestamp;
-            return tmp;
-        }
     }
 
     /// <summary>
     /// The AppMouseStruct structure contains information about a application-level mouse input event.
     /// </summary>
     /// <remarks>
-    /// See full documentation at TODO: Post Online Documentation
+    /// See full documentation at http://globalmousekeyhook.codeplex.com/wikipage?title=MouseStruct
     /// </remarks>
     [StructLayout(LayoutKind.Explicit)]
     internal struct AppMouseStruct
@@ -93,13 +80,13 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// <item>
         /// <description>1 - X-Button1 Click</description>
         /// </item>
-        /// /// <item>
+        /// <item>
         /// <description>2 - X-Button2 Click</description>
         /// </item>
-        /// /// <item>
+        /// <item>
         /// <description>120 - Mouse Scroll Away from User</description>
         /// </item>
-        /// /// <item>
+        /// <item>
         /// <description>-120 - Mouse Scroll Toward User</description>
         /// </item>
         /// </list>
@@ -123,54 +110,9 @@ namespace MouseKeyboardActivityMonitor.WinApi
             MouseStruct tmp = new MouseStruct();
             tmp.Point = this.Point;
             tmp.MouseData = this.MouseData;
-            tmp.Timestamp = Environment.TickCount; // 0;
+            tmp.Timestamp = Environment.TickCount;
             return tmp;
         }
-    }
-
-    /// <summary>
-    /// The MouseStruct contains information regarding the mouse input event.
-    /// </summary>
-    internal struct MouseStruct
-    {
-        /// <summary>
-        /// Specifies a Point structure that contains the X- and Y-coordinates of the cursor, in screen coordinates. 
-        /// </summary>
-        public Point Point;
-
-        /// <summary>
-        /// Specifies information associated with the message.
-        /// </summary>
-        /// <remarks>
-        /// The possible values are:
-        /// <list type="bullet">
-        /// <item>
-        /// <description>0 - No Information</description>
-        /// </item>
-        /// <item>
-        /// <description>1 - X-Button1 Click</description>
-        /// </item>
-        /// /// <item>
-        /// <description>2 - X-Button2 Click</description>
-        /// </item>
-        /// /// <item>
-        /// <description>120 - Mouse Scroll Away from User</description>
-        /// </item>
-        /// /// <item>
-        /// <description>-120 - Mouse Scroll Toward User</description>
-        /// </item>
-        /// </list>
-        /// </remarks>
-        public Int16 MouseData;
-
-        /// <summary>
-        /// Returns a Timestamp associated with the input, in System Ticks.
-        /// </summary>
-        /// <remarks>
-        /// For Application Hooks, the Timestamp is generated during hook processing, not at the instant the message occured.
-        /// </remarks>
-        public Int32 Timestamp;
-
     }
 
 }
