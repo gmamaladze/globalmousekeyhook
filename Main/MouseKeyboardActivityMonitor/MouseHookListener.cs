@@ -88,7 +88,18 @@ namespace MouseKeyboardActivityMonitor
 
         private void ProcessMouseDown(ref MouseEventExtArgs e)
         {
-            ProcessPossibleDoubleClick(ref e);
+            if (IsGlobal)
+            {
+                ProcessPossibleDoubleClick(ref e);
+            }
+            else
+            {
+                // These are only used for global. No need for them in AppHooks
+                m_DownButtonsWaitingForMouseUp = MouseButtons.None;
+                m_PreviousClicked = MouseButtons.None;
+                m_PreviousClickedTime = 0;
+            } 
+            
 
             InvokeMouseEventHandler(MouseDown, e);
             InvokeMouseEventHandlerExt(MouseDownExt, e);
@@ -101,30 +112,17 @@ namespace MouseKeyboardActivityMonitor
 
         private void ProcessPossibleDoubleClick(ref MouseEventExtArgs e)
         {
-            // Application DoubleClick
-            if (e.Clicks == 2)
+            if (IsDoubleClick(e.Button, e.Timestamp))
             {
+                e = e.ToDoubleClickEventArgs();
                 m_DownButtonsWaitingForMouseUp = MouseButtons.None;
                 m_PreviousClicked = MouseButtons.None;
                 m_PreviousClickedTime = 0;
             }
-            // Could be single click or GlobalDoubleClick
             else
             {
-                // Global DoubleClick
-                if (IsDoubleClick(e.Button, e.Timestamp))
-                {
-                    e = e.ToDoubleClickEventArgs(); 
-                    m_DownButtonsWaitingForMouseUp = MouseButtons.None;
-                    m_PreviousClicked = MouseButtons.None;
-                    m_PreviousClickedTime = 0;
-                }
-                // No DoubleClick
-                else
-                {
-                    m_DownButtonsWaitingForMouseUp |= e.Button;
-                    m_PreviousClickedTime = e.Timestamp;
-                }
+                m_DownButtonsWaitingForMouseUp |= e.Button;
+                m_PreviousClickedTime = e.Timestamp;
             }
         }
 
