@@ -7,7 +7,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{bd8a70ed-d8f4-4053-94dc-1c07f2de0c81}</ProjectGuid>
+    <ProjectGuid>{0fd153d5-f9ed-4b74-90d6-45112e7722ee}</ProjectGuid>
     <SHFBSchemaVersion>1.9.3.0</SHFBSchemaVersion>
     <!-- AssemblyName, Name, and RootNamespace are not used by SHFB but Visual
          Studio adds them anyway -->
@@ -18,20 +18,20 @@
     <OutputPath>.\Help\</OutputPath>
     <HtmlHelpName>MouseKeyboardHooksDoc</HtmlHelpName>
     <Language>en-US</Language>
-    <PresentationStyle>Prototype</PresentationStyle>
-    <SdkLinkTarget>Self</SdkLinkTarget>
-    <HelpTitle>Mouse and Keyboard Hooks .NET</HelpTitle>
-    <DocumentationSources>
-      <DocumentationSource sourceFile="c4425\MouseKeyboardActivityMonitor.dll" xmlns="" />
-<DocumentationSource sourceFile="c4425\MouseKeyboardActivityMonitor.xml" xmlns="" /></DocumentationSources>
-    <NamespaceSummaries>
-      <NamespaceSummaryItem name="(global)" isDocumented="False">The MouseKeyboardActivityMonitor namespace contains input listener classes, events and event handlers, and extended event args.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="MouseKeyboardActivityMonitor.Controls" isDocumented="True">The MouseKeyboardActivityMonitor.Controls namespace contains the MouseKeyEventProvider component.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="MouseKeyboardActivityMonitor.WinApi" isDocumented="True">The MouseKeyboardActivityMonitor.WinApi namespace contains the classes which perform the Windows Hook procedures.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="MouseKeyboardActivityMonitor" isDocumented="True">The MouseKeyboardActivityMonitor namespace contains input listener classes, events and event handlers, and extended event args.</NamespaceSummaryItem></NamespaceSummaries>
-    <ProjectSummary>This library contains classes which enable the developer to hook mouse and keyboard input, in the application or globally in the operating system.</ProjectSummary>
+    <Preliminary>True</Preliminary>
     <FrameworkVersion>.NET 2.0.50727</FrameworkVersion>
-    <RootNamespaceTitle>MouseKeyboard</RootNamespaceTitle>
+    <HelpTitle>Mouse and Keyboard Hooks .NET</HelpTitle>
+    <PresentationStyle>Prototype</PresentationStyle>
+    <RootNamespaceTitle>MouseKeyboardHooks</RootNamespaceTitle>
+    <SdkLinkTarget>Self</SdkLinkTarget>
+    <DocumentationSources>
+      <DocumentationSource sourceFile="c5672\MouseKeyboardActivityMonitor.dll" xmlns="" />
+<DocumentationSource sourceFile="c5672\MouseKeyboardActivityMonitor.xml" xmlns="" /></DocumentationSources>
+    <ProjectSummary>This library contains classes which enable the developer to hook mouse and keyboard input, in the application or globally in the operating system.</ProjectSummary>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="MouseKeyboardActivityMonitor" isDocumented="True" xmlns="">The MouseKeyboardActivityMonitor namespace contains input listener classes, events and event handlers, and extended event args.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="MouseKeyboardActivityMonitor.Controls" isDocumented="True" xmlns="">The MouseKeyboardActivityMonitor.Controls namespace contains the MouseKeyEventProvider component.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="MouseKeyboardActivityMonitor.WinApi" isDocumented="True" xmlns="">The MouseKeyboardActivityMonitor.WinApi namespace contains the classes which perform the Windows Hook procedures.</NamespaceSummaryItem></NamespaceSummaries>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional
@@ -54,7 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="MouseKeyboardActivityMonitor">
-      <HintPath>c4425\MouseKeyboardActivityMonitor.dll</HintPath>
+      <HintPath>c5672\MouseKeyboardActivityMonitor.dll</HintPath>
     </Reference>
   </ItemGroup>
   <!-- Import the SHFB build targets -->
