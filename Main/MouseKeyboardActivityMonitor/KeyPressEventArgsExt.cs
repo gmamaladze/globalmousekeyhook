@@ -18,12 +18,14 @@ namespace MouseKeyboardActivityMonitor
             : base(keyChar)
         {
             IsNonChar = false;
+            Timestamp = Environment.TickCount;
         }
 
         private static KeyPressEventArgsExt CreateNonChar()
         {
             KeyPressEventArgsExt e = new KeyPressEventArgsExt((char)0x0);
             e.IsNonChar = true;
+            e.Timestamp = Environment.TickCount;
             return e;
         }
 
@@ -86,7 +88,7 @@ namespace MouseKeyboardActivityMonitor
             {
                 return CreateNonChar();
             }
-
+            
             return new KeyPressEventArgsExt(ch);
 
         }
@@ -118,13 +120,20 @@ namespace MouseKeyboardActivityMonitor
                 return CreateNonChar();
             }
 
-            return new KeyPressEventArgsExt(ch);
+            KeyPressEventArgsExt e = new KeyPressEventArgsExt(ch);
+            e.Timestamp = keyboardHookStruct.Time;		// Update the timestamp to use the actual one from KeyboardHookStruct
 
+            return e;
         }
 
         /// <summary>
         /// True if represents a system or functional non char key.
         /// </summary>
         public bool IsNonChar { get; private set; }
+        
+        /// <summary>
+        /// The system tick count of when the event occured.
+        /// </summary> 
+        public int Timestamp { get; private set; }
     }
 }

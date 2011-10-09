@@ -157,7 +157,7 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="clicks">The number of times a mouse button was pressed.</param>
         /// <param name="point">The x and y -coordinate of a mouse click, in pixels.</param>
         /// <param name="delta">A signed count of the number of detents the wheel has rotated.</param>
-        /// <param name="timestamp">The system time, in milliseconds, when the event occured.</param>
+        /// <param name="timestamp">The system tick count when the event occured.</param>
         /// <param name="isMouseKeyDown">True if event singnals mouse button down.</param>
         /// <param name="isMouseKeyUp">True if event singnals mouse button up.</param>
         internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, int timestamp,  bool isMouseKeyDown, bool isMouseKeyUp)
@@ -213,7 +213,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// The time when the mouse action was taken.
+        /// The system tick count of when the event occured.
         /// </summary>
         public int Timestamp
         {
