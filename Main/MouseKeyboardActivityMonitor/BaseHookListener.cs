@@ -91,7 +91,7 @@ namespace MouseKeyboardActivityMonitor
             {
                 HookHandle = m_Hooker.Subscribe(GetHookId(), HookCallbackReferenceKeeper);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 HookCallbackReferenceKeeper = null;
                 HookHandle = 0;
@@ -152,7 +152,7 @@ namespace MouseKeyboardActivityMonitor
                 bool mustEnable = value;
                 if (mustEnable)
                 {
-                    if (!Enabled) 
+                    if (!Enabled)
                     {
                         Start();
                     }
@@ -171,9 +171,29 @@ namespace MouseKeyboardActivityMonitor
         /// Release delegates, unsubscribes from hooks.
         /// </summary>
         /// <filterpriority>2</filterpriority>
-        public virtual void Dispose()
+        public void Dispose()
         {
-            Stop();
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Method to be used from Dispose and finalizer.
+        /// Override this method to release subclass sepcific references.
+        /// </summary>
+        protected virtual void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                Stop();
+            }
+            else
+            {
+                if (HookHandle != 0)
+                {
+                    Hooker.UnhookWindowsHookEx(HookHandle);
+                }
+            }
         }
 
         /// <summary>
@@ -181,10 +201,7 @@ namespace MouseKeyboardActivityMonitor
         /// </summary>
         ~BaseHookListener()
         {
-            if (HookHandle != 0)
-            {
-                Hooker.UnhookWindowsHookEx(HookHandle);
-            }
+            Dispose(false);
         }
     }
 }

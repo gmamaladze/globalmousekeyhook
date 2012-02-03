@@ -273,22 +273,25 @@ namespace MouseKeyboardActivityMonitor
 		/// </summary>
 		public event MouseEventHandler MouseDoubleClick;
 
-		/// <summary>
-		/// Release delegates, unsubscribes from hooks.
-		/// </summary>
-		/// <filterpriority>2</filterpriority>
-		public override void Dispose()
+	    /// <summary>
+	    /// Method to be used from <see cref="Dispose"/> and finalizer.
+	    /// Override this method to release subclass sepcific references.
+	    /// </summary>
+	    protected override void Dispose(bool isDisposing)
 		{
-			MouseClick = null;
-			MouseClickExt = null;
-			MouseDown = null;
-			MouseDownExt = null;
-			MouseMove = null;
-			MouseMoveExt = null;
-			MouseUp = null;
-			MouseWheel = null;
-			MouseDoubleClick = null;
-			base.Dispose();
+            if (isDisposing)
+            {
+                MouseClick = null;
+                MouseClickExt = null;
+                MouseDown = null;
+                MouseDownExt = null;
+                MouseMove = null;
+                MouseMoveExt = null;
+                MouseUp = null;
+                MouseWheel = null;
+                MouseDoubleClick = null;
+            }
+		    base.Dispose(isDisposing);
 		}
 	}
 }

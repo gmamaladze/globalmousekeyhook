@@ -105,17 +105,21 @@ namespace MouseKeyboardActivityMonitor
             handler(this, e);
         }
 
-        /// <summary>
-        /// Release delegates, unsubscribes from hooks.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public override void Dispose()
-        {
-            KeyPress = null;
-            KeyDown = null;
-            KeyUp = null;
 
-            base.Dispose();
+        /// <summary>
+        /// Method to be used from <see cref="Dispose"/> and finalizer.
+        /// Override this method to release subclass sepcific references.
+        /// </summary>
+        protected override void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                KeyPress = null;
+                KeyDown = null;
+                KeyUp = null;
+            }
+
+            base.Dispose(isDisposing);
         }
     }
 }
