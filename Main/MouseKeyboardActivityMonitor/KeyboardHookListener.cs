@@ -42,7 +42,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Returns the correct hook id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
+        /// Returns the correct hook id to be used for <see cref="HookNativeMethods.SetWindowsHookEx"/> call.
         /// </summary>
         /// <returns>WH_KEYBOARD (0x02) or WH_KEYBOARD_LL (0x13) constant.</returns>
         protected override int GetHookId()

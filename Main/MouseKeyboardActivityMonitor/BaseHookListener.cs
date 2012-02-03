@@ -72,7 +72,7 @@ namespace MouseKeyboardActivityMonitor
 
         private int CallNextHook(int nCode, int wParam, IntPtr lParam)
         {
-            return Hooker.CallNextHookEx(HookHandle, nCode, wParam, lParam);
+            return HookNativeMethods.CallNextHookEx(HookHandle, nCode, wParam, lParam);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Override to deliver correct id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
+        /// Override to deliver correct id to be used for <see cref="HookNativeMethods.SetWindowsHookEx"/> call.
         /// </summary>
         /// <returns></returns>
         protected abstract int GetHookId();
@@ -191,7 +191,7 @@ namespace MouseKeyboardActivityMonitor
             {
                 if (HookHandle != 0)
                 {
-                    Hooker.UnhookWindowsHookEx(HookHandle);
+                    HookNativeMethods.UnhookWindowsHookEx(HookHandle);
                 }
             }
         }

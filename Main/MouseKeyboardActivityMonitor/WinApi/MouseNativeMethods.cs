@@ -2,7 +2,7 @@
 
 namespace MouseKeyboardActivityMonitor.WinApi
 {
-    internal class Mouse
+    internal static class MouseNativeMethods
     {
         /// <summary>
         /// The GetDoubleClickTime function retrieves the current double-click time for the mouse. A double-click is a series of two clicks of the 

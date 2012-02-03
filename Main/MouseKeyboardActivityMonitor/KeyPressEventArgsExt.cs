@@ -83,7 +83,7 @@ namespace MouseKeyboardActivityMonitor
             const int fuState = 0;
 
             char ch;
-            bool isSuccessfull = Keyboard.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
+            bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
             if (!isSuccessfull)
             {
                 return CreateNonChar();
@@ -114,7 +114,7 @@ namespace MouseKeyboardActivityMonitor
             int fuState = keyboardHookStruct.Flags;
 
             char ch;
-            bool isSuccessfull = Keyboard.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
+            bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
             if (!isSuccessfull)
             {
                 return CreateNonChar();

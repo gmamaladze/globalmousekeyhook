@@ -20,11 +20,11 @@ namespace MouseKeyboardActivityMonitor.WinApi
 
         internal override int Subscribe(int hookId, HookCallback hookCallback)
         {
-            int hookHandle = SetWindowsHookEx(
+            int hookHandle = HookNativeMethods.SetWindowsHookEx(
                 hookId,
                 hookCallback,
                 IntPtr.Zero,
-                GetCurrentThreadId());
+                ThreadNativeMethods.GetCurrentThreadId());
 
             if (hookHandle == 0)
             {
@@ -38,12 +38,5 @@ namespace MouseKeyboardActivityMonitor.WinApi
         {
             get { return false; }
         }
-
-        /// <summary>
-        /// Retrieves the unmanaged thread identifier of the calling thread.
-        /// </summary>
-        /// <returns></returns>
-        [DllImport("kernel32")]
-        private static extern int GetCurrentThreadId();
     }
 }

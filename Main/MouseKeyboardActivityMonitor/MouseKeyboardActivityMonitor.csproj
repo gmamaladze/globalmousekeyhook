@@ -192,7 +192,8 @@
     </Compile>
     <Compile Include="BaseHookListener.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
-    <Compile Include="WinApi\Mouse.cs" />
+    <Compile Include="WinApi\HookNativeMethods.cs" />
+    <Compile Include="WinApi\MouseNativeMethods.cs" />
     <Compile Include="MouseHookListener.cs" />
     <Compile Include="WinApi\AppHooker.cs" />
     <Compile Include="WinApi\GlobalHooker.cs" />
@@ -204,8 +205,9 @@
     <Compile Include="KeyboardHookListener.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
     <Compile Include="WinApi\Hooker.cs" />
-    <Compile Include="WinApi\Keyboard.cs" />
+    <Compile Include="WinApi\KeyboardNativeMethods.cs" />
     <Compile Include="WinApi\Messages.cs" />
+    <Compile Include="WinApi\ThreadNativeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

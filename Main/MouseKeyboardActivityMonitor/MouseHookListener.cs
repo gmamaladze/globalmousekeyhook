@@ -32,7 +32,7 @@ namespace MouseKeyboardActivityMonitor
 			m_DownButtonsWaitingForMouseUp = MouseButtons.None;
             m_SuppressButtonUpFlags = MouseButtons.None;
 			m_PreviousClicked = MouseButtons.None;
-            m_SystemDoubleClickTime = Mouse.GetDoubleClickTime();
+            m_SystemDoubleClickTime = MouseNativeMethods.GetDoubleClickTime();
 		}
 
         //##################################################################
@@ -176,7 +176,7 @@ namespace MouseKeyboardActivityMonitor
 		}
 
 		/// <summary>
-		/// Returns the correct hook id to be used for <see cref="Hooker.SetWindowsHookEx"/> call.
+		/// Returns the correct hook id to be used for <see cref="HookNativeMethods.SetWindowsHookEx"/> call.
 		/// </summary>
 		/// <returns>WH_MOUSE (0x07) or WH_MOUSE_LL (0x14) constant.</returns>
 		protected override int GetHookId()
