@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace MouseKeyboardActivityMonitor.WinApi
 {
@@ -12,16 +13,15 @@ namespace MouseKeyboardActivityMonitor.WinApi
 
         internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char ch)
         {
-            bool isDownShift = ((GetKeyState(VK_SHIFT) & 0x80) == 0x80 ? true : false);
-            bool isDownCapslock = (GetKeyState(VK_CAPITAL) != 0 ? true : false);
 
-            byte[] keyState = new byte[256];
-            GetKeyboardState(keyState);
+            KeyboardState keyboardState = KeyboardState.GetCurrent();
+
+            byte[] nativekeyboardState = keyboardState.GetNativeState();
             byte[] inBuffer = new byte[2];
 
             bool isSuccesfullyConverted = ToAscii(virtualKeyCode,
                                                   scanCode,
-                                                  keyState,
+                                                  nativekeyboardState,
                                                   inBuffer,
                                                   fuState) == 1;
             if (!isSuccesfullyConverted)
@@ -31,7 +31,11 @@ namespace MouseKeyboardActivityMonitor.WinApi
             }
 
             ch = (char)inBuffer[0];
-            if ((isDownCapslock ^ isDownShift) && Char.IsLetter(ch))
+
+            bool isDownShift = keyboardState.IsDown(Keys.ShiftKey);
+            bool isToggledCapsLock = keyboardState.IsToggled(Keys.CapsLock);
+
+            if ((isToggledCapsLock ^ isDownShift) && Char.IsLetter(ch))
             {
                 ch = Char.ToUpper(ch);
             }

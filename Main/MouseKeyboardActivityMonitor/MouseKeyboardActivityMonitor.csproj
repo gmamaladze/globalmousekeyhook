@@ -191,6 +191,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="BaseHookListener.cs" />
+    <Compile Include="KeyboardState.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
     <Compile Include="WinApi\HookNativeMethods.cs" />
     <Compile Include="WinApi\MouseNativeMethods.cs" />
