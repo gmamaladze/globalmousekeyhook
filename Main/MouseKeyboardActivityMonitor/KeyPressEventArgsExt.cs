@@ -10,23 +10,22 @@ namespace MouseKeyboardActivityMonitor
     ///</summary>
     public class KeyPressEventArgsExt : KeyPressEventArgs
     {
+
+        internal KeyPressEventArgsExt(char keyChar, int timestamp)
+            : base(keyChar)
+        {
+            IsNonChar = keyChar == (char)0x0;
+            Timestamp = timestamp;
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref='KeyPressEventArgsExt'/> class.
         /// </summary>
         /// <param name="keyChar">Character corresponding to the key pressed. 0 char if represens a system or functional non char key.</param>
         public KeyPressEventArgsExt(char keyChar)
-            : base(keyChar)
+            : this(keyChar, Environment.TickCount)
         {
-            IsNonChar = false;
-            Timestamp = Environment.TickCount;
-        }
-
-        private static KeyPressEventArgsExt CreateNonChar()
-        {
-            KeyPressEventArgsExt e = new KeyPressEventArgsExt((char)0x0);
-            e.IsNonChar = true;
-            e.Timestamp = Environment.TickCount;
-            return e;
+            
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace MouseKeyboardActivityMonitor
 
             if (!wasKeyDown && !isKeyReleased)
             {
-                return CreateNonChar();
+                return new KeyPressEventArgsExt((char)0);
             }
 
             int virtualKeyCode = wParam;
@@ -86,7 +85,7 @@ namespace MouseKeyboardActivityMonitor
             bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
             if (!isSuccessfull)
             {
-                return CreateNonChar();
+                return new KeyPressEventArgsExt((char)0);
             }
             
             return new KeyPressEventArgsExt(ch);
@@ -104,7 +103,7 @@ namespace MouseKeyboardActivityMonitor
         {
             if (wParam != Messages.WM_KEYDOWN)
             {
-                return CreateNonChar();
+                return new KeyPressEventArgsExt((char)0);
             }
 
             KeyboardHookStruct keyboardHookStruct = (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
@@ -117,12 +116,10 @@ namespace MouseKeyboardActivityMonitor
             bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
             if (!isSuccessfull)
             {
-                return CreateNonChar();
+                return new KeyPressEventArgsExt((char)0);
             }
 
-            KeyPressEventArgsExt e = new KeyPressEventArgsExt(ch);
-            e.Timestamp = keyboardHookStruct.Time;		// Update the timestamp to use the actual one from KeyboardHookStruct
-
+            KeyPressEventArgsExt e = new KeyPressEventArgsExt(ch,  keyboardHookStruct.Time);
             return e;
         }
 
