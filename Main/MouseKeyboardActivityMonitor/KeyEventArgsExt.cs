@@ -14,14 +14,15 @@ namespace MouseKeyboardActivityMonitor
         /// Initializes a new instance of the <see cref="KeyEventArgsExt"/> class.
         /// </summary>
         /// <param name="keyData"></param>
-        public KeyEventArgsExt(Keys keyData) : base(keyData)
+        public KeyEventArgsExt(Keys keyData)
+            : base(keyData)
         {
         }
 
         internal KeyEventArgsExt(Keys keyData, int timestamp, bool isKeyDown, bool isKeyUp)
             : this(keyData)
         {
-        	Timestamp = timestamp; 
+            Timestamp = timestamp;
             IsKeyDown = isKeyDown;
             IsKeyUp = isKeyUp;
         }
@@ -35,8 +36,8 @@ namespace MouseKeyboardActivityMonitor
         /// <returns>A new KeyEventArgsExt object.</returns>
         internal static KeyEventArgsExt FromRawData(int wParam, IntPtr lParam, bool isGlobal)
         {
-            return isGlobal ? 
-                FromRawDataGlobal(wParam, lParam) : 
+            return isGlobal ?
+                FromRawDataGlobal(wParam, lParam) :
                 FromRawDataApp(wParam, lParam);
         }
 
@@ -65,14 +66,13 @@ namespace MouseKeyboardActivityMonitor
 #else
             flags = (uint)lParam;
 #endif
-            
 
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
             bool wasKeyDown = (flags & maskKeydown) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
             bool isKeyReleased = (flags & maskKeyup) > 0;
 
-            Keys keyData = (Keys)wParam;
+            Keys keyData = AppendModifierStates((Keys)wParam);
 
             bool isKeyDown = !wasKeyDown && !isKeyReleased;
             bool isKeyUp = wasKeyDown && isKeyReleased;
@@ -90,23 +90,57 @@ namespace MouseKeyboardActivityMonitor
         private static KeyEventArgsExt FromRawDataGlobal(int wParam, IntPtr lParam)
         {
             KeyboardHookStruct keyboardHookStruct = (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
-            Keys keyData = (Keys)keyboardHookStruct.VirtualKeyCode;
+            Keys keyData = AppendModifierStates((Keys)keyboardHookStruct.VirtualKeyCode);
             bool isKeyDown = (wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN);
             bool isKeyUp = (wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP);
-            
+
             return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp);
+        }
+
+        // # It is not possible to distinguish Keys.LControlKey and Keys.RControlKey when they are modifiers
+        // Check for Keys.Control instead
+        // Same for Shift and Alt(Menu)
+        // See more at http://www.tech-archive.net/Archive/DotNet/microsoft.public.dotnet.framework.windowsforms/2008-04/msg00127.html #
+        private static Keys AppendModifierStates(Keys keyData)
+        {
+            // Is Control being held down?
+            bool control = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LCONTROL) & 0x80) != 0) ||
+                           ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RCONTROL) & 0x80) != 0);
+
+            // Is Shift being held down?
+            bool shift = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LSHIFT) & 0x80) != 0) ||
+                         ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RSHIFT) & 0x80) != 0);
+
+            // Is Alt being held down?
+            bool alt = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LMENU) & 0x80) != 0) ||
+                       ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RMENU) & 0x80) != 0);
+
+            // Windows keys
+            bool winL = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LWIN) & 0x80) != 0);
+            bool winR = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RWIN) & 0x80) != 0);
+
+            // Function (Fn) key
+            // # Can NOT determine state due to conversion inside keyboard
+            // See http://en.wikipedia.org/wiki/Fn_key#Technical_details #
+
+            return keyData |
+                (control ? Keys.Control : Keys.None) |
+                (shift ? Keys.Shift : Keys.None) |
+                (alt ? Keys.Alt : Keys.None) |
+                (winL ? Keys.LWin : Keys.None) |
+                (winR ? Keys.RWin : Keys.None);
         }
 
         /// <summary>
         /// The system tick count of when the event occured.
-        /// </summary> 
+        /// </summary>
         public int Timestamp { get; private set; }
-        
+
         /// <summary>
         /// True if event singnals key down..
         /// </summary>
         public bool IsKeyDown { get; private set; }
-        
+
         /// <summary>
         /// True if event singnals key up.
         /// </summary>
