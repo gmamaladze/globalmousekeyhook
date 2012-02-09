@@ -209,6 +209,10 @@
     <Compile Include="WinApi\KeyboardNativeMethods.cs" />
     <Compile Include="WinApi\Messages.cs" />
     <Compile Include="WinApi\ThreadNativeMethods.cs" />
+	<Compile Include="HotKeys\HotKeyArgs.cs" />
+	<Compile Include="HotKeys\HotKeySet.cs" />
+	<Compile Include="HotKeys\HotKeySetCollection.cs" />
+	<Compile Include="HotKeys\HotKeySetsListener.cs" />	
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
