@@ -63,27 +63,6 @@ namespace MouseKeyboardActivityMonitor.HotKeys
                 hotKeyDelegate( this );
         }
 
-        private void InvokeOnHotKeysDownOnce()
-        {
-            HotKeyHandler handler = OnHotKeysDownOnce;
-            if ( handler != null )
-                handler( this );
-        }
-
-        private void InvokeOnHotKeysUp()
-        {
-            HotKeyHandler handler = OnHotKeysUp;
-            if ( handler != null )
-                handler( this );
-        }
-
-        private void InvokeOnHotKeysDownHold()
-        {
-            HotKeyHandler handler = OnHotKeysDownHold;
-            if ( handler != null )
-                handler( this );
-        }
-
         /// <summary>
         /// Enables the ability to name the set
         /// </summary>
@@ -278,7 +257,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         {
             //If the keys are activated still then keep invoking the event
             if ( HotKeysActivated )
-                InvokeOnHotKeysDownHold();          //Call the duration event
+                InvokeHotKeyHandler( OnHotKeysDownHold );          //Call the duration event
 
             //indicates the key's state is current false but the key is now down
             else if ( _hotkeystate.ContainsKey( k ) && !_hotkeystate[ k ] )
@@ -306,7 +285,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
                 --_hotkeydowncount;                 //this set is no longer ready
 
                 if ( wasActive )
-                    InvokeOnHotKeysUp();            //call the KeyUp event because the set is no longer active
+                    InvokeHotKeyHandler( OnHotKeysUp );            //call the KeyUp event because the set is no longer active
 
             }
         
