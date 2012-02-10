@@ -6,12 +6,12 @@ namespace MouseKeyboardActivityMonitor.HotKeys
     /// <summary>
     /// A collection of HotKeySets
     /// </summary>
-    public sealed class HotKeySetCollection : List< HotKeySet >
+    public sealed class HotKeySetCollection : List<HotKeySet>
     {
 
         private delegate void KeyChainHandler( KeyEventArgsExt kex );
 
-        private KeyChainHandler _keyChain;
+        private KeyChainHandler m_keyChain;
 
         ///<summary>
         /// Adds a HotKeySet to the collection.
@@ -19,7 +19,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///<param name="hks"></param>
         public new void Add( HotKeySet hks )
         {
-            _keyChain += hks.OnKey;
+            m_keyChain += hks.OnKey;
             base.Add( hks );
         }
 
@@ -29,7 +29,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///<param name="hks"></param>
         public new void Remove( HotKeySet hks )
         {
-            _keyChain -= hks.OnKey;
+            m_keyChain -= hks.OnKey;
             base.Remove( hks );
         }
 
@@ -39,8 +39,8 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         /// <param name="e"></param>
         internal void OnKey( KeyEventArgsExt e )
         {
-            if ( _keyChain != null )
-                _keyChain( e );
+            if ( m_keyChain != null )
+                m_keyChain( e );
         }
 
     }

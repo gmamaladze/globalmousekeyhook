@@ -9,7 +9,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
     public class HotKeySetsListener : KeyboardHookListener
     {
 
-        private readonly HotKeySetCollection _hksCollection;
+        private readonly HotKeySetCollection m_hksCollection;
 
         ///<summary>
         /// Creates an instance of the HotKeySetsListener, which attaches a Hot Key system to the Hooker selected.
@@ -17,10 +17,10 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///<param name="hksCollection">A collection of HotKeySets</param>
         ///<param name="hooker">Depending on this parameter the listener hooks either application or global keyboard events.</param>
         ///<remarks>Hooks are not active after instantiation. You need to use either <see cref="BaseHookListener.Enabled"/> property or call <see cref="BaseHookListener.Start"/> method.</remarks>
-        public HotKeySetsListener( HotKeySetCollection hksCollection, Hooker hooker ) 
+        public HotKeySetsListener( HotKeySetCollection hksCollection, Hooker hooker )
             : base( hooker )
         {
-            _hksCollection = hksCollection;
+            m_hksCollection = hksCollection;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         {
 
             KeyEventArgsExt e = KeyEventArgsExt.FromRawData( wParam, lParam, IsGlobal );
-            _hksCollection.OnKey( e );
+            m_hksCollection.OnKey( e );
 
             //Can bypass the base by setting the 3 Invoke methods to protected, which will reduce having to create KeyEventArgsExt twice.
             return base.ProcessCallback( wParam, lParam );
@@ -50,7 +50,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///</summary>
         public HotKeySetCollection HotKeyCollection
         {
-            get { return _hksCollection; }
+            get { return m_hksCollection; }
         }
 
     }

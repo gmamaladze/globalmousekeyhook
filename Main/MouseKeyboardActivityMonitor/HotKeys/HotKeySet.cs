@@ -11,29 +11,29 @@ namespace MouseKeyboardActivityMonitor.HotKeys
     {
 
         /*
-         * Example of _remapping:
+         * Example of m_remapping:
          * a single key from the set of Keys requested is chosen to be the reference key (aka primary key)
          * 
-         * _remapping[ Keys.LShiftKey ] = Keys.LShiftKey
-         * _remapping[ Keys.RShiftKey ] = Keys.LShiftKey
+         * m_remapping[ Keys.LShiftKey ] = Keys.LShiftKey
+         * m_remapping[ Keys.RShiftKey ] = Keys.LShiftKey
          * 
-         * This allows the _hotkeystate to use a single key (primary key) from the set that will act on behalf of all the keys in the set, 
+         * This allows the m_hotkeystate to use a single key (primary key) from the set that will act on behalf of all the keys in the set, 
          * which in turn reduces to this:
          * 
          * Keys k = Keys.RShiftKey
          * Keys primaryKey = PrimaryKeyOf( k ) = Keys.LShiftKey
-         * _hotkeystate[ primaryKey ] = true/false
+         * m_hotkeystate[ primaryKey ] = true/false
          */
-        private readonly Dictionary< Keys, Keys > _remapping;       //Used for mapping multiple keys to a single key
-        private readonly Dictionary< Keys, bool > _hotkeystate;     //Keeps track of the status of the set of Keys
-        
-        //These provide the actual status of whether a set is truly activated or not.
-        private int _hotkeydowncount;   //number of hot keys down
-        private int _remappingCount;    //the number of remappings, i.e., a set of mappings, not the individual count in _remapping
+        private readonly Dictionary<Keys, Keys> m_remapping;       //Used for mapping multiple keys to a single key
+        private readonly Dictionary<Keys, bool> m_hotkeystate;     //Keeps track of the status of the set of Keys
 
-        private readonly IEnumerable< Keys > _hotkeys;  //hotkeys provided by the user.
-        private bool _enabled = true;       //enabled by default
-        
+        //These provide the actual status of whether a set is truly activated or not.
+        private int m_hotkeydowncount;   //number of hot keys down
+        private int m_remappingCount;    //the number of remappings, i.e., a set of mappings, not the individual count in m_remapping
+
+        private readonly IEnumerable<Keys> m_hotkeys;  //hotkeys provided by the user.
+        private bool m_enabled = true;       //enabled by default
+
         ///<summary>
         ///A delegate representing the signature for the OnHotKeysDownHold event
         ///</summary>
@@ -77,11 +77,11 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         /// Creates an instance of the HotKeySet class.  Once created, the keys cannot be changed.
         ///</summary>
         ///<param name="hotkeys">Set of Hot Keys</param>
-        public HotKeySet( IEnumerable< Keys > hotkeys )
+        public HotKeySet( IEnumerable<Keys> hotkeys )
         {
-            _hotkeystate = new Dictionary< Keys, bool >();
-            _remapping = new Dictionary< Keys, Keys >();
-            _hotkeys = hotkeys;
+            m_hotkeystate = new Dictionary<Keys, bool>();
+            m_remapping = new Dictionary<Keys, Keys>();
+            m_hotkeys = hotkeys;
             InitializeKeys();
         }
 
@@ -94,12 +94,12 @@ namespace MouseKeyboardActivityMonitor.HotKeys
 
             foreach ( Keys k in HotKeys )
             {
-                
-                if ( _hotkeystate.ContainsKey( k ) )
-                    _hotkeystate.Add( k, false );
+
+                if ( m_hotkeystate.ContainsKey( k ) )
+                    m_hotkeystate.Add( k, false );
 
                 //assign using the current state of the keyboard
-                _hotkeystate[ k ] = KeyboardState.GetCurrent().IsDown( k );
+                m_hotkeystate[ k ] = KeyboardState.GetCurrent().IsDown( k );
 
             }
 
@@ -108,9 +108,9 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///<summary>
         /// Gets the set of hotkeys that this class handles.
         ///</summary>
-        public IEnumerable< Keys > HotKeys
+        public IEnumerable<Keys> HotKeys
         {
-            get { return _hotkeys; }
+            get { return m_hotkeys; }
         }
 
         ///<summary>
@@ -123,21 +123,21 @@ namespace MouseKeyboardActivityMonitor.HotKeys
 
             Keys primaryKey = GetExclusiveOrPrimaryKey( anyKeyInTheExclusiveOrSet );
 
-            if ( primaryKey == Keys.None || !_remapping.ContainsValue( primaryKey ) )
+            if ( primaryKey == Keys.None || !m_remapping.ContainsValue( primaryKey ) )
                 return false;
 
-            List< Keys > keystoremove = new List< Keys >();
+            List<Keys> keystoremove = new List<Keys>();
 
-            foreach ( KeyValuePair< Keys, Keys > pair in _remapping )
+            foreach ( KeyValuePair<Keys, Keys> pair in m_remapping )
             {
                 if ( pair.Value == primaryKey )
-                   keystoremove.Add( pair.Key );
+                    keystoremove.Add( pair.Key );
             }
 
             foreach ( Keys k in keystoremove )
-                _remapping.Remove( k );
+                m_remapping.Remove( k );
 
-            --_remappingCount;
+            --m_remappingCount;
 
             return true;
 
@@ -155,13 +155,13 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///</summary>
         ///<param name="orKeySet"></param>
         ///<returns>Primary key used for mapping or Keys.None on error</returns>
-        public Keys RegisterExclusiveOrKey( IEnumerable< Keys > orKeySet )
+        public Keys RegisterExclusiveOrKey( IEnumerable<Keys> orKeySet )
         {
-            
-            //Verification first, so as to not leave the _remapping with a partial set.
+
+            //Verification first, so as to not leave the m_remapping with a partial set.
             foreach ( Keys k in orKeySet )
             {
-                if ( !_hotkeystate.ContainsKey( k ) )
+                if ( !m_hotkeystate.ContainsKey( k ) )
                     return Keys.None;
             }
 
@@ -175,14 +175,14 @@ namespace MouseKeyboardActivityMonitor.HotKeys
                 if ( i == 0 )
                     primaryKey = k;
 
-                _remapping[ k ] = primaryKey;
+                m_remapping[ k ] = primaryKey;
 
                 ++i;
 
             }
 
             //Must increase to keep a true count of how many keys are necessary for the activation to be true
-            ++_remappingCount;
+            ++m_remappingCount;
 
             return primaryKey;
 
@@ -194,21 +194,21 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         public bool HotKeysActivated
         {
             //The number of sets of remapped keys is used to offset the amount originally specified by the user.
-            get { return _hotkeydowncount == ( _hotkeystate.Count - _remappingCount ); }
+            get { return m_hotkeydowncount == ( m_hotkeystate.Count - m_remappingCount ); }
         }
 
         ///<summary>
         /// Gets or sets the enabled state of the HotKey set.
         ///</summary>
-        public bool Enabled 
-        { 
-            get { return _enabled; }
+        public bool Enabled
+        {
+            get { return m_enabled; }
             set
             {
-                if ( value ) 
+                if ( value )
                     InitializeKeys(); //must get the actual current state of each key to update
 
-                _enabled = value;
+                m_enabled = value;
             }
         }
 
@@ -219,7 +219,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///<returns>The primary key if it exists, otherwise Keys.None</returns>
         private Keys GetExclusiveOrPrimaryKey( Keys k )
         {
-            return ( _remapping.ContainsKey( k ) ? _remapping[ k ] : Keys.None );
+            return ( m_remapping.ContainsKey( k ) ? m_remapping[ k ] : Keys.None );
         }
 
         /// <summary>
@@ -230,7 +230,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         private Keys GetPrimaryKey( Keys k )
         {
             //If the key is remapped then get the primary keys
-            return ( _remapping.ContainsKey( k ) ? _remapping[ k ] : k );
+            return ( m_remapping.ContainsKey( k ) ? m_remapping[ k ] : k );
         }
 
         /// <summary>
@@ -260,11 +260,11 @@ namespace MouseKeyboardActivityMonitor.HotKeys
                 InvokeHotKeyHandler( OnHotKeysDownHold );          //Call the duration event
 
             //indicates the key's state is current false but the key is now down
-            else if ( _hotkeystate.ContainsKey( k ) && !_hotkeystate[ k ] )
+            else if ( m_hotkeystate.ContainsKey( k ) && !m_hotkeystate[ k ] )
             {
 
-                _hotkeystate[ k ] = true;           //key's state is down
-                ++_hotkeydowncount;                 //increase the number of keys down in this set
+                m_hotkeystate[ k ] = true;           //key's state is down
+                ++m_hotkeydowncount;                 //increase the number of keys down in this set
 
                 if ( HotKeysActivated )             //because of the increase, check whether the set is activated
                     InvokeHotKeyHandler( OnHotKeysDownOnce ); //Call the initial event
@@ -276,19 +276,19 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         private void OnKeyUp( Keys k )
         {
 
-            if ( _hotkeystate.ContainsKey( k ) && _hotkeystate[ k ] ) //indicates the key's state was down but now it's up
+            if ( m_hotkeystate.ContainsKey( k ) && m_hotkeystate[ k ] ) //indicates the key's state was down but now it's up
             {
 
                 bool wasActive = HotKeysActivated;
 
-                _hotkeystate[ k ] = false;          //key's state is up
-                --_hotkeydowncount;                 //this set is no longer ready
+                m_hotkeystate[ k ] = false;          //key's state is up
+                --m_hotkeydowncount;                 //this set is no longer ready
 
                 if ( wasActive )
                     InvokeHotKeyHandler( OnHotKeysUp );            //call the KeyUp event because the set is no longer active
 
             }
-        
+
         }
 
     }

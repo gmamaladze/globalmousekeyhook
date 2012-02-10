@@ -14,17 +14,18 @@ namespace MouseKeyboardActivityMonitor
         /// Initializes a new instance of the <see cref="KeyEventArgsExt"/> class.
         /// </summary>
         /// <param name="keyData"></param>
-        public KeyEventArgsExt(Keys keyData)
-            : base(keyData)
+        public KeyEventArgsExt( Keys keyData )
+            : base( keyData )
         {
         }
 
-        internal KeyEventArgsExt(Keys keyData, int timestamp, bool isKeyDown, bool isKeyUp)
-            : this(keyData)
+        internal KeyEventArgsExt( Keys keyData, int timestamp, bool isKeyDown, bool isKeyUp, char unicodeChar )
+            : this( keyData )
         {
             Timestamp = timestamp;
             IsKeyDown = isKeyDown;
             IsKeyUp = isKeyUp;
+            UnicodeChar = unicodeChar;
         }
 
         /// <summary>
@@ -34,11 +35,11 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="lParam">The second Windows Message parameter.</param>
         /// <param name="isGlobal">Specifies if the hook is local or global.</param>
         /// <returns>A new KeyEventArgsExt object.</returns>
-        internal static KeyEventArgsExt FromRawData(int wParam, IntPtr lParam, bool isGlobal)
+        internal static KeyEventArgsExt FromRawData( int wParam, IntPtr lParam, bool isGlobal )
         {
             return isGlobal ?
-                FromRawDataGlobal(wParam, lParam) :
-                FromRawDataApp(wParam, lParam);
+                FromRawDataGlobal( wParam, lParam ) :
+                FromRawDataApp( wParam, lParam );
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="wParam">The first Windows Message parameter.</param>
         /// <param name="lParam">The second Windows Message parameter.</param>
         /// <returns>A new KeyEventArgsExt object.</returns>
-        private static KeyEventArgsExt FromRawDataApp(int wParam, IntPtr lParam)
+        private static KeyEventArgsExt FromRawDataApp( int wParam, IntPtr lParam )
         {
             //http://msdn.microsoft.com/en-us/library/ms644984(v=VS.85).aspx
 
@@ -64,20 +65,32 @@ namespace MouseKeyboardActivityMonitor
             // flags = uint.Parse(lParam.ToString());
             flags = Convert.ToUInt32(lParam.ToInt64());
 #else
-            flags = (uint)lParam;
+            //updated from ( uint )lParam, which threw an integer overflow exception in unicode characters
+            flags = ( uint )lParam.ToInt64();
 #endif
 
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
-            bool wasKeyDown = (flags & maskKeydown) > 0;
+            bool wasKeyDown = ( flags & maskKeydown ) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
-            bool isKeyReleased = (flags & maskKeyup) > 0;
+            bool isKeyReleased = ( flags & maskKeyup ) > 0;
 
-            Keys keyData = AppendModifierStates((Keys)wParam);
+            Keys keyData = AppendModifierStates( ( Keys )wParam );
 
             bool isKeyDown = !wasKeyDown && !isKeyReleased;
             bool isKeyUp = wasKeyDown && isKeyReleased;
 
-            return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp);
+            /*
+             * No character information is provided at the application level when unicode is used.  Here's the excerpt from MSDN:
+             * 
+             * To retrieve character codes, an application must include the TranslateMessage function in its thread message loop. 
+             * TranslateMessage passes a WM_KEYDOWN or WM_SYSKEYDOWN message to the keyboard layout. The layout examines the message's 
+             * virtual-key code and, if it corresponds to a character key, provides the character code equivalent (taking into account 
+             * the state of the SHIFT and CAPS LOCK keys). It then generates a character message that includes the character code and 
+             * places the message at the top of the message queue. The next iteration of the message loop removes the character message 
+             * from the queue and dispatches the message to the appropriate window procedure. 
+             */
+            return new KeyEventArgsExt( keyData, timestamp, isKeyDown, isKeyUp, ( char )0 );
+
         }
 
         /// <summary>
@@ -87,48 +100,51 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="wParam">The first Windows Message parameter.</param>
         /// <param name="lParam">The second Windows Message parameter.</param>
         /// <returns>A new KeyEventArgsExt object.</returns>
-        private static KeyEventArgsExt FromRawDataGlobal(int wParam, IntPtr lParam)
+        private static KeyEventArgsExt FromRawDataGlobal( int wParam, IntPtr lParam )
         {
-            KeyboardHookStruct keyboardHookStruct = (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
-            Keys keyData = AppendModifierStates((Keys)keyboardHookStruct.VirtualKeyCode);
-            bool isKeyDown = (wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN);
-            bool isKeyUp = (wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP);
+            KeyboardHookStruct keyboardHookStruct = ( KeyboardHookStruct )Marshal.PtrToStructure( lParam, typeof( KeyboardHookStruct ) );
+            Keys keyData = AppendModifierStates( ( Keys )keyboardHookStruct.VirtualKeyCode );
+            bool isKeyDown = ( wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN );
+            bool isKeyUp = ( wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP );
 
-            return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp);
+            return ( keyboardHookStruct.VirtualKeyCode != KeyboardNativeMethods.VK_PACKET )
+                ? ( new KeyEventArgsExt( keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ( char )0 ) )
+                : ( new KeyEventArgsExt( keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ( char )AppendModifierStates( ( Keys )keyboardHookStruct.ScanCode ) ) );
         }
 
+        // Generalized to an integer value for unicode support
         // # It is not possible to distinguish Keys.LControlKey and Keys.RControlKey when they are modifiers
         // Check for Keys.Control instead
         // Same for Shift and Alt(Menu)
         // See more at http://www.tech-archive.net/Archive/DotNet/microsoft.public.dotnet.framework.windowsforms/2008-04/msg00127.html #
-        private static Keys AppendModifierStates(Keys keyData)
+        private static Keys AppendModifierStates( Keys keyData )
         {
             // Is Control being held down?
-            bool control = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LCONTROL) & 0x80) != 0) ||
-                           ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RCONTROL) & 0x80) != 0);
+            bool control = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LCONTROL ) & 0x80 ) != 0 ) ||
+                           ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RCONTROL ) & 0x80 ) != 0 );
 
             // Is Shift being held down?
-            bool shift = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LSHIFT) & 0x80) != 0) ||
-                         ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RSHIFT) & 0x80) != 0);
+            bool shift = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LSHIFT ) & 0x80 ) != 0 ) ||
+                         ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RSHIFT ) & 0x80 ) != 0 );
 
             // Is Alt being held down?
-            bool alt = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LMENU) & 0x80) != 0) ||
-                       ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RMENU) & 0x80) != 0);
+            bool alt = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LMENU ) & 0x80 ) != 0 ) ||
+                       ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RMENU ) & 0x80 ) != 0 );
 
             // Windows keys
-            bool winL = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_LWIN) & 0x80) != 0);
-            bool winR = ((KeyboardNativeMethods.GetKeyState(KeyboardNativeMethods.VK_RWIN) & 0x80) != 0);
+            bool winL = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LWIN ) & 0x80 ) != 0 );
+            bool winR = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RWIN ) & 0x80 ) != 0 );
 
             // Function (Fn) key
-            // # Can NOT determine state due to conversion inside keyboard
+            // # CANNOT determine state due to conversion inside keyboard
             // See http://en.wikipedia.org/wiki/Fn_key#Technical_details #
 
             return keyData |
-                (control ? Keys.Control : Keys.None) |
-                (shift ? Keys.Shift : Keys.None) |
-                (alt ? Keys.Alt : Keys.None) |
-                (winL ? Keys.LWin : Keys.None) |
-                (winR ? Keys.RWin : Keys.None);
+                ( control ? Keys.Control : Keys.None ) |
+                ( shift ? Keys.Shift : Keys.None ) |
+                ( alt ? Keys.Alt : Keys.None ) |
+                ( winL ? Keys.LWin : Keys.None ) |
+                ( winR ? Keys.RWin : Keys.None );
         }
 
         /// <summary>
@@ -145,5 +161,12 @@ namespace MouseKeyboardActivityMonitor
         /// True if event singnals key up.
         /// </summary>
         public bool IsKeyUp { get; private set; }
+
+        ///<summary>
+        /// Returns 0 if the character is not Unicode, otherwise it returns the Unicode character.  If using at the application-level
+        /// hook then this is ALWAYS 0.
+        ///</summary>
+        public char UnicodeChar { get; private set; }
+
     }
 }

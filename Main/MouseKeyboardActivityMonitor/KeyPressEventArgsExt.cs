@@ -64,7 +64,8 @@ namespace MouseKeyboardActivityMonitor
             // flags = uint.Parse(lParam.ToString());
             flags = Convert.ToUInt32(lParam.ToInt64());
 #else
-            flags = (uint)lParam;
+            //updated from ( uint )lParam, which threw an integer overflow exception in unicode characters
+            flags = ( uint )lParam.ToInt64();
 #endif
 
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
@@ -82,10 +83,18 @@ namespace MouseKeyboardActivityMonitor
             const int fuState = 0;
 
             char ch;
-            bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
-            if (!isSuccessfull)
+
+            if ( virtualKeyCode == KeyboardNativeMethods.VK_PACKET )
             {
-                return new KeyPressEventArgsExt((char)0);
+                ch = ( char )scanCode;
+            }
+            else
+            {
+                bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState( virtualKeyCode, scanCode, fuState, out ch );
+                if ( !isSuccessfull )
+                {
+                    return new KeyPressEventArgsExt( ( char )0 );
+                }
             }
             
             return new KeyPressEventArgsExt(ch);

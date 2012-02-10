@@ -8,7 +8,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
     public sealed class HotKeyArgs : EventArgs
     {
 
-        private readonly HotKeySet _sender;
+        private readonly HotKeySet m_sender;
 
         ///<summary>
         /// Creates an instance of the HotKeyArgs, using the HotKeySet as its context, which will be handed back to the user
@@ -17,7 +17,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///<param name="sender">The context/sender</param>
         public HotKeyArgs( HotKeySet sender )
         {
-            _sender = sender;
+            m_sender = sender;
         }
 
         ///<summary>
@@ -25,7 +25,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///</summary>
         public HotKeySet Sender
         {
-            get { return _sender; }
+            get { return m_sender; }
         }
 
     }
