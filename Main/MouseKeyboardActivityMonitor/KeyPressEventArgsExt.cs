@@ -122,10 +122,17 @@ namespace MouseKeyboardActivityMonitor
             int fuState = keyboardHookStruct.Flags;
 
             char ch;
-            bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out ch);
-            if (!isSuccessfull)
+            if ( virtualKeyCode == KeyboardNativeMethods.VK_PACKET )
             {
-                return new KeyPressEventArgsExt((char)0);
+                ch = ( char )scanCode;
+            }
+            else
+            {
+                bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState( virtualKeyCode, scanCode, fuState, out ch );
+                if ( !isSuccessfull )
+                {
+                    return new KeyPressEventArgsExt( ( char )0 );
+                }
             }
 
             KeyPressEventArgsExt e = new KeyPressEventArgsExt(ch,  keyboardHookStruct.Time);
