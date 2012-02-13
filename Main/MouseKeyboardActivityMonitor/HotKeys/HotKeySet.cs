@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace MouseKeyboardActivityMonitor.HotKeys
@@ -37,8 +38,9 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         ///<summary>
         ///A delegate representing the signature for the OnHotKeysDownHold event
         ///</summary>
+        ///<param name="sender"></param>
         ///<param name="e"></param>
-        public delegate void HotKeyHandler( HotKeySet e );
+        public delegate void HotKeyHandler( object sender, HotKeyArgs e );
 
         ///<summary>
         ///Called as the user holds down the keys in the set.  It is NOT triggered the first time the keys are set. <see cref="OnHotKeysDownOnce"/>
@@ -57,10 +59,14 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         /// </summary>
         public event HotKeyHandler OnHotKeysDownOnce;
 
+        /// <summary>
+        /// General invocation handler
+        /// </summary>
+        /// <param name="hotKeyDelegate"></param>
         private void InvokeHotKeyHandler( HotKeyHandler hotKeyDelegate )
         {
             if ( hotKeyDelegate != null )
-                hotKeyDelegate( this );
+                hotKeyDelegate( this, new HotKeyArgs( DateTime.Now ) );
         }
 
         /// <summary>

@@ -8,24 +8,23 @@ namespace MouseKeyboardActivityMonitor.HotKeys
     public sealed class HotKeyArgs : EventArgs
     {
 
-        private readonly HotKeySet m_sender;
+        private readonly DateTime m_TimeOfExecution;
 
         ///<summary>
-        /// Creates an instance of the HotKeyArgs, using the HotKeySet as its context, which will be handed back to the user
-        /// when the event is triggered.
+        /// Creates an instance of the HotKeyArgs.
+        /// <param name="triggeredAt">Time when the event was triggered</param>
         ///</summary>
-        ///<param name="sender">The context/sender</param>
-        public HotKeyArgs( HotKeySet sender )
+        public HotKeyArgs( DateTime triggeredAt )
         {
-            m_sender = sender;
+            m_TimeOfExecution = triggeredAt;
         }
 
         ///<summary>
-        /// The HotKeySet that triggered the event
+        /// Time when the event was triggered
         ///</summary>
-        public HotKeySet Sender
+        public DateTime Time
         {
-            get { return m_sender; }
+            get { return m_TimeOfExecution; }
         }
 
     }
