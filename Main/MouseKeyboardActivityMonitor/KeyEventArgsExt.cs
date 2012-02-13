@@ -79,17 +79,11 @@ namespace MouseKeyboardActivityMonitor
             bool isKeyDown = !wasKeyDown && !isKeyReleased;
             bool isKeyUp = wasKeyDown && isKeyReleased;
 
-            /*
-             * No character information is provided at the application level when unicode is used.  Here's the excerpt from MSDN:
-             * 
-             * To retrieve character codes, an application must include the TranslateMessage function in its thread message loop. 
-             * TranslateMessage passes a WM_KEYDOWN or WM_SYSKEYDOWN message to the keyboard layout. The layout examines the message's 
-             * virtual-key code and, if it corresponds to a character key, provides the character code equivalent (taking into account 
-             * the state of the SHIFT and CAPS LOCK keys). It then generates a character message that includes the character code and 
-             * places the message at the top of the message queue. The next iteration of the message loop removes the character message 
-             * from the queue and dispatches the message to the appropriate window procedure. 
-             */
-            return new KeyEventArgsExt( keyData, timestamp, isKeyDown, isKeyUp, ( char )0 );
+            char ch;
+
+            //translated based on the active application's keyboard layout.
+            KeyboardNativeMethods.TryGetCharFromKeyboardState( wParam, ( int )flags, out ch );
+            return new KeyEventArgsExt( keyData, timestamp, isKeyDown, isKeyUp, ch );
 
         }
 
@@ -102,17 +96,24 @@ namespace MouseKeyboardActivityMonitor
         /// <returns>A new KeyEventArgsExt object.</returns>
         private static KeyEventArgsExt FromRawDataGlobal( int wParam, IntPtr lParam )
         {
+
             KeyboardHookStruct keyboardHookStruct = ( KeyboardHookStruct )Marshal.PtrToStructure( lParam, typeof( KeyboardHookStruct ) );
             Keys keyData = AppendModifierStates( ( Keys )keyboardHookStruct.VirtualKeyCode );
+
             bool isKeyDown = ( wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN );
             bool isKeyUp = ( wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP );
 
-            return ( keyboardHookStruct.VirtualKeyCode != KeyboardNativeMethods.VK_PACKET )
-                ? ( new KeyEventArgsExt( keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ( char )0 ) )
-                : ( new KeyEventArgsExt( keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ( char )AppendModifierStates( ( Keys )keyboardHookStruct.ScanCode ) ) );
+            //sent explicitly as a unicode character
+            if ( keyboardHookStruct.VirtualKeyCode == KeyboardNativeMethods.VK_PACKET )
+                return new KeyEventArgsExt( keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ( char )AppendModifierStates( ( Keys )keyboardHookStruct.ScanCode ) );
+
+            //Translate based on the application's keyboard layout
+            char ch;
+            KeyboardNativeMethods.TryGetCharFromKeyboardState( keyboardHookStruct.VirtualKeyCode, keyboardHookStruct.ScanCode, keyboardHookStruct.Flags, out ch );
+            return new KeyEventArgsExt( keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ch );
+
         }
 
-        // Generalized to an integer value for unicode support
         // # It is not possible to distinguish Keys.LControlKey and Keys.RControlKey when they are modifiers
         // Check for Keys.Control instead
         // Same for Shift and Alt(Menu)
@@ -163,8 +164,7 @@ namespace MouseKeyboardActivityMonitor
         public bool IsKeyUp { get; private set; }
 
         ///<summary>
-        /// Returns 0 if the character is not Unicode, otherwise it returns the Unicode character.  If using at the application-level
-        /// hook then this is ALWAYS 0.
+        /// Returns the character representation
         ///</summary>
         public char UnicodeChar { get; private set; }
 

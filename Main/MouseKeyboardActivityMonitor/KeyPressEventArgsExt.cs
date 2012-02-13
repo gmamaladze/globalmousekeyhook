@@ -11,10 +11,10 @@ namespace MouseKeyboardActivityMonitor
     public class KeyPressEventArgsExt : KeyPressEventArgs
     {
 
-        internal KeyPressEventArgsExt(char keyChar, int timestamp)
-            : base(keyChar)
+        internal KeyPressEventArgsExt( char keyChar, int timestamp )
+            : base( keyChar )
         {
-            IsNonChar = keyChar == (char)0x0;
+            IsNonChar = keyChar == ( char )0x0;
             Timestamp = timestamp;
         }
 
@@ -22,10 +22,10 @@ namespace MouseKeyboardActivityMonitor
         /// Initializes a new instance of the <see cref='KeyPressEventArgsExt'/> class.
         /// </summary>
         /// <param name="keyChar">Character corresponding to the key pressed. 0 char if represens a system or functional non char key.</param>
-        public KeyPressEventArgsExt(char keyChar)
-            : this(keyChar, Environment.TickCount)
+        public KeyPressEventArgsExt( char keyChar )
+            : this( keyChar, Environment.TickCount )
         {
-            
+
         }
 
         /// <summary>
@@ -35,11 +35,11 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="lParam">The second Windows Message parameter.</param>
         /// <param name="isGlobal">Specifies if the hook is local or global.</param>
         /// <returns>A new KeyPressEventArgsExt object.</returns>
-        internal static KeyPressEventArgsExt FromRawData(int wParam, IntPtr lParam, bool isGlobal)
+        internal static KeyPressEventArgsExt FromRawData( int wParam, IntPtr lParam, bool isGlobal )
         {
             return isGlobal ?
-                FromRawDataGlobal(wParam, lParam) :
-                FromRawDataApp(wParam, lParam);
+                FromRawDataGlobal( wParam, lParam ) :
+                FromRawDataApp( wParam, lParam );
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="wParam">The first Windows Message parameter.</param>
         /// <param name="lParam">The second Windows Message parameter.</param>
         /// <returns>A new KeyPressEventArgsExt object.</returns>
-        private static KeyPressEventArgsExt FromRawDataApp(int wParam, IntPtr lParam)
+        private static KeyPressEventArgsExt FromRawDataApp( int wParam, IntPtr lParam )
         {
             //http://msdn.microsoft.com/en-us/library/ms644984(v=VS.85).aspx
 
@@ -69,35 +69,28 @@ namespace MouseKeyboardActivityMonitor
 #endif
 
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
-            bool wasKeyDown = (flags & maskKeydown) > 0;
+            bool wasKeyDown = ( flags & maskKeydown ) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
-            bool isKeyReleased = (flags & maskKeyup) > 0;
+            bool isKeyReleased = ( flags & maskKeyup ) > 0;
 
-            if (!wasKeyDown && !isKeyReleased)
+            if ( !wasKeyDown && !isKeyReleased )
             {
-                return new KeyPressEventArgsExt((char)0);
+                return new KeyPressEventArgsExt( ( char )0 );
             }
 
             int virtualKeyCode = wParam;
-            int scanCode = checked((int)(flags & maskScanCode));
+            int scanCode = checked( ( int )( flags & maskScanCode ) );
             const int fuState = 0;
 
             char ch;
 
-            if ( virtualKeyCode == KeyboardNativeMethods.VK_PACKET )
+            bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState( virtualKeyCode, scanCode, fuState, out ch );
+            if ( !isSuccessfull )
             {
-                ch = ( char )scanCode;
+                return new KeyPressEventArgsExt( ( char )0 );
             }
-            else
-            {
-                bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState( virtualKeyCode, scanCode, fuState, out ch );
-                if ( !isSuccessfull )
-                {
-                    return new KeyPressEventArgsExt( ( char )0 );
-                }
-            }
-            
-            return new KeyPressEventArgsExt(ch);
+
+            return new KeyPressEventArgsExt( ch );
 
         }
 
@@ -108,20 +101,21 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="wParam">The first Windows Message parameter.</param>
         /// <param name="lParam">The second Windows Message parameter.</param>
         /// <returns>A new KeyPressEventArgsExt object.</returns>
-        internal static KeyPressEventArgsExt FromRawDataGlobal(int wParam, IntPtr lParam)
+        internal static KeyPressEventArgsExt FromRawDataGlobal( int wParam, IntPtr lParam )
         {
-            if (wParam != Messages.WM_KEYDOWN)
+            if ( wParam != Messages.WM_KEYDOWN )
             {
-                return new KeyPressEventArgsExt((char)0);
+                return new KeyPressEventArgsExt( ( char )0 );
             }
 
-            KeyboardHookStruct keyboardHookStruct = (KeyboardHookStruct)Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
+            KeyboardHookStruct keyboardHookStruct = ( KeyboardHookStruct )Marshal.PtrToStructure( lParam, typeof( KeyboardHookStruct ) );
 
             int virtualKeyCode = keyboardHookStruct.VirtualKeyCode;
             int scanCode = keyboardHookStruct.ScanCode;
             int fuState = keyboardHookStruct.Flags;
 
             char ch;
+
             if ( virtualKeyCode == KeyboardNativeMethods.VK_PACKET )
             {
                 ch = ( char )scanCode;
@@ -135,7 +129,7 @@ namespace MouseKeyboardActivityMonitor
                 }
             }
 
-            KeyPressEventArgsExt e = new KeyPressEventArgsExt(ch,  keyboardHookStruct.Time);
+            KeyPressEventArgsExt e = new KeyPressEventArgsExt( ch, keyboardHookStruct.Time );
             return e;
         }
 
@@ -143,7 +137,7 @@ namespace MouseKeyboardActivityMonitor
         /// True if represents a system or functional non char key.
         /// </summary>
         public bool IsNonChar { get; private set; }
-        
+
         /// <summary>
         /// The system tick count of when the event occured.
         /// </summary> 
