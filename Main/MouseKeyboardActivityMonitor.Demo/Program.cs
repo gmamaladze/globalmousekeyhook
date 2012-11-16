@@ -12,6 +12,7 @@ namespace MouseKeyboardActivityMonitor.Demo
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new TestFormHookListeners());
+
             //Application.Run(new TestCommonWinFormsBehaviour());
         }
     }
