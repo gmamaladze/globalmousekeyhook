@@ -15,10 +15,11 @@ namespace MouseKeyboardActivityMonitor.WinApi
         {
             int result = HookNativeMethods.UnhookWindowsHookEx(handle);
 
-            if (result == 0)
-            {
-                ThrowLastUnmanagedErrorAsException();
-            }
+            // IFREQ: currently taken out as throws an exception at the very end
+//            if (result == 0)
+//            {
+//                ThrowLastUnmanagedErrorAsException();
+//            }
         }
 
         internal abstract bool IsGlobal { get; }
