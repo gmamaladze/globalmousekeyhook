@@ -225,7 +225,7 @@ namespace MouseKeyboardActivityMonitor
 		/// </summary>
 		/// <remarks>
 		/// This event provides extended arguments of type <see cref = "MouseEventArgs" /> enabling you to 
-		/// supress further processing of mouse movement in other applications.
+		/// suppress further processing of mouse movement in other applications.
 		/// </remarks>
 		public event EventHandler<MouseEventExtArgs> MouseMoveExt;
 
@@ -239,9 +239,9 @@ namespace MouseKeyboardActivityMonitor
 		/// </summary>
 		/// <remarks>
 		/// This event provides extended arguments of type <see cref = "MouseEventArgs" /> enabling you to 
-		/// supress further processing of mouse click in other applications.
+		/// suppress further processing of mouse click in other applications.
 		/// </remarks>
-		[Obsolete("To supress mouse clicks use MouseDownExt event instead.")]
+		[Obsolete("To suppress mouse clicks use MouseDownExt event instead.")]
 		public event EventHandler<MouseEventExtArgs> MouseClickExt;
 
 		/// <summary>
@@ -254,7 +254,7 @@ namespace MouseKeyboardActivityMonitor
 		/// </summary>
 		/// <remarks>
 		/// This event provides extended arguments of type <see cref = "MouseEventArgs" /> enabling you to 
-		/// supress further processing of mouse click in other applications.
+		/// suppress further processing of mouse click in other applications.
 		/// </remarks>
 		public event EventHandler<MouseEventExtArgs> MouseDownExt;
 
@@ -274,8 +274,8 @@ namespace MouseKeyboardActivityMonitor
 		public event MouseEventHandler MouseDoubleClick;
 
 	    /// <summary>
-	    /// Method to be used from <see cref="Dispose"/> and finalizer.
-	    /// Override this method to release subclass sepcific references.
+	    /// Method to be used from <see cref="Dispose"/> and Finalizer.
+	    /// Override this method to release subclass specific references.
 	    /// </summary>
 	    protected override void Dispose(bool isDisposing)
 		{

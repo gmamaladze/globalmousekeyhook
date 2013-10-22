@@ -65,7 +65,7 @@ namespace MouseKeyboardActivityMonitor
             // flags = uint.Parse(lParam.ToString());
             flags = Convert.ToUInt32(lParam.ToInt64());
 #else
-            //updated from ( uint )lParam, which threw an integer overflow exception in unicode characters
+            //updated from ( uint )lParam, which threw an integer overflow exception in Unicode characters
             flags = ( uint )lParam.ToInt64();
 #endif
 
@@ -103,7 +103,7 @@ namespace MouseKeyboardActivityMonitor
             bool isKeyDown = ( wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN );
             bool isKeyUp = ( wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP );
 
-            //sent explicitly as a unicode character
+            //sent explicitly as a Unicode character
             if ( keyboardHookStruct.VirtualKeyCode == KeyboardNativeMethods.VK_PACKET )
                 return new KeyEventArgsExt( keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ( char )AppendModifierStates( ( Keys )keyboardHookStruct.ScanCode ) );
 
@@ -149,17 +149,17 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// The system tick count of when the event occured.
+        /// The system tick count of when the event occurred.
         /// </summary>
         public int Timestamp { get; private set; }
 
         /// <summary>
-        /// True if event singnals key down..
+        /// True if event signals key down..
         /// </summary>
         public bool IsKeyDown { get; private set; }
 
         /// <summary>
-        /// True if event singnals key up.
+        /// True if event signals key up.
         /// </summary>
         public bool IsKeyUp { get; private set; }
 

@@ -4,7 +4,7 @@ using MouseKeyboardActivityMonitor.WinApi;
 namespace MouseKeyboardActivityMonitor
 {
     /// <summary>
-    /// Base class used to implement mouse or keybord hook listeners.
+    /// Base class used to implement mouse or keyboard hook listeners.
     /// It provides base methods to subscribe and unsubscribe to hooks.
     /// Common processing, error handling and cleanup logic.
     /// </summary>
@@ -83,7 +83,7 @@ namespace MouseKeyboardActivityMonitor
         {
             if (Enabled)
             {
-                throw new InvalidOperationException("Hook listener is already started. Call Stop() method firts or use Enabled property.");
+                throw new InvalidOperationException("Hook listener is already started. Call Stop() method first or use Enabled property.");
             }
 
             HookCallbackReferenceKeeper = new HookCallback(HookCallback);
@@ -152,7 +152,7 @@ namespace MouseKeyboardActivityMonitor
                 bool mustEnable = value;
                 if (mustEnable)
                 {
-                    if (!Enabled)
+                    if (!Enabled) 
                     {
                         Start();
                     }
@@ -178,8 +178,8 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Method to be used from Dispose and finalizer.
-        /// Override this method to release subclass sepcific references.
+        /// Method to be used from Dispose and Finalizer.
+        /// Override this method to release subclass specific references.
         /// </summary>
         protected virtual void Dispose(bool isDisposing)
         {
@@ -197,7 +197,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Unsubscribes from global hooks skiping error handling.
+        /// Unsubscribes from global hooks skipping error handling.
         /// </summary>
         ~BaseHookListener()
         {

@@ -6,4 +6,4 @@ using System.Reflection;
 [assembly: AssemblyProduct("Mouse and Keyboard Hooks .NET")]
 [assembly: AssemblyCopyright("Open Source under Ms-PL License.")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("4.0.0.*")]
+[assembly: AssemblyVersion("4.0.*")]

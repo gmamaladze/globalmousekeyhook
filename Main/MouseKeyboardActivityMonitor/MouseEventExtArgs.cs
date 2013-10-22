@@ -54,7 +54,7 @@ namespace MouseKeyboardActivityMonitor
         /// Creates <see cref="MouseEventExtArgs"/> from relevant mouse data. 
         /// </summary>
         /// <param name="wParam">First Windows Message parameter.</param>
-        /// <param name="mouseInfo">A MouseStruct containing information from which to contruct MouseEventExtArgs.</param>
+        /// <param name="mouseInfo">A MouseStruct containing information from which to construct MouseEventExtArgs.</param>
         /// <returns>A new MouseEventExtArgs object.</returns>
         private static MouseEventExtArgs FromRawDataUniversal(int wParam, MouseStruct mouseInfo)
         {
@@ -157,9 +157,9 @@ namespace MouseKeyboardActivityMonitor
         /// <param name="clicks">The number of times a mouse button was pressed.</param>
         /// <param name="point">The x and y -coordinate of a mouse click, in pixels.</param>
         /// <param name="delta">A signed count of the number of detents the wheel has rotated.</param>
-        /// <param name="timestamp">The system tick count when the event occured.</param>
-        /// <param name="isMouseKeyDown">True if event singnals mouse button down.</param>
-        /// <param name="isMouseKeyUp">True if event singnals mouse button up.</param>
+        /// <param name="timestamp">The system tick count when the event occurred.</param>
+        /// <param name="isMouseKeyDown">True if event signals mouse button down.</param>
+        /// <param name="isMouseKeyUp">True if event signals mouse button up.</param>
         internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, int timestamp,  bool isMouseKeyDown, bool isMouseKeyUp)
             : base(buttons, clicks, point.X, point.Y, delta)
         {
@@ -195,7 +195,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// True if event singnals mouse button down.
+        /// True if event signals mouse button down.
         /// </summary>
         public bool IsMouseKeyDown
         {
@@ -204,7 +204,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// True if event singnals mouse button up.
+        /// True if event signals mouse button up.
         /// </summary>
         public bool IsMouseKeyUp
         {
@@ -213,7 +213,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// The system tick count of when the event occured.
+        /// The system tick count of when the event occurred.
         /// </summary>
         public int Timestamp
         {

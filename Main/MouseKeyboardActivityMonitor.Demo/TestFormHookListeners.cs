@@ -148,7 +148,7 @@ namespace MouseKeyboardActivityMonitor.Demo
         #endregion
 
         //##################################################################
-        #region Event handlers of particular events. They will be activated when an appropriate checkbox is checked.
+        #region Event handlers of particular events. They will be activated when an appropriate check box is checked.
 
         private void HookManager_KeyDown(object sender, KeyEventArgs e)
         {

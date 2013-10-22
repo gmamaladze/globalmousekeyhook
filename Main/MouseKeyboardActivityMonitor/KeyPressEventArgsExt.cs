@@ -21,7 +21,7 @@ namespace MouseKeyboardActivityMonitor
         /// <summary>
         /// Initializes a new instance of the <see cref='KeyPressEventArgsExt'/> class.
         /// </summary>
-        /// <param name="keyChar">Character corresponding to the key pressed. 0 char if represens a system or functional non char key.</param>
+        /// <param name="keyChar">Character corresponding to the key pressed. 0 char if represents a system or functional non char key.</param>
         public KeyPressEventArgsExt( char keyChar )
             : this( keyChar, Environment.TickCount )
         {
@@ -64,7 +64,7 @@ namespace MouseKeyboardActivityMonitor
             // flags = uint.Parse(lParam.ToString());
             flags = Convert.ToUInt32(lParam.ToInt64());
 #else
-            //updated from ( uint )lParam, which threw an integer overflow exception in unicode characters
+            //updated from ( uint )lParam, which threw an integer overflow exception in Unicode characters
             flags = ( uint )lParam.ToInt64();
 #endif
 
@@ -139,7 +139,7 @@ namespace MouseKeyboardActivityMonitor
         public bool IsNonChar { get; private set; }
 
         /// <summary>
-        /// The system tick count of when the event occured.
+        /// The system tick count of when the event occurred.
         /// </summary> 
         public int Timestamp { get; private set; }
     }

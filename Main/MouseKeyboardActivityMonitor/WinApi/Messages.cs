@@ -79,14 +79,14 @@
         public const int WM_XBUTTONDBLCLK = 0x20D;
 
         /// <summary>
-        /// The WM_KEYDOWN message is posted to the window with the keyboard focus when a nonsystem 
-        /// key is pressed. A nonsystem key is a key that is pressed when the ALT key is not pressed.
+        /// The WM_KEYDOWN message is posted to the window with the keyboard focus when a non-system 
+        /// key is pressed. A non-system key is a key that is pressed when the ALT key is not pressed.
         /// </summary>
         public const int WM_KEYDOWN = 0x100;
 
         /// <summary>
-        /// The WM_KEYUP message is posted to the window with the keyboard focus when a nonsystem 
-        /// key is released. A nonsystem key is a key that is pressed when the ALT key is not pressed, 
+        /// The WM_KEYUP message is posted to the window with the keyboard focus when a non-system 
+        /// key is released. A non-system key is a key that is pressed when the ALT key is not pressed, 
         /// or a keyboard key that is pressed when a window has the keyboard focus.
         /// </summary>
         public const int WM_KEYUP = 0x101;

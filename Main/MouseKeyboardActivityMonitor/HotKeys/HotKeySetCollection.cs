@@ -34,7 +34,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         }
 
         /// <summary>
-        /// Uses a multicase delegate to invoke individual HotKeySets if the Key is in use by any HotKeySets.
+        /// Uses a multi-case delegate to invoke individual HotKeySets if the Key is in use by any HotKeySets.
         /// </summary>
         /// <param name="e"></param>
         internal void OnKey( KeyEventArgsExt e )

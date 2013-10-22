@@ -53,7 +53,7 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Occurs when a key is preseed. 
+        /// Occurs when a key is pressed. 
         /// </summary>
         public event KeyEventHandler KeyDown;
 
@@ -74,7 +74,7 @@ namespace MouseKeyboardActivityMonitor
         /// <item>KeyPress</item>
         /// <item>KeyUp</item>
         /// </list>
-        ///The KeyPress event is not raised by noncharacter keys; however, the noncharacter keys do raise the KeyDown and KeyUp events. 
+        ///The KeyPress event is not raised by non-character keys; however, the non-character keys do raise the KeyDown and KeyUp events. 
         ///Use the KeyChar property to sample keystrokes at run time and to consume or modify a subset of common keystrokes. 
         ///To handle keyboard events only in your application and not enable other applications to receive keyboard events, 
         ///set the <see cref="KeyPressEventArgs.Handled"/> property in your form's KeyPress event-handling method to <b>true</b>. 
@@ -105,10 +105,9 @@ namespace MouseKeyboardActivityMonitor
             handler(this, e);
         }
 
-
         /// <summary>
-        /// Method to be used from <see cref="Dispose"/> and finalizer.
-        /// Override this method to release subclass sepcific references.
+        /// Method to be used from <see cref="Dispose"/> and Finalizer.
+        /// Override this method to release subclass specific references.
         /// </summary>
         protected override void Dispose(bool isDisposing)
         {

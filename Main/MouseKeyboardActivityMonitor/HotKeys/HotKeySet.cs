@@ -123,7 +123,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
         /// Unregisters a previously set exclusive or based on the primary key.
         ///</summary>
         ///<param name="anyKeyInTheExclusiveOrSet">Any key used in the Registration method used to create an exclusive or set</param>
-        ///<returns>True if successful.  False doesn't indicate a failure to unregister, it indicates that the Key is not registered as an Excluside Or key or it's not the Primary Key.</returns>
+        ///<returns>True if successful.  False doesn't indicate a failure to unregister, it indicates that the Key is not registered as an Exclusive Or key or it's not the Primary Key.</returns>
         public bool UnregisterExclusiveOrKey( Keys anyKeyInTheExclusiveOrSet )
         {
 
@@ -249,7 +249,7 @@ namespace MouseKeyboardActivityMonitor.HotKeys
             if ( !Enabled )
                 return;
 
-            //Gets the primarykey if mapped to a single key or gets the key itself
+            //Gets the primary key if mapped to a single key or gets the key itself
             Keys primaryKey = GetPrimaryKey( kex.KeyCode );
 
             if ( kex.IsKeyDown )
