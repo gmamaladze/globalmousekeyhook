@@ -12,6 +12,7 @@ namespace MouseKeyboardActivityMonitor
 
 		private Point m_PreviousPosition;
         private int m_PreviousClickedTime;
+        private Point m_PreviousClickedPosition;
 		private MouseButtons m_PreviousClicked;
 		private MouseButtons m_DownButtonsWaitingForMouseUp;
 		private MouseButtons m_SuppressButtonUpFlags;
@@ -112,7 +113,7 @@ namespace MouseKeyboardActivityMonitor
 
         private void ProcessPossibleDoubleClick(ref MouseEventExtArgs e)
         {
-            if (IsDoubleClick(e.Button, e.Timestamp))
+            if (IsDoubleClick(e.Button, e.Timestamp, e.Point))
             {
                 e = e.ToDoubleClickEventArgs();
                 m_DownButtonsWaitingForMouseUp = MouseButtons.None;
@@ -131,6 +132,7 @@ namespace MouseKeyboardActivityMonitor
             if ((m_DownButtonsWaitingForMouseUp & e.Button) != MouseButtons.None)
             {
                 m_PreviousClicked = e.Button;
+                m_PreviousClickedPosition = e.Point;
                 m_DownButtonsWaitingForMouseUp = MouseButtons.None;
                 InvokeMouseEventHandler(MouseClick, e);
                 InvokeMouseEventHandlerExt(MouseClickExt, e);
@@ -191,10 +193,11 @@ namespace MouseKeyboardActivityMonitor
 			return m_PreviousPosition != actualPoint;
 		}
 
-		private bool IsDoubleClick(MouseButtons button, int timestamp)
+		private bool IsDoubleClick(MouseButtons button, int timestamp, Point pos)
 		{
             return
                 button == m_PreviousClicked &&
+                pos == m_PreviousClickedPosition && // Click-move-click exception, see Patch 11222
                 timestamp - m_PreviousClickedTime <= m_SystemDoubleClickTime; // Mouse.GetDoubleClickTime();
 		}
 
