@@ -136,6 +136,10 @@ namespace MouseKeyboardActivityMonitor
                                                                          MouseButtons.XButton2;
                     clickCount = 2;
                     break;
+                
+                case Messages.WM_MOUSEHWHEEL:
+                    mouseDelta = mouseInfo.MouseData;
+                    break;
             }
 
             var e = new MouseEventExtArgs(

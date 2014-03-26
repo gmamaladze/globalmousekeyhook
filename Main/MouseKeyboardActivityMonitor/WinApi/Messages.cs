@@ -79,6 +79,12 @@
         public const int WM_XBUTTONDBLCLK = 0x20D;
 
         /// <summary>
+        /// The WM_MOUSEHWHEEL message Sent to the active window when the mouse's horizontal scroll
+        /// wheel is tilted or rotated.
+        /// </summary>
+        public const int WM_MOUSEHWHEEL = 0x20E;
+
+        /// <summary>
         /// The WM_KEYDOWN message is posted to the window with the keyboard focus when a non-system 
         /// key is pressed. A non-system key is a key that is pressed when the ALT key is not pressed.
         /// </summary>
