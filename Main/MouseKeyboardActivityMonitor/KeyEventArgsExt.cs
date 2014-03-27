@@ -118,23 +118,26 @@ namespace MouseKeyboardActivityMonitor
         // Check for Keys.Control instead
         // Same for Shift and Alt(Menu)
         // See more at http://www.tech-archive.net/Archive/DotNet/microsoft.public.dotnet.framework.windowsforms/2008-04/msg00127.html #
+        
+        // A shortcut to make life easier
+        private static bool CheckModifier( int vKey )
+        {
+            return (KeyboardNativeMethods.GetKeyState(vKey) & 0x8000) > 0;
+        }
+        
         private static Keys AppendModifierStates( Keys keyData )
         {
             // Is Control being held down?
-            bool control = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LCONTROL ) & 0x80 ) != 0 ) ||
-                           ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RCONTROL ) & 0x80 ) != 0 );
-
+            bool control = CheckModifier(KeyboardNativeMethods.VK_CONTROL);
             // Is Shift being held down?
-            bool shift = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LSHIFT ) & 0x80 ) != 0 ) ||
-                         ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RSHIFT ) & 0x80 ) != 0 );
-
+            bool shift = CheckModifier(KeyboardNativeMethods.VK_SHIFT);
             // Is Alt being held down?
-            bool alt = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LMENU ) & 0x80 ) != 0 ) ||
-                       ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RMENU ) & 0x80 ) != 0 );
-
+            bool alt = CheckModifier(KeyboardNativeMethods.VK_MENU);
+            
             // Windows keys
-            bool winL = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_LWIN ) & 0x80 ) != 0 );
-            bool winR = ( ( KeyboardNativeMethods.GetKeyState( KeyboardNativeMethods.VK_RWIN ) & 0x80 ) != 0 );
+            // # combine LWin and RWin key with other keys will potentially corrupt the data
+            // notable F5 | Keys.LWin == F12, see https://globalmousekeyhook.codeplex.com/workitem/1188
+            // and the KeyEventArgs.KeyData don't recognize combined data either
 
             // Function (Fn) key
             // # CANNOT determine state due to conversion inside keyboard
@@ -143,9 +146,7 @@ namespace MouseKeyboardActivityMonitor
             return keyData |
                 ( control ? Keys.Control : Keys.None ) |
                 ( shift ? Keys.Shift : Keys.None ) |
-                ( alt ? Keys.Alt : Keys.None ) |
-                ( winL ? Keys.LWin : Keys.None ) |
-                ( winR ? Keys.RWin : Keys.None );
+                ( alt ? Keys.Alt : Keys.None );
         }
 
         /// <summary>
