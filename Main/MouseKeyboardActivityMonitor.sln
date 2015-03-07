@@ -1,22 +1,17 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyboardActivityMonitor", "MouseKeyboardActivityMonitor\MouseKeyboardActivityMonitor.csproj", "{F52AA97E-180A-40ED-8F2B-09080171D6C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyboardActivityMonitor.Demo", "MouseKeyboardActivityMonitor.Demo\MouseKeyboardActivityMonitor.Demo.csproj", "{EBA5CBDF-2049-4278-93A2-AFFD3C802715}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9493FAA3-FC1F-49CB-B0F0-E7FF3593B08B}"
+	ProjectSection(SolutionItems) = preProject
+		..\LICENSE.txt = ..\LICENSE.txt
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 3
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://tfs.codeplex.com/tfs/tfs33
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = MouseKeyboardActivityMonitor\\MouseKeyboardActivityMonitor.csproj
-		SccProjectName1 = MouseKeyboardActivityMonitor
-		SccLocalPath1 = MouseKeyboardActivityMonitor
-		SccProjectUniqueName2 = MouseKeyboardActivityMonitor.Demo\\MouseKeyboardActivityMonitor.Demo.csproj
-		SccProjectName2 = MouseKeyboardActivityMonitor.Demo
-		SccLocalPath2 = MouseKeyboardActivityMonitor.Demo
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
