@@ -31,7 +31,7 @@ NuGet comming soon
 
 ### Usage
 
-```
+```csharp
 private MouseHookListener m_mouseListener;
 
 public void Activate()
@@ -56,7 +56,11 @@ public void Deactivate()
 private void MouseListener_MouseDownExt(object sender, MouseEventExtArgs e)
 {
     // log the mouse click
-    Console.WriteLine(string.Format("MouseDown: \t{0}; \t System Timestamp: \t{1}", e.Button, e.Timestamp));
+    Console.WriteLine(
+        string.Format(
+            "MouseDown: \t{0}; \t System Timestamp: \t{1}", 
+            e.Button, 
+            e.Timestamp));
 
     // uncommenting the following line will suppress the middle mouse button click
     // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
