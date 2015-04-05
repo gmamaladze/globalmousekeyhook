@@ -43,7 +43,8 @@ public void Activate()
     m_mouseListener.Enabled = true;
 
     // Set the event handler
-    // recommended to use the Extended handlers, which allow input suppression among other additional information
+    // recommended to use the Extended handlers, which allow 
+    // input suppression among other additional information
     m_mouseListener.MouseDownExt += MouseListener_MouseDownExt;
 }
 
