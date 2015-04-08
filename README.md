@@ -1,3 +1,6 @@
+
+![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
+
 ### What it does?
 
 This library allows you to tap keyboard and mouse, to detect and record their activity even when an application is inactive and runs in background.
@@ -43,7 +46,7 @@ public void Activate()
     m_mouseListener.Enabled = true;
 
     // Set the event handler
-    // recommended to use the Extended handlers, which allow 
+    // recommended to use the Extended handlers, which allow
     // input suppression among other additional information
     m_mouseListener.MouseDownExt += MouseListener_MouseDownExt;
 }
@@ -58,8 +61,8 @@ private void MouseListener_MouseDownExt(object sender, MouseEventExtArgs e)
     // log the mouse click
     Console.WriteLine(
         string.Format(
-            "MouseDown: \t{0}; \t System Timestamp: \t{1}", 
-            e.Button, 
+            "MouseDown: \t{0}; \t System Timestamp: \t{1}",
+            e.Button,
             e.Timestamp));
 
     // uncommenting the following line will suppress the middle mouse button click
