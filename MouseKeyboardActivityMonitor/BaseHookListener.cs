@@ -31,7 +31,7 @@ namespace MouseKeyboardActivityMonitor
         /// <summary>
         /// Stores the handle to the Keyboard or Mouse hook procedure.
         /// </summary>
-        protected int HookHandle { get; set; }
+        protected internal HookProcedureHandle HookHandle { get; set; }
 
         /// <summary>
         /// Keeps the reference to prevent garbage collection of delegate. See: CallbackOnCollectedDelegate http://msdn.microsoft.com/en-us/library/43yky316(v=VS.100).aspx
@@ -94,7 +94,7 @@ namespace MouseKeyboardActivityMonitor
             catch (Exception)
             {
                 HookCallbackReferenceKeeper = null;
-                HookHandle = 0;
+                HookHandle.Dispose();
                 throw;
             }
         }
@@ -112,7 +112,7 @@ namespace MouseKeyboardActivityMonitor
             finally
             {
                 HookCallbackReferenceKeeper = null;
-                HookHandle = 0;
+                HookHandle.Dispose();
             }
         }
 
@@ -146,7 +146,7 @@ namespace MouseKeyboardActivityMonitor
         /// </value>
         public bool Enabled
         {
-            get { return HookHandle != 0; }
+            get { return HookHandle!=null && !HookHandle.IsInvalid; }
             set
             {
                 bool mustEnable = value;
@@ -189,9 +189,9 @@ namespace MouseKeyboardActivityMonitor
             }
             else
             {
-                if (HookHandle != 0)
+                if (!HookHandle.IsInvalid)
                 {
-                    HookNativeMethods.UnhookWindowsHookEx(HookHandle);
+                    HookHandle.Dispose();
                 }
             }
         }

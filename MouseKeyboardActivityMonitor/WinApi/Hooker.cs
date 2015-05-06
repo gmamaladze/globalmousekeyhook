@@ -9,11 +9,11 @@ namespace MouseKeyboardActivityMonitor.WinApi
     /// </summary>
     public abstract class Hooker
     {
-        internal abstract int Subscribe(int hookId, HookCallback hookCallback);
+        internal abstract HookProcedureHandle Subscribe(int hookId, HookCallback hookCallback);
 
-        internal void Unsubscribe(int handle)
+        internal void Unsubscribe(HookProcedureHandle handle)
         {
-            int result = HookNativeMethods.UnhookWindowsHookEx(handle);
+            int result = HookNativeMethods.UnhookWindowsHookEx(handle.DangerousGetHandle());
 
             // IFREQ: currently taken out as throws an exception at the very end
 //            if (result == 0)

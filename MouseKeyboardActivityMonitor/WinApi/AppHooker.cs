@@ -18,15 +18,15 @@ namespace MouseKeyboardActivityMonitor.WinApi
         /// </summary>
         internal const int WH_KEYBOARD = 2;
 
-        internal override int Subscribe(int hookId, HookCallback hookCallback)
+        internal override HookProcedureHandle Subscribe(int hookId, HookCallback hookCallback)
         {
-            int hookHandle = HookNativeMethods.SetWindowsHookEx(
+            var hookHandle = HookNativeMethods.SetWindowsHookEx(
                 hookId,
                 hookCallback,
                 IntPtr.Zero,
                 ThreadNativeMethods.GetCurrentThreadId());
 
-            if (hookHandle == 0)
+            if (hookHandle.IsInvalid)
             {
                 ThrowLastUnmanagedErrorAsException();
             }

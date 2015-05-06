@@ -7,15 +7,15 @@ namespace MouseKeyboardActivityMonitor.WinApi
     /// </summary>
     public class GlobalHooker : Hooker
     {
-        internal override int Subscribe(int hookId, HookCallback hookCallback)
+        internal override HookProcedureHandle Subscribe(int hookId, HookCallback hookCallback)
         {
-            int hookHandle = HookNativeMethods.SetWindowsHookEx(
+            var hookHandle = HookNativeMethods.SetWindowsHookEx(
                 hookId,
                 hookCallback,
                 Process.GetCurrentProcess().MainModule.BaseAddress,
                 0);
 
-            if (hookHandle == 0)
+            if (hookHandle.IsInvalid)
             {
                 ThrowLastUnmanagedErrorAsException();
             }

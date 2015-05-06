@@ -19,7 +19,7 @@ static internal class HookNativeMethods
     [DllImport("user32.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall)]
     internal static extern int CallNextHookEx(
-        int idHook,
+        HookProcedureHandle idHook,
         int nCode,
         int wParam,
         IntPtr lParam);
@@ -56,7 +56,7 @@ static internal class HookNativeMethods
     /// </remarks>
     [DllImport("user32.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-    internal static extern int SetWindowsHookEx(
+    internal static extern HookProcedureHandle SetWindowsHookEx(
         int idHook,
         HookCallback lpfn,
         IntPtr hMod,
@@ -77,5 +77,5 @@ static internal class HookNativeMethods
     /// </remarks>
     [DllImport("user32.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall, SetLastError = true)]
-    internal static extern int UnhookWindowsHookEx(int idHook);
+    internal static extern int UnhookWindowsHookEx(IntPtr idHook);
 }

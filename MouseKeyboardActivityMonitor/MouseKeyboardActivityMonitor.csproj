@@ -194,6 +194,7 @@
     <Compile Include="KeyboardState.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
     <Compile Include="WinApi\HookNativeMethods.cs" />
+    <Compile Include="WinApi\HookProcedureHandle.cs" />
     <Compile Include="WinApi\MouseNativeMethods.cs" />
     <Compile Include="MouseHookListener.cs" />
     <Compile Include="WinApi\AppHooker.cs" />
