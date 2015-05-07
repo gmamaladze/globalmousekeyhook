@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/gmamaladze/globalmousekeyhook.svg?branch=master)](https://travis-ci.org/gmamaladze/globalmousekeyhook)
+|Travis-CI | AppVeyor |
+-----------|----------
+| [![Build Status](https://travis-ci.org/gmamaladze/globalmousekeyhook.svg?branch=master)](https://travis-ci.org/gmamaladze/globalmousekeyhook) | [![Build status](https://ci.appveyor.com/api/projects/status/tnkt7xiurmpg0qh8?svg=true)](https://ci.appveyor.com/project/gmamaladze/globalmousekeyhook)|
 
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
 
