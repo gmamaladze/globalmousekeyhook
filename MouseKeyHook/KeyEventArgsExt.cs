@@ -56,8 +56,8 @@ namespace Gma.System.MouseKeyHook
 
         internal static KeyEventArgsExt FromRawDataApp(CallbackData data)
         {
-            int wParam = data.WParam;
-            IntPtr lParam = data.LParam;
+            var wParam = data.WParam;
+            var lParam = data.LParam;
 
             //http://msdn.microsoft.com/en-us/library/ms644984(v=VS.85).aspx
 
@@ -90,20 +90,21 @@ namespace Gma.System.MouseKeyHook
             char ch;
 
             //translated based on the active application's keyboard layout.
-            KeyboardNativeMethods.TryGetCharFromKeyboardState(wParam, (int) flags, out ch);
+            KeyboardNativeMethods.TryGetCharFromKeyboardState((int)wParam, (int) flags, out ch);
             return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp, ch);
         }
 
         internal static KeyEventArgsExt FromRawDataGlobal(CallbackData data)
         {
-            int wParam = data.WParam;
-            IntPtr lParam = data.LParam;
-            KeyboardHookStruct keyboardHookStruct =
+            var wParam = data.WParam;
+            var lParam = data.LParam;
+            var keyboardHookStruct =
                 (KeyboardHookStruct) Marshal.PtrToStructure(lParam, typeof (KeyboardHookStruct));
-            Keys keyData = AppendModifierStates((Keys) keyboardHookStruct.VirtualKeyCode);
+            var keyData = AppendModifierStates((Keys) keyboardHookStruct.VirtualKeyCode);
 
-            bool isKeyDown = (wParam == Messages.WM_KEYDOWN || wParam == Messages.WM_SYSKEYDOWN);
-            bool isKeyUp = (wParam == Messages.WM_KEYUP || wParam == Messages.WM_SYSKEYUP);
+            var keyCode = (int)wParam;
+            bool isKeyDown = (keyCode == Messages.WM_KEYDOWN || keyCode == Messages.WM_SYSKEYDOWN);
+            bool isKeyUp = (keyCode == Messages.WM_KEYUP || keyCode == Messages.WM_SYSKEYUP);
 
             //sent explicitly as a Unicode character
             if (keyboardHookStruct.VirtualKeyCode == KeyboardNativeMethods.VK_PACKET)

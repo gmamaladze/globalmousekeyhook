@@ -23,10 +23,10 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// </remarks>
         [DllImport("user32.dll", CharSet = CharSet.Auto,
             CallingConvention = CallingConvention.StdCall)]
-        internal static extern int CallNextHookEx(
+        internal static extern IntPtr CallNextHookEx(
             IntPtr idHook,
             int nCode,
-            int wParam,
+            IntPtr wParam,
             IntPtr lParam);
 
         /// <summary>

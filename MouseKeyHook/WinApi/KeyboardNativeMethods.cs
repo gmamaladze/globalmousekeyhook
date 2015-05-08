@@ -43,7 +43,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <returns></returns>
         internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int fuState, out char ch)
         {
-            uint dwhkl = GetActiveKeyboard();
+            var dwhkl = GetActiveKeyboard();
             int scanCode = MapVirtualKeyEx(virtualKeyCode, (int) MapType.MAPVK_VK_TO_VSC, dwhkl);
             return TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out ch);
         }
@@ -58,7 +58,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <returns></returns>
         internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char ch)
         {
-            uint dwhkl = GetActiveKeyboard(); //get the active keyboard layout
+            var dwhkl = GetActiveKeyboard(); //get the active keyboard layout
             return TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out ch);
         }
 
@@ -71,7 +71,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <param name="dwhkl"></param>
         /// <param name="ch"></param>
         /// <returns></returns>
-        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, uint dwhkl,
+        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, IntPtr dwhkl,
             out char ch)
         {
             StringBuilder pwszBuff = new StringBuilder(64);
@@ -105,7 +105,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         ///     application.
         /// </summary>
         /// <returns>HKL</returns>
-        private static uint GetActiveKeyboard()
+        private static IntPtr GetActiveKeyboard()
         {
             IntPtr hActiveWnd = ThreadNativeMethods.GetForegroundWindow(); //handle to focused window
             int dwProcessId;
@@ -215,7 +215,7 @@ namespace Gma.System.MouseKeyHook.WinApi
             [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder pwszBuff,
             int cchBuff,
             int wFlags,
-            uint dwhkl);
+            IntPtr dwhkl);
 
         /// <summary>
         ///     The GetKeyboardState function copies the status of the 256 virtual keys to the
@@ -270,7 +270,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <param name="dwhkl">[in] The input locale identifier used to translate the specified code.</param>
         /// <returns></returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern int MapVirtualKeyEx(int uCode, int uMapType, uint dwhkl);
+        internal static extern int MapVirtualKeyEx(int uCode, int uMapType, IntPtr dwhkl);
 
         /// <summary>
         ///     Retrieves the active input locale identifier (formerly called the keyboard layout) for the specified thread.
@@ -283,7 +283,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         ///     language and the high word contains a device handle to the physical layout of the keyboard.
         /// </returns>
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        internal static extern uint GetKeyboardLayout(int dwLayout);
+        internal static extern IntPtr GetKeyboardLayout(int dwLayout);
 
         /// <summary>
         ///     MapVirtualKeys uMapType

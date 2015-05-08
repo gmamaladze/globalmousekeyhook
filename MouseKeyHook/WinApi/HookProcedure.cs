@@ -36,5 +36,5 @@ namespace Gma.System.MouseKeyHook.WinApi
     /// <remarks>
     ///     http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/windowing/hooks/hookreference/hookfunctions/callwndproc.asp
     /// </remarks>
-    public delegate int HookProcedure(int nCode, int wParam, IntPtr lParam);
+    public delegate IntPtr HookProcedure(int nCode, IntPtr wParam, IntPtr lParam);
 }

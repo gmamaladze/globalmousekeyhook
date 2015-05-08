@@ -68,7 +68,7 @@ namespace Gma.System.MouseKeyHook.WinApi
             return new HookResult(hookHandle, hookProcedure);
         }
 
-        private static int HookProcedure(int nCode, int wParam, IntPtr lParam, Callback callback)
+        private static IntPtr HookProcedure(int nCode, IntPtr wParam, IntPtr lParam, Callback callback)
         {
             var passThrough = nCode != 0;
             if (passThrough)
@@ -81,13 +81,13 @@ namespace Gma.System.MouseKeyHook.WinApi
 
             if (!continueProcessing)
             {
-                return -1;
+                return new IntPtr(-1);
             }
 
             return CallNextHookEx(nCode, wParam, lParam);
         }
 
-        private static int CallNextHookEx(int nCode, int wParam, IntPtr lParam)
+        private static IntPtr CallNextHookEx(int nCode, IntPtr wParam, IntPtr lParam)
         {
             return HookNativeMethods.CallNextHookEx(IntPtr.Zero, nCode, wParam, lParam);
         }

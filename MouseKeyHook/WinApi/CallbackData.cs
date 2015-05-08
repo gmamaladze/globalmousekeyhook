@@ -9,15 +9,15 @@ namespace Gma.System.MouseKeyHook.WinApi
     internal struct CallbackData
     {
         private readonly IntPtr m_LParam;
-        private readonly int m_WParam;
+        private readonly IntPtr m_WParam;
 
-        public CallbackData(int wParam, IntPtr lParam)
+        public CallbackData(IntPtr wParam, IntPtr lParam)
         {
             m_WParam = wParam;
             m_LParam = lParam;
         }
 
-        public int WParam
+        public IntPtr WParam
         {
             get { return m_WParam; }
         }

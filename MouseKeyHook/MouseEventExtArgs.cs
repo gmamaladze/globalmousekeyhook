@@ -2,6 +2,7 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
@@ -101,7 +102,7 @@ namespace Gma.System.MouseKeyHook
         /// <param name="wParam">First Windows Message parameter.</param>
         /// <param name="mouseInfo">A MouseStruct containing information from which to construct MouseEventExtArgs.</param>
         /// <returns>A new MouseEventExtArgs object.</returns>
-        private static MouseEventExtArgs FromRawDataUniversal(int wParam, MouseStruct mouseInfo)
+        private static MouseEventExtArgs FromRawDataUniversal(IntPtr wParam, MouseStruct mouseInfo)
         {
             MouseButtons button = MouseButtons.None;
             short mouseDelta = 0;
@@ -111,7 +112,7 @@ namespace Gma.System.MouseKeyHook
             bool isMouseKeyUp = false;
 
 
-            switch (wParam)
+            switch ((long)wParam)
             {
                 case Messages.WM_LBUTTONDOWN:
                     isMouseKeyDown = true;

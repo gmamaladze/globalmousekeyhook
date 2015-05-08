@@ -46,8 +46,8 @@ namespace Gma.System.MouseKeyHook
 
         internal static KeyPressEventArgsExt FromRawDataApp(CallbackData data)
         {
-            int wParam = data.WParam;
-            IntPtr lParam = data.LParam;
+            var wParam = data.WParam;
+            var lParam = data.LParam;
 
             //http://msdn.microsoft.com/en-us/library/ms644984(v=VS.85).aspx
 
@@ -76,8 +76,8 @@ namespace Gma.System.MouseKeyHook
                 return new KeyPressEventArgsExt((char) 0);
             }
 
-            int virtualKeyCode = wParam;
-            int scanCode = checked((int) (flags & maskScanCode));
+            var virtualKeyCode = (int)wParam;
+            var scanCode = checked((int) (flags & maskScanCode));
             const int fuState = 0;
 
             char ch;
@@ -94,10 +94,10 @@ namespace Gma.System.MouseKeyHook
 
         internal static KeyPressEventArgsExt FromRawDataGlobal(CallbackData data)
         {
-            int wParam = data.WParam;
-            IntPtr lParam = data.LParam;
+            var wParam = data.WParam;
+            var lParam = data.LParam;
 
-            if (wParam != Messages.WM_KEYDOWN)
+            if ((int)wParam != Messages.WM_KEYDOWN)
             {
                 return new KeyPressEventArgsExt((char) 0);
             }
