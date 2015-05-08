@@ -1,23 +1,26 @@
+// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System;
 using MouseKeyboardActivityMonitor.WinApi;
 
 namespace MouseKeyboardActivityMonitor
 {
-
     internal abstract class BaseListener : IDisposable
     {
-        protected HookResult Handle { get; set; }
-
         protected BaseListener(Subscribe subscribe)
         {
             Handle = subscribe(Callback);
         }
 
-        protected abstract bool Callback(CallbackData data);
+        protected HookResult Handle { get; set; }
 
         public void Dispose()
         {
             Handle.Dispose();
         }
+
+        protected abstract bool Callback(CallbackData data);
     }
 }

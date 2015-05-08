@@ -1,21 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using Microsoft.Win32.SafeHandles;
 
 namespace MouseKeyboardActivityMonitor.WinApi
 {
     internal class HookProcedureHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
-        public HookProcedureHandle() 
+        public HookProcedureHandle()
             : base(true)
         {
         }
 
         protected override bool ReleaseHandle()
         {
-            return HookNativeMethods.UnhookWindowsHookEx(handle)!=0;
+            return HookNativeMethods.UnhookWindowsHookEx(handle) != 0;
         }
     }
 }

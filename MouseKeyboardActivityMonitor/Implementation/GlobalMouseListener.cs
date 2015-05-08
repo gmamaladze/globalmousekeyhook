@@ -1,4 +1,7 @@
-using System;
+// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System.Windows.Forms;
 using MouseKeyboardActivityMonitor.WinApi;
 
@@ -6,12 +9,10 @@ namespace MouseKeyboardActivityMonitor
 {
     internal class GlobalMouseListener : MouseListener
     {
-
-        private int m_PreviousClickedTime;
-        private Point m_PreviousClickedPosition;
-        private MouseButtons m_PreviousClicked;
         private MouseButtons m_DownButtonsWaitingForMouseUp;
-
+        private MouseButtons m_PreviousClicked;
+        private Point m_PreviousClickedPosition;
+        private int m_PreviousClickedTime;
 
         public GlobalMouseListener()
             : base(HookHelper.HookGlobalMouse)

@@ -1,4 +1,8 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using MouseKeyboardActivityMonitor.WinApi;
@@ -6,22 +10,27 @@ using MouseKeyboardActivityMonitor.WinApi;
 namespace MouseKeyboardActivityMonitor
 {
     /// <summary>
-    /// Contains a snapshot of a keyboard state at certain moment and provides methods
-    ///  of querying whether specific keys are pressed or locked.
+    ///     Contains a snapshot of a keyboard state at certain moment and provides methods
+    ///     of querying whether specific keys are pressed or locked.
     /// </summary>
     /// <remarks>
-    /// This class is basically a managed wrapper of GetKeyboardState API function
-    /// http://msdn.microsoft.com/en-us/library/ms646299
+    ///     This class is basically a managed wrapper of GetKeyboardState API function
+    ///     http://msdn.microsoft.com/en-us/library/ms646299
     /// </remarks>
-    public class KeyboardState
+    internal class KeyboardState
     {
         private readonly byte[] m_KeyboardStateNative;
 
+        private KeyboardState(byte[] keyboardStateNative)
+        {
+            m_KeyboardStateNative = keyboardStateNative;
+        }
+
         /// <summary>
-        /// Makes a snapshot of a keyboard state to the moment of call and returns an 
-        /// instance of <see cref="KeyboardState"/> class.
+        ///     Makes a snapshot of a keyboard state to the moment of call and returns an
+        ///     instance of <see cref="KeyboardState" /> class.
         /// </summary>
-        /// <returns>An instance of <see cref="KeyboardState"/> class representing a snapshot of keyboard state at certain moment.</returns>
+        /// <returns>An instance of <see cref="KeyboardState" /> class representing a snapshot of keyboard state at certain moment.</returns>
         public static KeyboardState GetCurrent()
         {
             byte[] keyboardStateNative = new byte[256];
@@ -34,13 +43,8 @@ namespace MouseKeyboardActivityMonitor
             return m_KeyboardStateNative;
         }
 
-        private KeyboardState(byte[] keyboardStateNative)
-        {
-            m_KeyboardStateNative = keyboardStateNative;
-        }
-
         /// <summary>
-        /// Indicates whether specified key was down at the moment when snapshot was created or not.
+        ///     Indicates whether specified key was down at the moment when snapshot was created or not.
         /// </summary>
         /// <param name="key">Key (corresponds to the virtual code of the key)</param>
         /// <returns><b>true</b> if key was down, <b>false</b> - if key was up.</returns>
@@ -52,12 +56,12 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Indicate weather specified key was toggled at the moment when snapshot was created or not.
+        ///     Indicate weather specified key was toggled at the moment when snapshot was created or not.
         /// </summary>
         /// <param name="key">Key (corresponds to the virtual code of the key)</param>
         /// <returns>
-        /// <b>true</b> if toggle key like (CapsLock, NumLocke, etc.) was on. <b>false</b> if it was off.
-        /// Ordinal (non toggle) keys return always false.
+        ///     <b>true</b> if toggle key like (CapsLock, NumLocke, etc.) was on. <b>false</b> if it was off.
+        ///     Ordinal (non toggle) keys return always false.
         /// </returns>
         public bool IsToggled(Keys key)
         {
@@ -67,8 +71,8 @@ namespace MouseKeyboardActivityMonitor
         }
 
         /// <summary>
-        /// Indicates weather every of specified keys were down at the moment when snapshot was created.
-        /// The method returns false if even one of them was up.  
+        ///     Indicates weather every of specified keys were down at the moment when snapshot was created.
+        ///     The method returns false if even one of them was up.
         /// </summary>
         /// <param name="keys">Keys to verify whether they were down or not.</param>
         /// <returns><b>true</b> - all were down. <b>false</b> - at least one was up.</returns>
@@ -86,8 +90,8 @@ namespace MouseKeyboardActivityMonitor
 
         private byte GetKeyState(Keys key)
         {
-            int virtualKeyCode = (int)key;
-            if (virtualKeyCode<0 || virtualKeyCode>255)
+            int virtualKeyCode = (int) key;
+            if (virtualKeyCode < 0 || virtualKeyCode > 255)
             {
                 throw new ArgumentOutOfRangeException("key", key, "The value must be between 0 and 255.");
             }

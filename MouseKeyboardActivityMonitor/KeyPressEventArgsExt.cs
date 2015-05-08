@@ -90,6 +90,7 @@ namespace MouseKeyboardActivityMonitor
 
             return new KeyPressEventArgsExt(ch);
         }
+
         internal static KeyPressEventArgsExt FromRawDataGlobal(CallbackData data)
         {
             int wParam = data.WParam;

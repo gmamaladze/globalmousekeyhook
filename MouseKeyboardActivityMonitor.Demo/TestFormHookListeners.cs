@@ -1,3 +1,7 @@
+// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Windows.Forms;
 using MouseKeyboardActivityMonitor.NewApi;
@@ -14,8 +18,18 @@ namespace MouseKeyboardActivityMonitor.Demo
             m_Events = Hook.GlobalEvents();
         }
 
+        private void HookManager_Supress(object sender, MouseEventExtArgs e)
+        {
+            if (e.Button != MouseButtons.Right)
+            {
+                return;
+            }
+            Log("Suppressed.\n");
+            e.Handled = true;
+        }
 
         //##################################################################
+
         #region Check boxes to set or remove particular event handlers.
 
         private void checkBoxOnMouseMove_CheckedChanged(object sender, EventArgs e)
@@ -130,6 +144,7 @@ namespace MouseKeyboardActivityMonitor.Demo
         #endregion
 
         //##################################################################
+
         #region Event handlers of particular events. They will be activated when an appropriate check box is checked.
 
         private void HookManager_KeyDown(object sender, KeyEventArgs e)
@@ -189,12 +204,5 @@ namespace MouseKeyboardActivityMonitor.Demo
         }
 
         #endregion
-
-        private void HookManager_Supress(object sender, MouseEventExtArgs e)
-        {
-            if (e.Button != MouseButtons.Right) { return;}
-            Log("Suppressed.\n");
-            e.Handled = true;
-        }
     }
 }

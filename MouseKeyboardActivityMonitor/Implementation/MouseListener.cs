@@ -1,16 +1,18 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Windows.Forms;
 using MouseKeyboardActivityMonitor.WinApi;
 
 namespace MouseKeyboardActivityMonitor
 {
-   
     internal abstract class MouseListener : BaseListener
     {
-
+        private readonly int m_SystemDoubleClickTime;
         private Point m_PreviousPosition;
         private MouseButtons m_SuppressButtonUpFlags;
-        private readonly int m_SystemDoubleClickTime;
 
         protected MouseListener(Subscribe subscribe)
             : base(subscribe)
@@ -65,7 +67,7 @@ namespace MouseKeyboardActivityMonitor
         protected abstract MouseEventExtArgs GetEventArgs(CallbackData data);
 
         protected virtual void ProcessMouseDown(ref MouseEventExtArgs e)
-        {   
+        {
             OnMouseDown(e);
             OnMouseDownExt(e);
             if (e.Handled)
@@ -133,49 +135,49 @@ namespace MouseKeyboardActivityMonitor
         protected virtual void OnMouseMove(MouseEventArgs e)
         {
             var handler = MouseMove;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
 
         protected virtual void OnMouseMoveExt(MouseEventExtArgs e)
         {
             var handler = MouseMoveExt;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
 
         protected virtual void OnMouseClick(MouseEventArgs e)
         {
             var handler = MouseClick;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
 
         protected virtual void OnMouseDown(MouseEventArgs e)
         {
             var handler = MouseDown;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
 
         protected virtual void OnMouseDownExt(MouseEventExtArgs e)
         {
             var handler = MouseDownExt;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
 
         protected virtual void OnMouseUp(MouseEventArgs e)
         {
             var handler = MouseUp;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
 
         protected virtual void OnMouseWheel(MouseEventArgs e)
         {
             var handler = MouseWheel;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
 
         protected virtual void OnMouseDoubleClick(MouseEventArgs e)
         {
             var handler = MouseDoubleClick;
-            if (handler != null) handler(this,e);
+            if (handler != null) handler(this, e);
         }
     }
 }

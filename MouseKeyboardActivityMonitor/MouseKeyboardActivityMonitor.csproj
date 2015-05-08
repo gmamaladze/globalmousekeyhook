@@ -184,25 +184,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppKeyListener.cs" />
-    <Compile Include="AppMouseListener.cs" />
-    <Compile Include="AssemblyInfo.cs">
+    <Compile Include="Implementation\AppKeyListener.cs" />
+    <Compile Include="Implementation\AppMouseListener.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BaseListener.cs" />
-    <Compile Include="Callback.cs" />
-    <Compile Include="GlobalKeyListener.cs" />
-    <Compile Include="GlobalMouseListener.cs" />
-    <Compile Include="NewApi\AppEventFacade.cs" />
-    <Compile Include="NewApi\EventFacade.cs" />
-    <Compile Include="NewApi\GlobalEventFacade.cs" />
-    <Compile Include="NewApi\Hook.cs" />
-    <Compile Include="NewApi\IKeyboardMouseEvents.cs" />
-    <Compile Include="NewApi\IMouseEvents.cs" />
-    <Compile Include="NewApi\IKeyboardEvents.cs" />
-    <Compile Include="KeyboardState.cs" />
+    <Compile Include="Implementation\BaseListener.cs" />
+    <Compile Include="Implementation\Callback.cs" />
+    <Compile Include="Implementation\GlobalKeyListener.cs" />
+    <Compile Include="Implementation\GlobalMouseListener.cs" />
+    <Compile Include="AppEventFacade.cs" />
+    <Compile Include="Implementation\EventFacade.cs" />
+    <Compile Include="Implementation\GlobalEventFacade.cs" />
+    <Compile Include="Implementation\Hook.cs" />
+    <Compile Include="IKeyboardMouseEvents.cs" />
+    <Compile Include="IMouseEvents.cs" />
+    <Compile Include="IKeyboardEvents.cs" />
+    <Compile Include="Implementation\KeyboardState.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
-    <Compile Include="Subscribe.cs" />
+    <Compile Include="Implementation\Subscribe.cs" />
     <Compile Include="WinApi\AppMouseStruct.cs" />
     <Compile Include="WinApi\CallbackData.cs" />
     <Compile Include="WinApi\HookHelper.cs" />
@@ -211,13 +211,13 @@
     <Compile Include="WinApi\HookProcedureHandle.cs" />
     <Compile Include="WinApi\HookResult.cs" />
     <Compile Include="WinApi\MouseNativeMethods.cs" />
-    <Compile Include="MouseListener.cs" />
+    <Compile Include="Implementation\MouseListener.cs" />
     <Compile Include="WinApi\MouseStruct.cs" />
     <Compile Include="WinApi\KeyboardHookStruct.cs" />
     <Compile Include="KeyEventArgsExt.cs" />
     <Compile Include="WinApi\Point.cs" />
     <Compile Include="WinApi\HookProcedure.cs" />
-    <Compile Include="KeyListener.cs" />
+    <Compile Include="Implementation\KeyListener.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
     <Compile Include="WinApi\KeyboardNativeMethods.cs" />
     <Compile Include="WinApi\Messages.cs" />
@@ -257,6 +257,7 @@
   <ItemGroup>
     <None Include="MouseKeyboardActivityMonitor.nuspec" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PreBuildEvent>

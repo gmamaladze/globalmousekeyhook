@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Windows.Forms;
 using MouseKeyboardActivityMonitor.NewApi;
 
@@ -10,28 +12,6 @@ namespace MouseKeyboardActivityMonitor
     {
         private static WeakReference _keyListenerCache = new WeakReference(null);
         private static WeakReference _mouseListenerCache = new WeakReference(null);
-
-        private KeyListener GetKeyListener()
-        {
-            var target = _keyListenerCache.Target as KeyListener;
-            if (target != null) return target;
-            target = CreateKeyListener();
-            _keyListenerCache = new WeakReference(target);
-            return target;
-        }
-
-        private MouseListener GetMouseListener()
-        {
-            var target = _mouseListenerCache.Target as MouseListener;
-            if (target != null) return target;
-            target = CreateMouseListener();
-            _mouseListenerCache = new WeakReference(target);
-            return target;
-        }
-
-        protected abstract MouseListener CreateMouseListener();
-
-        protected abstract KeyListener CreateKeyListener();
 
         public event KeyEventHandler KeyDown
         {
@@ -98,5 +78,26 @@ namespace MouseKeyboardActivityMonitor
             add { GetMouseListener().MouseDoubleClick += value; }
             remove { GetMouseListener().MouseDoubleClick -= value; }
         }
+
+        private KeyListener GetKeyListener()
+        {
+            var target = _keyListenerCache.Target as KeyListener;
+            if (target != null) return target;
+            target = CreateKeyListener();
+            _keyListenerCache = new WeakReference(target);
+            return target;
+        }
+
+        private MouseListener GetMouseListener()
+        {
+            var target = _mouseListenerCache.Target as MouseListener;
+            if (target != null) return target;
+            target = CreateMouseListener();
+            _mouseListenerCache = new WeakReference(target);
+            return target;
+        }
+
+        protected abstract MouseListener CreateMouseListener();
+        protected abstract KeyListener CreateKeyListener();
     }
 }
