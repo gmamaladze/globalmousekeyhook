@@ -205,7 +205,6 @@
     <Compile Include="Subscribe.cs" />
     <Compile Include="WinApi\AppMouseStruct.cs" />
     <Compile Include="WinApi\CallbackData.cs" />
-    <Compile Include="WinApi\HookEventArgs.cs" />
     <Compile Include="WinApi\HookHelper.cs" />
     <Compile Include="WinApi\HookIds.cs" />
     <Compile Include="WinApi\HookNativeMethods.cs" />
