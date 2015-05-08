@@ -3,6 +3,9 @@ using System.Windows.Forms;
 
 namespace MouseKeyboardActivityMonitor
 {
+    /// <summary>
+    /// Provides all mouse events.
+    /// </summary>
     public interface IMouseEvents
     {
         /// <summary>

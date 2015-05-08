@@ -53,13 +53,6 @@ namespace MouseKeyboardActivityMonitor
         /// </summary>
         public char UnicodeChar { get; private set; }
 
-        /// <summary>
-        ///     Creates <see cref="KeyEventArgsExt" /> from Windows Message parameters, based upon
-        ///     a local application hook.
-        /// </summary>
-        /// <param name="wParam">The first Windows Message parameter.</param>
-        /// <param name="lParam">The second Windows Message parameter.</param>
-        /// <returns>A new KeyEventArgsExt object.</returns>
         internal static KeyEventArgsExt FromRawDataApp(CallbackData data)
         {
             int wParam = data.WParam;
@@ -100,13 +93,6 @@ namespace MouseKeyboardActivityMonitor
             return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp, ch);
         }
 
-        /// <summary>
-        ///     Creates <see cref="KeyEventArgsExt" /> from Windows Message parameters, based upon
-        ///     a system-wide hook.
-        /// </summary>
-        /// <param name="wParam">The first Windows Message parameter.</param>
-        /// <param name="lParam">The second Windows Message parameter.</param>
-        /// <returns>A new KeyEventArgsExt object.</returns>
         internal static KeyEventArgsExt FromRawDataGlobal(CallbackData data)
         {
             int wParam = data.WParam;

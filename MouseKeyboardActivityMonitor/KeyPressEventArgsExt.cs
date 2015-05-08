@@ -90,14 +90,6 @@ namespace MouseKeyboardActivityMonitor
 
             return new KeyPressEventArgsExt(ch);
         }
-
-        /// <summary>
-        ///     Creates <see cref="KeyPressEventArgsExt" /> from Windows Message parameters,
-        ///     based upon a system-wide hook.
-        /// </summary>
-        /// <param name="wParam">The first Windows Message parameter.</param>
-        /// <param name="lParam">The second Windows Message parameter.</param>
-        /// <returns>A new KeyPressEventArgsExt object.</returns>
         internal static KeyPressEventArgsExt FromRawDataGlobal(CallbackData data)
         {
             int wParam = data.WParam;
