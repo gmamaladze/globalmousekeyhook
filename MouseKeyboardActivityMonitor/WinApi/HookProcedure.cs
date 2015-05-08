@@ -32,5 +32,5 @@ namespace MouseKeyboardActivityMonitor.WinApi
     /// <remarks>
     /// http://msdn.microsoft.com/library/default.asp?url=/library/en-us/winui/winui/windowsuserinterface/windowing/hooks/hookreference/hookfunctions/callwndproc.asp
     /// </remarks>
-    public delegate int HookCallback(int nCode, int wParam, IntPtr lParam);
+    public delegate int HookProcedure(int nCode, int wParam, IntPtr lParam);
 }

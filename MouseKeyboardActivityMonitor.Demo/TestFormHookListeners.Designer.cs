@@ -1,3 +1,5 @@
+using MouseKeyboardActivityMonitor.NewApi;
+
 namespace MouseKeyboardActivityMonitor.Demo
 {
     partial class TestFormHookListeners {
@@ -13,8 +15,6 @@ namespace MouseKeyboardActivityMonitor.Demo
         protected override void Dispose(bool disposing) {
             if (disposing && (components != null)) {
                 components.Dispose();
-                m_KeyboardHookManager.Dispose();
-                m_MouseHookManager.Dispose();
             }
             base.Dispose(disposing);
         }
@@ -136,7 +136,6 @@ namespace MouseKeyboardActivityMonitor.Demo
             this.checkBoxEnabled.TabIndex = 12;
             this.checkBoxEnabled.Text = "Enabled";
             this.checkBoxEnabled.UseVisualStyleBackColor = true;
-            this.checkBoxEnabled.CheckedChanged += new System.EventHandler(this.checkBoxEnabled_CheckedChanged);
             // 
             // panelSeparator
             // 
@@ -163,7 +162,6 @@ namespace MouseKeyboardActivityMonitor.Demo
             this.radioGlobal.TabStop = true;
             this.radioGlobal.Text = "Global hooks";
             this.radioGlobal.UseVisualStyleBackColor = false;
-            this.radioGlobal.CheckedChanged += new System.EventHandler(this.radioHooksType_CheckedChanged);
             // 
             // radioApplication
             // 
@@ -176,7 +174,6 @@ namespace MouseKeyboardActivityMonitor.Demo
             this.radioApplication.TabIndex = 9;
             this.radioApplication.Text = "Application hooks";
             this.radioApplication.UseVisualStyleBackColor = false;
-            this.radioApplication.CheckedChanged += new System.EventHandler(this.radioHooksType_CheckedChanged);
             // 
             // checkBoxKeyUp
             // 
@@ -280,7 +277,6 @@ namespace MouseKeyboardActivityMonitor.Demo
             this.checkBoxOnMouseClick.TabIndex = 1;
             this.checkBoxOnMouseClick.Text = "MouseClick";
             this.checkBoxOnMouseClick.UseVisualStyleBackColor = false;
-            this.checkBoxOnMouseClick.CheckedChanged += new System.EventHandler(this.checkBoxOnMouseClick_CheckedChanged);
             // 
             // checkBoxOnMouseMove
             // 

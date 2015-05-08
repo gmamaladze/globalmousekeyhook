@@ -8,7 +8,7 @@ static internal class HookNativeMethods
     /// The CallNextHookEx function passes the hook information to the next hook procedure in the current hook chain. 
     /// A hook procedure can call this function either before or after processing the hook information. 
     /// </summary>
-    /// <param name="idHook">Ignored.</param>
+    /// <param name="idHook">This parameter is ignored.</param>
     /// <param name="nCode">[in] Specifies the hook code passed to the current hook procedure.</param>
     /// <param name="wParam">[in] Specifies the wParam value passed to the current hook procedure.</param>
     /// <param name="lParam">[in] Specifies the lParam value passed to the current hook procedure.</param>
@@ -19,7 +19,7 @@ static internal class HookNativeMethods
     [DllImport("user32.dll", CharSet = CharSet.Auto,
         CallingConvention = CallingConvention.StdCall)]
     internal static extern int CallNextHookEx(
-        HookProcedureHandle idHook,
+        IntPtr idHook,
         int nCode,
         int wParam,
         IntPtr lParam);
@@ -58,7 +58,7 @@ static internal class HookNativeMethods
         CallingConvention = CallingConvention.StdCall, SetLastError = true)]
     internal static extern HookProcedureHandle SetWindowsHookEx(
         int idHook,
-        HookCallback lpfn,
+        HookProcedure lpfn,
         IntPtr hMod,
         int dwThreadId);
 

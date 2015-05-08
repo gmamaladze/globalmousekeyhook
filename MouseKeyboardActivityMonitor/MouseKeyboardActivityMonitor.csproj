@@ -29,7 +29,7 @@
     </UpgradeBackupLocation>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <OldToolsVersion>3.5</OldToolsVersion>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -48,6 +48,7 @@
     <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\Debug\</OutputPath>
@@ -183,30 +184,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppKeyListener.cs" />
+    <Compile Include="AppMouseListener.cs" />
     <Compile Include="AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\HookType.cs" />
-    <Compile Include="Controls\MouseKeyEventProvider.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="BaseHookListener.cs" />
+    <Compile Include="BaseListener.cs" />
+    <Compile Include="Callback.cs" />
+    <Compile Include="GlobalKeyListener.cs" />
+    <Compile Include="GlobalMouseListener.cs" />
+    <Compile Include="NewApi\AppEventFacade.cs" />
+    <Compile Include="NewApi\EventFacade.cs" />
+    <Compile Include="NewApi\GlobalEventFacade.cs" />
+    <Compile Include="NewApi\Hook.cs" />
+    <Compile Include="NewApi\IKeyboardMouseEvents.cs" />
+    <Compile Include="NewApi\IMouseEvents.cs" />
+    <Compile Include="NewApi\IKeyboardEvents.cs" />
     <Compile Include="KeyboardState.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
+    <Compile Include="Subscribe.cs" />
+    <Compile Include="WinApi\AppMouseStruct.cs" />
+    <Compile Include="WinApi\CallbackData.cs" />
+    <Compile Include="WinApi\HookEventArgs.cs" />
+    <Compile Include="WinApi\HookHelper.cs" />
+    <Compile Include="WinApi\HookIds.cs" />
     <Compile Include="WinApi\HookNativeMethods.cs" />
     <Compile Include="WinApi\HookProcedureHandle.cs" />
+    <Compile Include="WinApi\HookResult.cs" />
     <Compile Include="WinApi\MouseNativeMethods.cs" />
-    <Compile Include="MouseHookListener.cs" />
-    <Compile Include="WinApi\AppHooker.cs" />
-    <Compile Include="WinApi\GlobalHooker.cs" />
-    <Compile Include="WinApi\MouseStructures.cs" />
+    <Compile Include="MouseListener.cs" />
+    <Compile Include="WinApi\MouseStruct.cs" />
     <Compile Include="WinApi\KeyboardHookStruct.cs" />
     <Compile Include="KeyEventArgsExt.cs" />
     <Compile Include="WinApi\Point.cs" />
-    <Compile Include="WinApi\HookCallback.cs" />
-    <Compile Include="KeyboardHookListener.cs" />
+    <Compile Include="WinApi\HookProcedure.cs" />
+    <Compile Include="KeyListener.cs" />
     <Compile Include="MouseEventExtArgs.cs" />
-    <Compile Include="WinApi\Hooker.cs" />
     <Compile Include="WinApi\KeyboardNativeMethods.cs" />
     <Compile Include="WinApi\Messages.cs" />
     <Compile Include="WinApi\ThreadNativeMethods.cs" />

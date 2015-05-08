@@ -1,22 +1,17 @@
 using System;
 using System.Windows.Forms;
-using MouseKeyboardActivityMonitor.WinApi;
+using MouseKeyboardActivityMonitor.NewApi;
 
 namespace MouseKeyboardActivityMonitor.Demo
 {
     public partial class TestFormHookListeners : Form
     {
-        private readonly KeyboardHookListener m_KeyboardHookManager;
-        private readonly MouseHookListener m_MouseHookManager;
+        private readonly IKeyboardMouseEvents m_Events;
 
         public TestFormHookListeners()
         {
             InitializeComponent();
-            m_KeyboardHookManager = new KeyboardHookListener(new GlobalHooker());
-            m_KeyboardHookManager.Enabled = true;
-
-            m_MouseHookManager = new MouseHookListener(new GlobalHooker());
-            m_MouseHookManager.Enabled = true;
+            m_Events = Hook.GlobalEvents();
         }
 
 
@@ -27,24 +22,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxOnMouseMove.Checked)
             {
-                m_MouseHookManager.MouseMove += HookManager_MouseMove;
+                m_Events.MouseMove += HookManager_MouseMove;
             }
             else
             {
-                m_MouseHookManager.MouseMove -= HookManager_MouseMove;
-            }
-        }
-
-        private void checkBoxOnMouseClick_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxOnMouseClick.Checked)
-            {
-                m_MouseHookManager.MouseClickExt += HookManager_MouseClick;
-            }
-            else
-            {
-                checkBoxSuppressMouse.Checked = false;
-                m_MouseHookManager.MouseClickExt -= HookManager_MouseClick;
+                m_Events.MouseMove -= HookManager_MouseMove;
             }
         }
 
@@ -52,11 +34,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxOnMouseUp.Checked)
             {
-                m_MouseHookManager.MouseUp += HookManager_MouseUp;
+                m_Events.MouseUp += HookManager_MouseUp;
             }
             else
             {
-                m_MouseHookManager.MouseUp -= HookManager_MouseUp;
+                m_Events.MouseUp -= HookManager_MouseUp;
             }
         }
 
@@ -64,11 +46,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxOnMouseDown.Checked)
             {
-                m_MouseHookManager.MouseDown += HookManager_MouseDown;
+                m_Events.MouseDown += HookManager_MouseDown;
             }
             else
             {
-                m_MouseHookManager.MouseDown -= HookManager_MouseDown;
+                m_Events.MouseDown -= HookManager_MouseDown;
             }
         }
 
@@ -76,11 +58,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxMouseDoubleClick.Checked)
             {
-                m_MouseHookManager.MouseDoubleClick += HookManager_MouseDoubleClick;
+                m_Events.MouseDoubleClick += HookManager_MouseDoubleClick;
             }
             else
             {
-                m_MouseHookManager.MouseDoubleClick -= HookManager_MouseDoubleClick;
+                m_Events.MouseDoubleClick -= HookManager_MouseDoubleClick;
             }
         }
 
@@ -88,11 +70,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxMouseWheel.Checked)
             {
-                m_MouseHookManager.MouseWheel += HookManager_MouseWheel;
+                m_Events.MouseWheel += HookManager_MouseWheel;
             }
             else
             {
-                m_MouseHookManager.MouseWheel -= HookManager_MouseWheel;
+                m_Events.MouseWheel -= HookManager_MouseWheel;
             }
         }
 
@@ -100,11 +82,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxSuppressMouse.Checked)
             {
-                m_MouseHookManager.MouseDownExt += HookManager_Supress;
+                m_Events.MouseDownExt += HookManager_Supress;
             }
             else
             {
-                m_MouseHookManager.MouseDownExt -= HookManager_Supress;
+                m_Events.MouseDownExt -= HookManager_Supress;
             }
         }
 
@@ -112,11 +94,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxKeyDown.Checked)
             {
-                m_KeyboardHookManager.KeyDown += HookManager_KeyDown;
+                m_Events.KeyDown += HookManager_KeyDown;
             }
             else
             {
-                m_KeyboardHookManager.KeyDown -= HookManager_KeyDown;
+                m_Events.KeyDown -= HookManager_KeyDown;
             }
         }
 
@@ -125,11 +107,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxKeyUp.Checked)
             {
-                m_KeyboardHookManager.KeyUp += HookManager_KeyUp;
+                m_Events.KeyUp += HookManager_KeyUp;
             }
             else
             {
-                m_KeyboardHookManager.KeyUp -= HookManager_KeyUp;
+                m_Events.KeyUp -= HookManager_KeyUp;
             }
         }
 
@@ -137,11 +119,11 @@ namespace MouseKeyboardActivityMonitor.Demo
         {
             if (checkBoxKeyPress.Checked)
             {
-                m_KeyboardHookManager.KeyPress += HookManager_KeyPress;
+                m_Events.KeyPress += HookManager_KeyPress;
             }
             else
             {
-                m_KeyboardHookManager.KeyPress -= HookManager_KeyPress;
+                m_Events.KeyPress -= HookManager_KeyPress;
             }
         }
 
@@ -207,29 +189,6 @@ namespace MouseKeyboardActivityMonitor.Demo
         }
 
         #endregion
-
-        private void checkBoxEnabled_CheckedChanged(object sender, EventArgs e)
-        {
-            m_MouseHookManager.Enabled = checkBoxEnabled.Checked;
-            m_KeyboardHookManager.Enabled = checkBoxEnabled.Checked;
-        }
-
-        private void radioHooksType_CheckedChanged(object sender, EventArgs e)
-        {
-            Hooker hook;
-
-            if (radioApplication.Checked)
-            {
-                hook = new AppHooker();
-            }
-            else
-            {
-                hook = new GlobalHooker();
-            }
-
-            m_KeyboardHookManager.Replace(hook);
-            m_MouseHookManager.Replace(hook);
-        }
 
         private void HookManager_Supress(object sender, MouseEventExtArgs e)
         {
