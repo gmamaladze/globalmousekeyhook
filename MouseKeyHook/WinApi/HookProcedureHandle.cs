@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading;
+using System.Windows.Forms;
 using Microsoft.Win32.SafeHandles;
 
 namespace Gma.System.MouseKeyHook.WinApi
@@ -12,9 +13,9 @@ namespace Gma.System.MouseKeyHook.WinApi
     {
         private static bool _closing = false;
 
-        ~HookProcedureHandle()
+        static HookProcedureHandle()
         {
-            AppDomain.CurrentDomain.ProcessExit += (sender, e) => {_closing = true;};
+            Application.ApplicationExit += (sender, e) => {_closing = true;};
         }
 
         public HookProcedureHandle()
