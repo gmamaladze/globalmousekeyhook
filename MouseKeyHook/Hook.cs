@@ -18,7 +18,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// </returns>
         public static IKeyboardMouseEvents AppEvents()
         {
-            return AppEventFacade.Instance();
+            return new AppEventFacade();
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// </returns>
         public static IKeyboardMouseEvents GlobalEvents()
         {
-            return GlobalEventFacade.Instance();
+            return new GlobalEventFacade();
         }
     }
 }

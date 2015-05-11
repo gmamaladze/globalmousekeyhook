@@ -82,7 +82,7 @@ namespace Gma.System.MouseKeyHook.Implementation
             OnMouseClick(e);
         }
 
-        private void ProcessMouseUp(ref MouseEventExtArgs e)
+        protected virtual void ProcessMouseUp(ref MouseEventExtArgs e)
         {
             if (!HasSupressButtonUpFlag(e.Button))
             {

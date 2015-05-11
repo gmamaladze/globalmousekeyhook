@@ -193,10 +193,10 @@
     <Compile Include="Implementation\Callback.cs" />
     <Compile Include="Implementation\GlobalKeyListener.cs" />
     <Compile Include="Implementation\GlobalMouseListener.cs" />
-    <Compile Include="AppEventFacade.cs" />
+    <Compile Include="Implementation\AppEventFacade.cs" />
     <Compile Include="Implementation\EventFacade.cs" />
     <Compile Include="Implementation\GlobalEventFacade.cs" />
-    <Compile Include="Implementation\Hook.cs" />
+    <Compile Include="Hook.cs" />
     <Compile Include="IKeyboardMouseEvents.cs" />
     <Compile Include="IMouseEvents.cs" />
     <Compile Include="IKeyboardEvents.cs" />

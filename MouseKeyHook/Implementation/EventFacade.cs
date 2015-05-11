@@ -9,8 +9,8 @@ namespace Gma.System.MouseKeyHook.Implementation
 {
     internal abstract class EventFacade : IKeyboardMouseEvents
     {
-        private static WeakReference _keyListenerCache = new WeakReference(null);
-        private static WeakReference _mouseListenerCache = new WeakReference(null);
+        private KeyListener m_KeyListenerCache;
+        private MouseListener m_MouseListenerCache;
 
         public event KeyEventHandler KeyDown
         {
@@ -80,23 +80,29 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         private KeyListener GetKeyListener()
         {
-            var target = _keyListenerCache.Target as KeyListener;
+            var target = m_KeyListenerCache;
             if (target != null) return target;
             target = CreateKeyListener();
-            _keyListenerCache = new WeakReference(target);
+            m_KeyListenerCache = target;
             return target;
         }
 
         private MouseListener GetMouseListener()
         {
-            var target = _mouseListenerCache.Target as MouseListener;
+            var target = m_MouseListenerCache;
             if (target != null) return target;
             target = CreateMouseListener();
-            _mouseListenerCache = new WeakReference(target);
+            m_MouseListenerCache = target;
             return target;
         }
 
         protected abstract MouseListener CreateMouseListener();
         protected abstract KeyListener CreateKeyListener();
+
+        public void Dispose()
+        {
+            if (m_MouseListenerCache!=null) m_MouseListenerCache.Dispose();
+            if (m_KeyListenerCache != null) m_KeyListenerCache.Dispose();
+        }
     }
 }
