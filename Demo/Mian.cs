@@ -16,13 +16,65 @@ namespace Demo
         public Mian()
         {
             InitializeComponent();
-            m_Events = Hook.GlobalEvents();
+            radioGlobal.Checked = true;
+            SubscribeGlobal();
+            this.FormClosing += Mian_Closing;
         }
 
-        protected override void OnClosed(EventArgs e)
+        void Mian_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Unsubscribe();
+        }
+
+
+        private void SubscribeApplication()
+        {
+            Unsubscribe();
+            Subscribe(Hook.AppEvents());
+        }
+
+        private void SubscribeGlobal()
+        {
+            Unsubscribe();
+            Subscribe(Hook.GlobalEvents());
+        }
+
+        private void Subscribe(IKeyboardMouseEvents events)
+        {
+            m_Events = events;
+            m_Events.KeyDown += OnKeyDown;
+            m_Events.KeyUp += OnKeyUp;
+            m_Events.KeyPress += HookManager_KeyPress;
+
+            m_Events.MouseDown += OnMouseDown;
+            m_Events.MouseUp += OnMouseUp;
+            m_Events.MouseClick += OnMouseClick;
+            m_Events.MouseDoubleClick += OnMouseDoubleClick;
+
+            m_Events.MouseMove += HookManager_MouseMove;
+            m_Events.MouseWheel += HookManager_MouseWheel;
+
+            m_Events.MouseDownExt += HookManager_Supress;
+        }
+
+        private void Unsubscribe()
+        {
+            if (m_Events == null) return;
+            m_Events.KeyDown -= OnKeyDown;
+            m_Events.KeyUp -= OnKeyUp;
+            m_Events.KeyPress -= HookManager_KeyPress;
+
+            m_Events.MouseDown -= OnMouseDown;
+            m_Events.MouseUp -= OnMouseUp;
+            m_Events.MouseClick -= OnMouseClick;
+            m_Events.MouseDoubleClick -= OnMouseDoubleClick;
+
+            m_Events.MouseMove -= HookManager_MouseMove;
+            m_Events.MouseWheel -= HookManager_MouseWheel;
+
+            m_Events.MouseDownExt -= HookManager_Supress;
             m_Events.Dispose();
-            base.OnClosed(e);
+            m_Events = null;
         }
 
         private void HookManager_Supress(object sender, MouseEventExtArgs e)
@@ -35,144 +87,12 @@ namespace Demo
             e.Handled = true;
         }
 
-        private void checkBoxEnabled_CheckedChanged(object sender, EventArgs e)
+        private void OnKeyDown(object sender, KeyEventArgs e)
         {
-            if (checkBoxEnabled.Checked)
-            {
-                m_Events = Hook.GlobalEvents();
-            }
-            else
-            {
-                m_Events.Dispose();
-                m_Events = null;
-            }
+            Log(string.Format("KeyDown  \t\t {0}\n", e.KeyCode));
         }
 
-        //##################################################################
-
-        #region Check boxes to set or remove particular event handlers.
-
-        private void checkBoxOnMouseMove_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxOnMouseMove.Checked)
-            {
-                m_Events.MouseMove += HookManager_MouseMove;
-            }
-            else
-            {
-                m_Events.MouseMove -= HookManager_MouseMove;
-            }
-        }
-
-        private void checkBoxOnMouseUp_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxOnMouseUp.Checked)
-            {
-                m_Events.MouseUp += HookManager_MouseUp;
-            }
-            else
-            {
-                m_Events.MouseUp -= HookManager_MouseUp;
-            }
-        }
-
-        private void checkBoxOnMouseDown_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxOnMouseDown.Checked)
-            {
-                m_Events.MouseDown += HookManager_MouseDown;
-            }
-            else
-            {
-                m_Events.MouseDown -= HookManager_MouseDown;
-            }
-        }
-
-        private void checkBoxMouseDoubleClick_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxMouseDoubleClick.Checked)
-            {
-                m_Events.MouseDoubleClick += HookManager_MouseDoubleClick;
-            }
-            else
-            {
-                m_Events.MouseDoubleClick -= HookManager_MouseDoubleClick;
-            }
-        }
-
-        private void checkBoxMouseWheel_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxMouseWheel.Checked)
-            {
-                m_Events.MouseWheel += HookManager_MouseWheel;
-            }
-            else
-            {
-                m_Events.MouseWheel -= HookManager_MouseWheel;
-            }
-        }
-
-        private void checkBoxSuppressMouse_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxSuppressMouse.Checked)
-            {
-                m_Events.MouseDownExt += HookManager_Supress;
-            }
-            else
-            {
-                m_Events.MouseDownExt -= HookManager_Supress;
-            }
-        }
-
-        private void checkBoxKeyDown_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxKeyDown.Checked)
-            {
-                m_Events.KeyDown += HookManager_KeyDown;
-            }
-            else
-            {
-                m_Events.KeyDown -= HookManager_KeyDown;
-            }
-        }
-
-
-        private void checkBoxKeyUp_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxKeyUp.Checked)
-            {
-                m_Events.KeyUp += HookManager_KeyUp;
-            }
-            else
-            {
-                m_Events.KeyUp -= HookManager_KeyUp;
-            }
-        }
-
-        private void checkBoxKeyPress_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBoxKeyPress.Checked)
-            {
-                m_Events.KeyPress += HookManager_KeyPress;
-            }
-            else
-            {
-                m_Events.KeyPress -= HookManager_KeyPress;
-            }
-        }
-
-        #endregion
-
-        //##################################################################
-
-        #region Event handlers of particular events. They will be activated when an appropriate check box is checked.
-
-        private void HookManager_KeyDown(object sender, KeyEventArgs e)
-        {
-            Log(string.Format("KeyDown \t\t {0}\n", e.KeyCode));
-        }
-
-        private void HookManager_KeyUp(object sender, KeyEventArgs e)
+        private void OnKeyUp(object sender, KeyEventArgs e)
         {
             Log(string.Format("KeyUp  \t\t {0}\n", e.KeyCode));
         }
@@ -189,28 +109,25 @@ namespace Demo
             labelMousePosition.Text = string.Format("x={0:0000}; y={1:0000}", e.X, e.Y);
         }
 
-        private void HookManager_MouseClick(object sender, MouseEventArgs e)
-        {
-            Log(string.Format("MouseClick \t\t {0}\n", e.Button));
-        }
-
-        private void HookManager_MouseUp(object sender, MouseEventArgs e)
-        {
-            Log(string.Format("MouseUp \t\t {0}\n", e.Button));
-        }
-
-
-        private void HookManager_MouseDown(object sender, MouseEventArgs e)
+        private void OnMouseDown(object sender, MouseEventArgs e)
         {
             Log(string.Format("MouseDown \t\t {0}\n", e.Button));
         }
 
+        private void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            Log(string.Format("MouseUp \t\t {0}\n", e.Button));
+        }
 
-        private void HookManager_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void OnMouseClick(object sender, MouseEventArgs e)
+        {
+            Log(string.Format("MouseClick \t\t {0}\n", e.Button));
+        }
+
+        private void OnMouseDoubleClick(object sender, MouseEventArgs e)
         {
             Log(string.Format("MouseDoubleClick \t\t {0}\n", e.Button));
         }
-
 
         private void HookManager_MouseWheel(object sender, MouseEventArgs e)
         {
@@ -224,12 +141,19 @@ namespace Demo
             textBoxLog.ScrollToCaret();
         }
 
-
-        #endregion
-
-        private void checkBoxOnMouseClick_CheckedChanged(object sender, EventArgs e)
+        private void radioApplication_CheckedChanged(object sender, EventArgs e)
         {
+            if (((RadioButton)sender).Checked) SubscribeApplication();
+        }
 
+        private void radioGlobal_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked) SubscribeGlobal();
+        }
+
+        private void radioNone_CheckedChanged(object sender, EventArgs e)
+        {
+            if (((RadioButton)sender).Checked) Unsubscribe();
         }
     }
 }

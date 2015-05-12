@@ -2,6 +2,7 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
+using System;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
 
@@ -9,97 +10,66 @@ namespace Gma.System.MouseKeyHook.Implementation
 {
     internal class GlobalMouseListener : MouseListener
     {
-        private MouseButtons m_DownButtons;
         private MouseButtons m_PreviousClicked;
         private Point m_PreviousClickedPosition;
         private int m_PreviousClickedTime;
+        private readonly int m_SystemDoubleClickTime;
 
         public GlobalMouseListener()
             : base(HookHelper.HookGlobalMouse)
         {
-            ResetDoubleClickWaiting();
+            m_SystemDoubleClickTime = MouseNativeMethods.GetDoubleClickTime();
         }
 
-        protected override void ProcessMouseDown(ref MouseEventExtArgs e)
+        protected override void ProcessDown(ref MouseEventExtArgs e)
         {
-            base.ProcessMouseDown(ref e);
-            Set(e.Button);
+            if (IsDoubleClick(e))
+            {
+                e = e.ToDoubleClickEventArgs();
+            }
+            base.ProcessDown(ref e);
         }
 
- 
-        protected override void ProcessMouseUp(ref MouseEventExtArgs e)
+        protected override void ProcessUp(ref MouseEventExtArgs e)
         {
-            base.ProcessMouseUp(ref e);
-            var isSupressed = e.Handled;
-            if (isSupressed) return;
-            var wasDownBeforeUp = IsSet(e.Button);
-            if (wasDownBeforeUp) ProcessMouseClick(ref e);
-            Unset(e.Button);
+            base.ProcessUp(ref e);
+            if (e.Clicks == 2)
+            {
+                StopDoubleClickWaiting();
+            }
+
+            if (e.Clicks == 1)
+            {
+                StartDoubleClickWaiting(e);
+            }
         }
 
-        private void Set(MouseButtons button)
-        {
-            m_DownButtons |= button;
-        }
-
-        private void Unset(MouseButtons button)
-        {
-            m_DownButtons &= ~button;
-        }
-
-        private bool IsSet(MouseButtons button)
-        {
-            return (m_DownButtons & button) != MouseButtons.None;
-        }
-
-        protected override void ProcessMouseClick(ref MouseEventExtArgs e)
-        {
-            base.ProcessMouseClick(ref e);
-        }
-
-        private bool IsDoubleClickWaitingFor(MouseButtons button)
-        {
-            return (m_DownButtons & button) != MouseButtons.None;
-        }
-
-        private void StartNewDoubleClickWaiting(MouseEventExtArgs e)
+        private void StartDoubleClickWaiting(MouseEventExtArgs e)
         {
             m_PreviousClicked = e.Button;
+            m_PreviousClickedTime = e.Timestamp;
             m_PreviousClickedPosition = e.Point;
-            m_DownButtons = MouseButtons.None;
         }
+
+        private void StopDoubleClickWaiting()
+        {
+            m_PreviousClicked = MouseButtons.None;
+            m_PreviousClickedTime = 0;
+            m_PreviousClickedPosition = new Point(0,0);
+        }
+
+        private bool IsDoubleClick(MouseEventExtArgs e)
+        {
+            return
+                e.Button == m_PreviousClicked &&
+                e.Point == m_PreviousClickedPosition && // Click-move-click exception, see Patch 11222
+                e.Timestamp - m_PreviousClickedTime <= m_SystemDoubleClickTime;
+        }
+
 
         protected override MouseEventExtArgs GetEventArgs(CallbackData data)
         {
             return MouseEventExtArgs.FromRawDataApp(data);
-        }
-
-        private void ProcessPossibleDoubleClick(ref MouseEventExtArgs e)
-        {
-            if (IsDoubleClick(e.Button, e.Timestamp, e.Point))
-            {
-                e = e.ToDoubleClickEventArgs();
-                ResetDoubleClickWaiting();
-            }
-            else
-            {
-                m_PreviousClickedTime = e.Timestamp;
-            }
-        }
-
-        private void ResetDoubleClickWaiting()
-        {
-            m_DownButtons = MouseButtons.None;
-            m_PreviousClicked = MouseButtons.None;
-            m_PreviousClickedTime = 0;
-        }
-
-        private bool IsDoubleClick(MouseButtons button, int timestamp, Point pos)
-        {
-            return
-                button == m_PreviousClicked &&
-                pos == m_PreviousClickedPosition && // Click-move-click exception, see Patch 11222
-                timestamp - m_PreviousClickedTime <= SystemDoubleClickTime; // Mouse.GetDoubleClickTime();
         }
     }
 }

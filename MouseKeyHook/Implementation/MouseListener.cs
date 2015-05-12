@@ -10,21 +10,16 @@ namespace Gma.System.MouseKeyHook.Implementation
 {
     internal abstract class MouseListener : BaseListener
     {
-        private readonly int m_SystemDoubleClickTime;
         private Point m_PreviousPosition;
-        private MouseButtons m_SuppressButtonUpFlags;
+        private readonly ButtonSet m_DoubleDown;
+        private readonly ButtonSet m_SingleDown;
 
         protected MouseListener(Subscribe subscribe)
             : base(subscribe)
         {
             m_PreviousPosition = new Point(-1, -1);
-            m_SuppressButtonUpFlags = MouseButtons.None;
-            m_SystemDoubleClickTime = MouseNativeMethods.GetDoubleClickTime();
-        }
-
-        protected int SystemDoubleClickTime
-        {
-            get { return m_SystemDoubleClickTime; }
+            m_DoubleDown = new ButtonSet();
+            m_SingleDown = new ButtonSet();
         }
 
         protected override bool Callback(CallbackData data)
@@ -33,32 +28,22 @@ namespace Gma.System.MouseKeyHook.Implementation
 
             if (e.IsMouseKeyDown)
             {
-                ProcessMouseDown(ref e);
-            }
-
-            if (e.Clicks == 1 && e.IsMouseKeyUp && !e.Handled)
-            {
-                ProcessMouseClick(ref e);
-            }
-
-            if (e.Clicks == 2 && !e.Handled)
-            {
-                OnMouseDoubleClick(e);
+                ProcessDown(ref e);
             }
 
             if (e.IsMouseKeyUp)
             {
-                ProcessMouseUp(ref e);
+                ProcessUp(ref e);
             }
 
             if (e.WheelScrolled)
             {
-                OnMouseWheel(e);
+                ProcessWheel(ref e);
             }
 
             if (HasMoved(e.Point))
             {
-                ProcessMouseMove(ref e);
+                ProcessMove(ref e);
             }
 
             return !e.Handled;
@@ -66,61 +51,59 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         protected abstract MouseEventExtArgs GetEventArgs(CallbackData data);
 
-        protected virtual void ProcessMouseDown(ref MouseEventExtArgs e)
+        protected virtual void ProcessWheel(ref MouseEventExtArgs e)
         {
-            OnMouseDown(e);
-            OnMouseDownExt(e);
+            OnWheel(e);            
+        }
+        protected virtual void ProcessDown(ref MouseEventExtArgs e)
+        {
+            OnDown(e);
+            OnDownExt(e);
             if (e.Handled)
             {
-                SetSupressButtonUpFlag(e.Button);
-                e.Handled = true;
+                return;
             }
-        }
 
-        protected virtual void ProcessMouseClick(ref MouseEventExtArgs e)
-        {
-            OnMouseClick(e);
-        }
-
-        protected virtual void ProcessMouseUp(ref MouseEventExtArgs e)
-        {
-            if (!HasSupressButtonUpFlag(e.Button))
+            if (e.Clicks == 2)
             {
-                OnMouseUp(e);
+                m_DoubleDown.Add(e.Button);
             }
-            else
+
+            if (e.Clicks == 1)
             {
-                RemoveSupressButtonUpFlag(e.Button);
-                e.Handled = true;
+                m_SingleDown.Add(e.Button);
             }
         }
 
-        private void ProcessMouseMove(ref MouseEventExtArgs e)
+        protected virtual void ProcessUp(ref MouseEventExtArgs e)
+        {
+            if (m_SingleDown.Contains(e.Button))
+            {
+                OnUp(e);
+                OnClick(e);
+                m_SingleDown.Remove(e.Button);
+            }
+
+            if (m_DoubleDown.Contains(e.Button))
+            {
+                e = e.ToDoubleClickEventArgs();
+                OnUp(e);
+                OnDoubleClick(e);
+                m_DoubleDown.Remove(e.Button);
+            }
+        }
+
+        private void ProcessMove(ref MouseEventExtArgs e)
         {
             m_PreviousPosition = e.Point;
 
-            OnMouseMove(e);
-            OnMouseMoveExt(e);
-        }
-
-        private void RemoveSupressButtonUpFlag(MouseButtons button)
-        {
-            m_SuppressButtonUpFlags = m_SuppressButtonUpFlags ^ button;
-        }
-
-        private bool HasSupressButtonUpFlag(MouseButtons button)
-        {
-            return (m_SuppressButtonUpFlags & button) != 0;
+            OnMove(e);
+            OnMoveExt(e);
         }
 
         private bool HasMoved(Point actualPoint)
         {
             return m_PreviousPosition != actualPoint;
-        }
-
-        private void SetSupressButtonUpFlag(MouseButtons button)
-        {
-            m_SuppressButtonUpFlags = m_SuppressButtonUpFlags | button;
         }
 
         public event MouseEventHandler MouseMove;
@@ -132,49 +115,49 @@ namespace Gma.System.MouseKeyHook.Implementation
         public event MouseEventHandler MouseWheel;
         public event MouseEventHandler MouseDoubleClick;
 
-        protected virtual void OnMouseMove(MouseEventArgs e)
+        protected virtual void OnMove(MouseEventArgs e)
         {
             var handler = MouseMove;
             if (handler != null) handler(this, e);
         }
 
-        protected virtual void OnMouseMoveExt(MouseEventExtArgs e)
+        protected virtual void OnMoveExt(MouseEventExtArgs e)
         {
             var handler = MouseMoveExt;
             if (handler != null) handler(this, e);
         }
 
-        protected virtual void OnMouseClick(MouseEventArgs e)
+        protected virtual void OnClick(MouseEventArgs e)
         {
             var handler = MouseClick;
             if (handler != null) handler(this, e);
         }
 
-        protected virtual void OnMouseDown(MouseEventArgs e)
+        protected virtual void OnDown(MouseEventArgs e)
         {
             var handler = MouseDown;
             if (handler != null) handler(this, e);
         }
 
-        protected virtual void OnMouseDownExt(MouseEventExtArgs e)
+        protected virtual void OnDownExt(MouseEventExtArgs e)
         {
             var handler = MouseDownExt;
             if (handler != null) handler(this, e);
         }
 
-        protected virtual void OnMouseUp(MouseEventArgs e)
+        protected virtual void OnUp(MouseEventArgs e)
         {
             var handler = MouseUp;
             if (handler != null) handler(this, e);
         }
 
-        protected virtual void OnMouseWheel(MouseEventArgs e)
+        protected virtual void OnWheel(MouseEventArgs e)
         {
             var handler = MouseWheel;
             if (handler != null) handler(this, e);
         }
 
-        protected virtual void OnMouseDoubleClick(MouseEventArgs e)
+        protected virtual void OnDoubleClick(MouseEventArgs e)
         {
             var handler = MouseDoubleClick;
             if (handler != null) handler(this, e);
