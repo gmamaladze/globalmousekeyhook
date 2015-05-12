@@ -2,6 +2,7 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
 
@@ -51,16 +52,20 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected override bool Callback(CallbackData data)
         {
             var eDownUp = GetDownUpEventArgs(data);
-            var ePress = GetPressEventArgs(data);
+            var pressEventArgs = GetPressEventArgs(data);
 
             InvokeKeyDown(eDownUp);
-            InvokeKeyPress(ePress);
+            foreach (var pressEventArg in pressEventArgs)
+            {
+                InvokeKeyPress(pressEventArg);    
+            }
+            
             InvokeKeyUp(eDownUp);
 
             return !eDownUp.Handled;
         }
 
-        protected abstract KeyPressEventArgsExt GetPressEventArgs(CallbackData data);
+        protected abstract IEnumerable<KeyPressEventArgsExt> GetPressEventArgs(CallbackData data);
         protected abstract KeyEventArgsExt GetDownUpEventArgs(CallbackData data);
     }
 }

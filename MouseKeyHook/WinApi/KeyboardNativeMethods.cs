@@ -38,13 +38,13 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// </summary>
         /// <param name="virtualKeyCode"></param>
         /// <param name="fuState"></param>
-        /// <param name="ch"></param>
+        /// <param name="chars"></param>
         /// <returns></returns>
-        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int fuState, out char ch)
+        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int fuState, out char[] chars)
         {
             var dwhkl = GetActiveKeyboard();
             int scanCode = MapVirtualKeyEx(virtualKeyCode, (int) MapType.MAPVK_VK_TO_VSC, dwhkl);
-            return TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out ch);
+            return TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out chars);
         }
 
         /// <summary>
@@ -53,12 +53,12 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <param name="virtualKeyCode"></param>
         /// <param name="scanCode"></param>
         /// <param name="fuState"></param>
-        /// <param name="ch"></param>
+        /// <param name="chars"></param>
         /// <returns></returns>
-        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char ch)
+        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char[] chars)
         {
             var dwhkl = GetActiveKeyboard(); //get the active keyboard layout
-            return TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out ch);
+            return TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out chars);
         }
 
         /// <summary>
@@ -68,34 +68,67 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <param name="scanCode"></param>
         /// <param name="fuState"></param>
         /// <param name="dwhkl"></param>
-        /// <param name="ch"></param>
+        /// <param name="chars"></param>
         /// <returns></returns>
-        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, IntPtr dwhkl,
-            out char ch)
+        internal static bool TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, IntPtr dwhkl, out char[] chars)
         {
             StringBuilder pwszBuff = new StringBuilder(64);
             KeyboardState keyboardState = KeyboardState.GetCurrent();
             byte[] currentKeyboardState = keyboardState.GetNativeState();
 
-            if (
-                ToUnicodeEx(virtualKeyCode, scanCode, currentKeyboardState, pwszBuff, pwszBuff.Capacity, fuState, dwhkl) !=
-                1)
+            var relevantChars = ToUnicodeEx(virtualKeyCode, scanCode, currentKeyboardState, pwszBuff, pwszBuff.Capacity, fuState, dwhkl);
+
+
+            switch (relevantChars)
             {
-                ch = (char) 0;
-                return false;
+                case -1:
+                    ClearKeyboardBuffer(virtualKeyCode, scanCode, dwhkl);
+                    chars = null;
+                    return false;
+
+                case 0:
+                    chars = null;
+                    return false;
+
+                case 1:
+                    chars = new[] {pwszBuff[0]};
+                    break;
+
+                // Two or more (only two of them is relevant)
+                default:
+                    chars = new[] { pwszBuff[0], pwszBuff[1] };
+                    break;
             }
 
-            ch = pwszBuff[0];
 
-            bool isDownShift = keyboardState.IsDown(Keys.ShiftKey);
-            bool isToggledCapsLock = keyboardState.IsToggled(Keys.CapsLock);
 
-            if ((isToggledCapsLock ^ isDownShift) && Char.IsLetter(ch))
+            var isDownShift = keyboardState.IsDown(Keys.ShiftKey);
+            var isToggledCapsLock = keyboardState.IsToggled(Keys.CapsLock);
+
+            for (int i = 0; i < chars.Length; i++)
             {
-                ch = Char.ToUpper(ch);
+                var ch = chars[i];
+                if ((isToggledCapsLock ^ isDownShift) && Char.IsLetter(ch))
+                {
+                    chars[i] = Char.ToUpper(ch);
+                }
             }
+
 
             return true;
+        }
+
+
+        private static void ClearKeyboardBuffer(int vk, int sc, IntPtr hkl)
+        {
+            var sb = new StringBuilder(10);
+
+            int rc;
+            do
+            {
+                byte[] lpKeyStateNull = new Byte[255];
+                rc = ToUnicodeEx(vk, sc, lpKeyStateNull, sb, sb.Capacity, 0, hkl);
+            } while (rc < 0);
         }
 
         /// <summary>

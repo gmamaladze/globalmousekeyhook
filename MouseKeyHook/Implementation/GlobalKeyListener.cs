@@ -2,6 +2,7 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
+using System.Collections.Generic;
 using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.Implementation
@@ -13,7 +14,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
         }
 
-        protected override KeyPressEventArgsExt GetPressEventArgs(CallbackData data)
+        protected override IEnumerable<KeyPressEventArgsExt> GetPressEventArgs(CallbackData data)
         {
             return KeyPressEventArgsExt.FromRawDataGlobal(data);
         }

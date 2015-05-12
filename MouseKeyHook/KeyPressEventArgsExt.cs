@@ -3,6 +3,7 @@
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.Implementation;
@@ -44,7 +45,7 @@ namespace Gma.System.MouseKeyHook
         /// </summary>
         public int Timestamp { get; private set; }
 
-        internal static KeyPressEventArgsExt FromRawDataApp(CallbackData data)
+        internal static IEnumerable<KeyPressEventArgsExt> FromRawDataApp(CallbackData data)
         {
             var wParam = data.WParam;
             var lParam = data.LParam;
@@ -55,78 +56,66 @@ namespace Gma.System.MouseKeyHook
             const uint maskKeyup = 0x80000000; // for bit 31
             const uint maskScanCode = 0xff0000; // for bit 23-16
 
-            uint flags = 0u;
-#if IS_X64
-    // both of these are ugly hacks. Is there a better way to convert a 64bit IntPtr to uint?
-
-    // flags = uint.Parse(lParam.ToString());
-            flags = Convert.ToUInt32(lParam.ToInt64());
-#else
-            //updated from ( uint )lParam, which threw an integer overflow exception in Unicode characters
-            flags = (uint) lParam.ToInt64();
-#endif
+            var flags = (uint) lParam.ToInt64();
 
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
-            bool wasKeyDown = (flags & maskKeydown) > 0;
+            var wasKeyDown = (flags & maskKeydown) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
-            bool isKeyReleased = (flags & maskKeyup) > 0;
+            var isKeyReleased = (flags & maskKeyup) > 0;
 
             if (!wasKeyDown && !isKeyReleased)
             {
-                return new KeyPressEventArgsExt((char) 0);
+                yield break;
             }
 
             var virtualKeyCode = (int) wParam;
             var scanCode = checked((int) (flags & maskScanCode));
             const int fuState = 0;
 
-            char ch;
+            char[] chars;
 
-            bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState,
-                out ch);
-            if (!isSuccessfull)
+            var isOk = 
+                KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
+            if (!isOk) yield break;
+            foreach (var ch in chars)
             {
-                return new KeyPressEventArgsExt((char) 0);
+                yield return new KeyPressEventArgsExt(ch);
             }
-
-            return new KeyPressEventArgsExt(ch);
         }
 
-        internal static KeyPressEventArgsExt FromRawDataGlobal(CallbackData data)
+        internal static IEnumerable<KeyPressEventArgsExt> FromRawDataGlobal(CallbackData data)
         {
             var wParam = data.WParam;
             var lParam = data.LParam;
 
             if ((int) wParam != Messages.WM_KEYDOWN)
             {
-                return new KeyPressEventArgsExt((char) 0);
+                yield break;
             }
 
             KeyboardHookStruct keyboardHookStruct =
                 (KeyboardHookStruct) Marshal.PtrToStructure(lParam, typeof (KeyboardHookStruct));
 
-            int virtualKeyCode = keyboardHookStruct.VirtualKeyCode;
-            int scanCode = keyboardHookStruct.ScanCode;
-            int fuState = keyboardHookStruct.Flags;
-
-            char ch;
+            var virtualKeyCode = keyboardHookStruct.VirtualKeyCode;
+            var scanCode = keyboardHookStruct.ScanCode;
+            var fuState = keyboardHookStruct.Flags;
 
             if (virtualKeyCode == KeyboardNativeMethods.VK_PACKET)
             {
-                ch = (char) scanCode;
+                var ch = (char) scanCode;
+                yield return new KeyPressEventArgsExt(ch, keyboardHookStruct.Time);
             }
             else
             {
-                bool isSuccessfull = KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState,
-                    out ch);
-                if (!isSuccessfull)
+                char[] chars;
+                var isOk =
+                    KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
+                if (!isOk) yield break;
+                foreach (var current in chars)
                 {
-                    return new KeyPressEventArgsExt((char) 0);
+                    yield return new KeyPressEventArgsExt(current, keyboardHookStruct.Time);
                 }
             }
-
-            KeyPressEventArgsExt e = new KeyPressEventArgsExt(ch, keyboardHookStruct.Time);
-            return e;
         }
     }
 }

@@ -25,13 +25,12 @@ namespace Gma.System.MouseKeyHook
         {
         }
 
-        internal KeyEventArgsExt(Keys keyData, int timestamp, bool isKeyDown, bool isKeyUp, char unicodeChar)
+        internal KeyEventArgsExt(Keys keyData, int timestamp, bool isKeyDown, bool isKeyUp)
             : this(keyData)
         {
             Timestamp = timestamp;
             IsKeyDown = isKeyDown;
             IsKeyUp = isKeyUp;
-            UnicodeChar = unicodeChar;
         }
 
         /// <summary>
@@ -49,11 +48,6 @@ namespace Gma.System.MouseKeyHook
         /// </summary>
         public bool IsKeyUp { get; private set; }
 
-        /// <summary>
-        ///     Returns the character representation
-        /// </summary>
-        public char UnicodeChar { get; private set; }
-
         internal static KeyEventArgsExt FromRawDataApp(CallbackData data)
         {
             var wParam = data.WParam;
@@ -66,16 +60,7 @@ namespace Gma.System.MouseKeyHook
 
             int timestamp = Environment.TickCount;
 
-            uint flags = 0u;
-#if IS_X64
-    // both of these are ugly hacks. Is there a better way to convert a 64bit IntPtr to uint?
-
-    // flags = uint.Parse(lParam.ToString());
-            flags = Convert.ToUInt32(lParam.ToInt64());
-#else
-            //updated from ( uint )lParam, which threw an integer overflow exception in Unicode characters
-            flags = (uint) lParam.ToInt64();
-#endif
+            var flags = (uint) lParam.ToInt64();
 
             //bit 30 Specifies the previous key state. The value is 1 if the key is down before the message is sent; it is 0 if the key is up.
             bool wasKeyDown = (flags & maskKeydown) > 0;
@@ -87,11 +72,7 @@ namespace Gma.System.MouseKeyHook
             bool isKeyDown = !wasKeyDown && !isKeyReleased;
             bool isKeyUp = wasKeyDown && isKeyReleased;
 
-            char ch;
-
-            //translated based on the active application's keyboard layout.
-            KeyboardNativeMethods.TryGetCharFromKeyboardState((int) wParam, (int) flags, out ch);
-            return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp, ch);
+            return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp);
         }
 
         internal static KeyEventArgsExt FromRawDataGlobal(CallbackData data)
@@ -106,16 +87,7 @@ namespace Gma.System.MouseKeyHook
             bool isKeyDown = (keyCode == Messages.WM_KEYDOWN || keyCode == Messages.WM_SYSKEYDOWN);
             bool isKeyUp = (keyCode == Messages.WM_KEYUP || keyCode == Messages.WM_SYSKEYUP);
 
-            //sent explicitly as a Unicode character
-            if (keyboardHookStruct.VirtualKeyCode == KeyboardNativeMethods.VK_PACKET)
-                return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp,
-                    (char) AppendModifierStates((Keys) keyboardHookStruct.ScanCode));
-
-            //Translate based on the application's keyboard layout
-            char ch;
-            KeyboardNativeMethods.TryGetCharFromKeyboardState(keyboardHookStruct.VirtualKeyCode,
-                keyboardHookStruct.ScanCode, keyboardHookStruct.Flags, out ch);
-            return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, ch);
+            return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp);
         }
 
         // # It is not possible to distinguish Keys.LControlKey and Keys.RControlKey when they are modifiers
