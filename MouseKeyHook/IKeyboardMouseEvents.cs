@@ -3,6 +3,7 @@
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
 using System;
+
 namespace Gma.System.MouseKeyHook
 {
     /// <summary>

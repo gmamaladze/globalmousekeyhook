@@ -2,8 +2,6 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
-using System;
-using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32.SafeHandles;
 
@@ -11,17 +9,16 @@ namespace Gma.System.MouseKeyHook.WinApi
 {
     internal class HookProcedureHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
-        private static bool _closing = false;
+        private static bool _closing;
 
         static HookProcedureHandle()
         {
-            Application.ApplicationExit += (sender, e) => {_closing = true;};
+            Application.ApplicationExit += (sender, e) => { _closing = true; };
         }
 
         public HookProcedureHandle()
             : base(true)
         {
-            
         }
 
         protected override bool ReleaseHandle()

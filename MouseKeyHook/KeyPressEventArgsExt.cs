@@ -76,7 +76,7 @@ namespace Gma.System.MouseKeyHook
                 return new KeyPressEventArgsExt((char) 0);
             }
 
-            var virtualKeyCode = (int)wParam;
+            var virtualKeyCode = (int) wParam;
             var scanCode = checked((int) (flags & maskScanCode));
             const int fuState = 0;
 
@@ -97,7 +97,7 @@ namespace Gma.System.MouseKeyHook
             var wParam = data.WParam;
             var lParam = data.LParam;
 
-            if ((int)wParam != Messages.WM_KEYDOWN)
+            if ((int) wParam != Messages.WM_KEYDOWN)
             {
                 return new KeyPressEventArgsExt((char) 0);
             }

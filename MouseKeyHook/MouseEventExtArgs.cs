@@ -112,7 +112,7 @@ namespace Gma.System.MouseKeyHook
             bool isMouseKeyUp = false;
 
 
-            switch ((long)wParam)
+            switch ((long) wParam)
             {
                 case Messages.WM_LBUTTONDOWN:
                     isMouseKeyDown = true;

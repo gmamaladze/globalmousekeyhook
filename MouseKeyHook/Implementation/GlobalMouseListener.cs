@@ -2,7 +2,6 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
-using System;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
 
@@ -10,10 +9,10 @@ namespace Gma.System.MouseKeyHook.Implementation
 {
     internal class GlobalMouseListener : MouseListener
     {
+        private readonly int m_SystemDoubleClickTime;
         private MouseButtons m_PreviousClicked;
         private Point m_PreviousClickedPosition;
         private int m_PreviousClickedTime;
-        private readonly int m_SystemDoubleClickTime;
 
         public GlobalMouseListener()
             : base(HookHelper.HookGlobalMouse)
@@ -55,7 +54,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             m_PreviousClicked = MouseButtons.None;
             m_PreviousClickedTime = 0;
-            m_PreviousClickedPosition = new Point(0,0);
+            m_PreviousClickedPosition = new Point(0, 0);
         }
 
         private bool IsDoubleClick(MouseEventExtArgs e)
@@ -65,7 +64,6 @@ namespace Gma.System.MouseKeyHook.Implementation
                 e.Point == m_PreviousClickedPosition && // Click-move-click exception, see Patch 11222
                 e.Timestamp - m_PreviousClickedTime <= m_SystemDoubleClickTime;
         }
-
 
         protected override MouseEventExtArgs GetEventArgs(CallbackData data)
         {

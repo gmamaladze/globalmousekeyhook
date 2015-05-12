@@ -29,9 +29,8 @@ namespace Gma.System.MouseKeyHook.WinApi
         //may be possible to use these aggregates instead of L and R separately (untested)
         public const byte VK_CONTROL = 0x11;
         public const byte VK_MENU = 0x12;
-
         public const byte VK_PACKET = 0xE7;
-            //Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods
+        //Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods
 
         /// <summary>
         ///     Translates a virtual key to its character equivalent using the current keyboard layout without knowing the
@@ -110,7 +109,7 @@ namespace Gma.System.MouseKeyHook.WinApi
             IntPtr hActiveWnd = ThreadNativeMethods.GetForegroundWindow(); //handle to focused window
             int dwProcessId;
             int hCurrentWnd = ThreadNativeMethods.GetWindowThreadProcessId(hActiveWnd, out dwProcessId);
-                //thread of focused window
+            //thread of focused window
             return GetKeyboardLayout(hCurrentWnd); //get the layout identifier for the thread whose window is focused
         }
 

@@ -10,9 +10,9 @@ namespace Gma.System.MouseKeyHook.Implementation
 {
     internal abstract class MouseListener : BaseListener
     {
-        private Point m_PreviousPosition;
         private readonly ButtonSet m_DoubleDown;
         private readonly ButtonSet m_SingleDown;
+        private Point m_PreviousPosition;
 
         protected MouseListener(Subscribe subscribe)
             : base(subscribe)
@@ -53,8 +53,9 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         protected virtual void ProcessWheel(ref MouseEventExtArgs e)
         {
-            OnWheel(e);            
+            OnWheel(e);
         }
+
         protected virtual void ProcessDown(ref MouseEventExtArgs e)
         {
             OnDown(e);

@@ -90,7 +90,7 @@ namespace Gma.System.MouseKeyHook
             char ch;
 
             //translated based on the active application's keyboard layout.
-            KeyboardNativeMethods.TryGetCharFromKeyboardState((int)wParam, (int) flags, out ch);
+            KeyboardNativeMethods.TryGetCharFromKeyboardState((int) wParam, (int) flags, out ch);
             return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp, ch);
         }
 
@@ -102,7 +102,7 @@ namespace Gma.System.MouseKeyHook
                 (KeyboardHookStruct) Marshal.PtrToStructure(lParam, typeof (KeyboardHookStruct));
             var keyData = AppendModifierStates((Keys) keyboardHookStruct.VirtualKeyCode);
 
-            var keyCode = (int)wParam;
+            var keyCode = (int) wParam;
             bool isKeyDown = (keyCode == Messages.WM_KEYDOWN || keyCode == Messages.WM_SYSKEYDOWN);
             bool isKeyUp = (keyCode == Messages.WM_KEYUP || keyCode == Messages.WM_SYSKEYUP);
 

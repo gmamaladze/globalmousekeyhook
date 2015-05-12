@@ -41,9 +41,8 @@ namespace Gma.System.MouseKeyHook.HotKeys
         private bool m_enabled = true; //enabled by default
         //These provide the actual status of whether a set is truly activated or not.
         private int m_hotkeydowncount; //number of hot keys down
-
         private int m_remappingCount;
-            //the number of remappings, i.e., a set of mappings, not the individual count in m_remapping
+        //the number of remappings, i.e., a set of mappings, not the individual count in m_remapping
 
         /// <summary>
         ///     Creates an instance of the HotKeySet class.  Once created, the keys cannot be changed.

@@ -3,6 +3,7 @@
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Gma.System.MouseKeyHook.Implementation;
@@ -18,14 +19,13 @@ namespace Demo
             InitializeComponent();
             radioGlobal.Checked = true;
             SubscribeGlobal();
-            this.FormClosing += Mian_Closing;
+            FormClosing += Mian_Closing;
         }
 
-        void Mian_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Mian_Closing(object sender, CancelEventArgs e)
         {
             Unsubscribe();
         }
-
 
         private void SubscribeApplication()
         {
@@ -97,12 +97,10 @@ namespace Demo
             Log(string.Format("KeyUp  \t\t {0}\n", e.KeyCode));
         }
 
-
         private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
         {
             Log(string.Format("KeyPress \t\t {0}\n", e.KeyChar));
         }
-
 
         private void HookManager_MouseMove(object sender, MouseEventArgs e)
         {
@@ -143,17 +141,17 @@ namespace Demo
 
         private void radioApplication_CheckedChanged(object sender, EventArgs e)
         {
-            if (((RadioButton)sender).Checked) SubscribeApplication();
+            if (((RadioButton) sender).Checked) SubscribeApplication();
         }
 
         private void radioGlobal_CheckedChanged(object sender, EventArgs e)
         {
-            if (((RadioButton)sender).Checked) SubscribeGlobal();
+            if (((RadioButton) sender).Checked) SubscribeGlobal();
         }
 
         private void radioNone_CheckedChanged(object sender, EventArgs e)
         {
-            if (((RadioButton)sender).Checked) Unsubscribe();
+            if (((RadioButton) sender).Checked) Unsubscribe();
         }
     }
 }

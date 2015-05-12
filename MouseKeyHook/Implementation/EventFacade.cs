@@ -78,6 +78,12 @@ namespace Gma.System.MouseKeyHook.Implementation
             remove { GetMouseListener().MouseDoubleClick -= value; }
         }
 
+        public void Dispose()
+        {
+            if (m_MouseListenerCache != null) m_MouseListenerCache.Dispose();
+            if (m_KeyListenerCache != null) m_KeyListenerCache.Dispose();
+        }
+
         private KeyListener GetKeyListener()
         {
             var target = m_KeyListenerCache;
@@ -98,11 +104,5 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         protected abstract MouseListener CreateMouseListener();
         protected abstract KeyListener CreateKeyListener();
-
-        public void Dispose()
-        {
-            if (m_MouseListenerCache!=null) m_MouseListenerCache.Dispose();
-            if (m_KeyListenerCache != null) m_KeyListenerCache.Dispose();
-        }
     }
 }

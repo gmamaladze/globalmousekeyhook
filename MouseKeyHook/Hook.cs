@@ -2,7 +2,9 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
-namespace Gma.System.MouseKeyHook.Implementation
+using Gma.System.MouseKeyHook.Implementation;
+
+namespace Gma.System.MouseKeyHook
 {
     /// <summary>
     ///     This is the class to start with.
