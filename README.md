@@ -1,29 +1,110 @@
-|Travis-CI | AppVeyor |
------------|----------
-| [![Build Status](https://travis-ci.org/gmamaladze/globalmousekeyhook.svg?branch=master)](https://travis-ci.org/gmamaladze/globalmousekeyhook) | [![Build status](https://ci.appveyor.com/api/projects/status/tnkt7xiurmpg0qh8?svg=true)](https://ci.appveyor.com/project/gmamaladze/globalmousekeyhook)|
-
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
 
-### What it does?
+## What it does?
 
 This library allows you to tap keyboard and mouse, to detect and record their activity even when an application is inactive and runs in background.
 
-### How?
+## Prerequisites
+
+ - **Windows:** .Net 4.0+
+
+## Installation and sources
+
+<pre>
+  nuget install MouseKeyHook
+</pre>
+
+ - [NuGet package][nuget]
+ - [Source code][source]
+
+ [nuget]: https://www.nuget.org/packages/MouseKeyHook
+ [source]: https://github.com/gmamaladze/globalmousekeyhook
+
+ ## Usage
+
+ ```csharp
+ private IKeyboardMouseEvents m_GlobalHook;
+
+ public void Subscribe()
+ {
+     // Note: for the application hook, use the Hook.AppEvents() instead
+     m_GlobalHook = Hook.GlobalEvents();
+
+     m_GlobalHook.MouseDownExt += GlobalHookMouseDownExt;
+     m_GlobalHook.KeyPress += GlobalHookKeyPress;
+ }
+
+ private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
+ {
+     Console.WriteLine("MouseDown: \t{0}", e.KeyChar);
+ }
+
+ private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
+ {
+     Console.WriteLine("MouseDown: \t{0}; \t System Timestamp: \t{1}", e.Button, e.Timestamp);
+
+     // uncommenting the following line will suppress the middle mouse button click
+     // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
+ }
+
+ public void Unsubscribe()
+ {
+     m_GlobalHook.MouseDownExt -= GlobalHookMouseDownExt;
+     m_GlobalHook.KeyPress -= GlobalHookKeyPress;
+
+     //It is recommened to dispose it
+     m_GlobalHook.Dispose();
+ }
+ ```
+
+## How it works?
+
 This library attaches to windows global hooks, tracks keyboard and mouse clicks and movement and raises common .NET events with KeyEventArgs and MouseEventArgs, so you can easily retrieve any information you need:
-* Mouse coordinates
-* Mouse buttons clicked
-* Mouse wheel scrolls
-* Key presses and releases
-* Special key states
+ * Mouse coordinates
+ * Mouse buttons clicked
+ * Mouse wheel scrolls
+ * Key presses and releases
+ * Special key states
 
-Additionally, there are `MouseEventExtArgs` and `KeyEventExtArgs` which provide further options:
-* Input suppression
-* Timestamp
-* IsMouseDown/Up
-* IsKeyDown/Up.
-* Background
+ Additionally, there are `MouseEventExtArgs` and `KeyEventExtArgs` which provide further options:
+ * Input suppression
+ * Timestamp
+ * IsMouseDown/Up
+ * IsKeyDown/Up.
 
-### History
+## Troubleshooting and support
+
+ - Usage or programming related question? Post it on [StackOverflow][so] using the tag *mousekeyhook*
+ - Found a bug or missing a feature? Feed the [issue tracker][tracker]
+
+ [so]: http://stackoverflow.com/questions/tagged/mousekeyhook
+ [tracker]: https://github.com/gmamaladze/globalmousekeyhook/issues
+
+## Current project build status
+ The CI builds are generously hosted and run on the [Travis][travis] and [AppVeyor][appveyor] infrastructures.
+
+|            | Travis-CI                                           | AppVeyor                                                  |
+| :--------- | :-------------------------------------------------: | :-------------------------------------------------------: |
+| **master** | [![master][master-travis-badge]](master-travis-url) | [![master][master-appveyor-badge]](master-appveyor-badge) |
+| **vNext**  | [![vNext][vNext-travis-badge]](vNext-travis-url)    | [![vNext][vNext-appveyor-badge]](vNext-appveyor-badge)    |
+
+[master-travis-url]: https://travis-ci.org/gmamaladze/globalmousekeyhook/branches/
+[master-travis-badge]: https://travis-ci.org/gmamaladze/globalmousekeyhook.svg?branch=master
+
+[vNext-travis-url]: https://travis-ci.org/gmamaladze/globalmousekeyhook/branches/
+[vNext-travis-badge]: https://travis-ci.org/gmamaladze/globalmousekeyhook.svg?branch=vNext
+
+[master-appveyor-url]: https://ci.appveyor.com/project/gmamaladze/globalmousekeyhook/branch/master
+[master-appveyor-badge]: https://ci.appveyor.com/api/projects/status/tnkt7xiurmpg0qh8/branch/master?svg=true
+
+[vNext-appveyor-url]: https://ci.appveyor.com/project/gmamaladze/globalmousekeyhook/branch/vNext
+[vNext-appveyor-badge]: https://ci.appveyor.com/api/projects/status/tnkt7xiurmpg0qh8/branch/vNext?svg=true
+
+
+[travis]: http://travis-ci.org/
+[appveyor]: http://appveyor.com/
+
+## History
 
 |  Year       |     URL
 --------------|--------------------------------
@@ -31,44 +112,15 @@ Additionally, there are `MouseEventExtArgs` and `KeyEventExtArgs` which provide 
 | 2008 - 2015 | https://globalmousekeyhook.codeplex.com/
 | 2015 - now  | https://github.com/gmamaladze/globalmousekeyhook
 
-### Installation
 
-NuGet comming soon
+## Quick contributing guide
 
-### Usage
+ - Fork and clone locally
+ - Create a topic specific branch. Add some nice feature.
+ - Send a Pull Request to spread the fun!
 
-```csharp
-private MouseHookListener m_mouseListener;
+## License
 
-public void Activate()
-{
-    // Note: for an application hook, use the AppHooker class instead
-    m_mouseListener = new MouseHookListener(new GlobalHooker());
+The MIT license (Refer to the [LICENSE.md][license] file)
 
-    // The listener is not enabled by default
-    m_mouseListener.Enabled = true;
-
-    // Set the event handler
-    // recommended to use the Extended handlers, which allow
-    // input suppression among other additional information
-    m_mouseListener.MouseDownExt += MouseListener_MouseDownExt;
-}
-
-public void Deactivate()
-{
-    m_mouseListener.Dispose();
-}
-
-private void MouseListener_MouseDownExt(object sender, MouseEventExtArgs e)
-{
-    // log the mouse click
-    Console.WriteLine(
-        string.Format(
-            "MouseDown: \t{0}; \t System Timestamp: \t{1}",
-            e.Button,
-            e.Timestamp));
-
-    // uncommenting the following line will suppress the middle mouse button click
-    // if (e.Buttons == MouseButtons.Middle) { e.Handled = true; }
-}
-```
+ [license]: https://github.com/gmamaladze/globalmousekeyhook/blob/master/LICENSE.md
