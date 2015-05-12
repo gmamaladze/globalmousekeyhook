@@ -69,7 +69,7 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         protected override MouseEventExtArgs GetEventArgs(CallbackData data)
         {
-            return MouseEventExtArgs.FromRawDataApp(data);
+            return MouseEventExtArgs.FromRawDataGlobal(data);
         }
     }
 }
