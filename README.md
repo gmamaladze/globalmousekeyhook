@@ -85,7 +85,7 @@ This library attaches to windows global hooks, tracks keyboard and mouse clicks 
 
 |            | Travis-CI                                           | AppVeyor                                                  |
 | :--------- | :-------------------------------------------------: | :-------------------------------------------------------: |
-| **master** | [![master][master-travis-badge][master-travis-url]] | [![master][master-appveyor-badge]](master-appveyor-badge) |
+| **master** | ![[master-travis-badge]]([master-travis-url])] | [![master][master-appveyor-badge]](master-appveyor-badge) |
 | **vNext**  | [![vNext][vNext-travis-badge]](vNext-travis-url)    | [![vNext][vNext-appveyor-badge]](vNext-appveyor-badge)    |
 
 [master-travis-url]: https://travis-ci.org/gmamaladze/globalmousekeyhook/branches/
