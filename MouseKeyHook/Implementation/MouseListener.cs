@@ -8,7 +8,7 @@ using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.Implementation
 {
-    internal abstract class MouseListener : BaseListener
+    internal abstract class MouseListener : BaseListener, IMouseEvents
     {
         private readonly ButtonSet m_DoubleDown;
         private readonly ButtonSet m_SingleDown;
@@ -81,6 +81,11 @@ namespace Gma.System.MouseKeyHook.Implementation
             if (m_SingleDown.Contains(e.Button))
             {
                 OnUp(e);
+                OnUpExt(e);
+                if (e.Handled)
+                {
+                    return;
+                }
                 OnClick(e);
                 m_SingleDown.Remove(e.Button);
             }
@@ -113,6 +118,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         public event MouseEventHandler MouseDown;
         public event EventHandler<MouseEventExtArgs> MouseDownExt;
         public event MouseEventHandler MouseUp;
+        public event EventHandler<MouseEventExtArgs> MouseUpExt;
         public event MouseEventHandler MouseWheel;
         public event MouseEventHandler MouseDoubleClick;
 
@@ -149,6 +155,12 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected virtual void OnUp(MouseEventArgs e)
         {
             var handler = MouseUp;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnUpExt(MouseEventExtArgs e)
+        {
+            var handler = MouseUpExt;
             if (handler != null) handler(this, e);
         }
 
