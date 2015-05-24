@@ -115,7 +115,11 @@ namespace Gma.System.MouseKeyHook.WinApi
             {
                 StringBuilder sbTemp = new StringBuilder(5);
                 ToUnicodeEx(lastVirtualKeyCode, lastScanCode, lastKeyState, sbTemp, sbTemp.Capacity, 0, dwhkl);
-                lastVirtualKeyCode = 0;
+
+                if (chars != null)
+                {
+                    lastVirtualKeyCode = 0;
+                }
 
                 return true;
             }
