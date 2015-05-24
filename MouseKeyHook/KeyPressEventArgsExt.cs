@@ -74,9 +74,8 @@ namespace Gma.System.MouseKeyHook
 
             char[] chars;
 
-            var isOk = 
-                KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
-            if (!isOk) yield break;
+            KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
+            if (chars == null) yield break;
             foreach (var ch in chars)
             {
                 yield return new KeyPressEventArgsExt(ch);
@@ -108,9 +107,8 @@ namespace Gma.System.MouseKeyHook
             else
             {
                 char[] chars;
-                var isOk =
-                    KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
-                if (!isOk) yield break;
+                KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
+                if (chars == null) yield break;
                 foreach (var current in chars)
                 {
                     yield return new KeyPressEventArgsExt(current, keyboardHookStruct.Time);
