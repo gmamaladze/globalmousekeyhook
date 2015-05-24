@@ -128,8 +128,6 @@ namespace Gma.System.MouseKeyHook.WinApi
             lastVirtualKeyCode = virtualKeyCode;
             lastIsDead = isDead;
             lastKeyState = (byte[]) currentKeyboardState.Clone();
-
-            return;
         }
 
 
