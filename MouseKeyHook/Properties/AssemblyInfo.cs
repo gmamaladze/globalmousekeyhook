@@ -12,4 +12,4 @@ using System.Runtime.InteropServices;
         )]
 [assembly: AssemblyCopyright("(c) George Mamaladze 2000-2014")]
 [assembly: ComVisible(false)]
-[assembly: AssemblyVersion("5.1.0")]
+[assembly: AssemblyVersion("5.2.0")]
