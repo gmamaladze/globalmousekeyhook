@@ -66,6 +66,15 @@ namespace Gma.System.MouseKeyHook
         event MouseEventHandler MouseWheel;
 
         /// <summary>
+        ///     Occurs when the mouse wheel moves.
+        /// </summary>
+        /// <remarks>
+        ///     This event provides extended arguments of type <see cref="MouseEventArgs" /> enabling you to
+        ///     suppress further processing of mouse wheel moves in other applications.
+        /// </remarks>
+        event EventHandler<MouseEventExtArgs> MouseWheelExt;
+
+        /// <summary>
         ///     Occurs when a mouse button is double-clicked.
         /// </summary>
         event MouseEventHandler MouseDoubleClick;
