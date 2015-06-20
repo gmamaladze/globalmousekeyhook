@@ -50,6 +50,7 @@
             this.checkBoxSuppressMouse.TabIndex = 13;
             this.checkBoxSuppressMouse.Text = "Suppress Right Mouse Click";
             this.checkBoxSuppressMouse.UseVisualStyleBackColor = true;
+            this.checkBoxSuppressMouse.CheckedChanged += new System.EventHandler(this.checkBoxSuppressMouse_CheckedChanged);
             // 
             // panelSeparator
             // 
