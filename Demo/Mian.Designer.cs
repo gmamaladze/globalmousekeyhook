@@ -37,6 +37,7 @@
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.radioNone = new System.Windows.Forms.RadioButton();
+            this.checkBoxSupressMouseWheel = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -132,6 +133,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.checkBoxSupressMouseWheel);
             this.groupBox2.Controls.Add(this.radioNone);
             this.groupBox2.Controls.Add(this.checkBoxSuppressMouse);
             this.groupBox2.Controls.Add(this.panelSeparator);
@@ -161,6 +163,17 @@
             this.radioNone.UseVisualStyleBackColor = false;
             this.radioNone.CheckedChanged += new System.EventHandler(this.radioNone_CheckedChanged);
             // 
+            // checkBoxSupressMouseWheel
+            // 
+            this.checkBoxSupressMouseWheel.AutoSize = true;
+            this.checkBoxSupressMouseWheel.Location = new System.Drawing.Point(211, 72);
+            this.checkBoxSupressMouseWheel.Name = "checkBoxSupressMouseWheel";
+            this.checkBoxSupressMouseWheel.Size = new System.Drawing.Size(139, 17);
+            this.checkBoxSupressMouseWheel.TabIndex = 15;
+            this.checkBoxSupressMouseWheel.Text = "Suppress Mouse Wheel";
+            this.checkBoxSupressMouseWheel.UseVisualStyleBackColor = true;
+            this.checkBoxSupressMouseWheel.CheckedChanged += new System.EventHandler(this.checkBoxSupressMouseWheel_CheckedChanged);
+            // 
             // Mian
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -188,6 +201,7 @@
         private System.Windows.Forms.TextBox textBoxLog;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton radioNone;
+        private System.Windows.Forms.CheckBox checkBoxSupressMouseWheel;
     }
 }
 
