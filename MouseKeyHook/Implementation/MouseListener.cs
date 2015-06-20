@@ -54,6 +54,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected virtual void ProcessWheel(ref MouseEventExtArgs e)
         {
             OnWheel(e);
+            OnWheelExt(e);
         }
 
         protected virtual void ProcessDown(ref MouseEventExtArgs e)
@@ -120,6 +121,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         public event MouseEventHandler MouseUp;
         public event EventHandler<MouseEventExtArgs> MouseUpExt;
         public event MouseEventHandler MouseWheel;
+        public event EventHandler<MouseEventExtArgs> MouseWheelExt;
         public event MouseEventHandler MouseDoubleClick;
 
         protected virtual void OnMove(MouseEventArgs e)
@@ -167,6 +169,12 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected virtual void OnWheel(MouseEventArgs e)
         {
             var handler = MouseWheel;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnWheelExt(MouseEventExtArgs e)
+        {
+            var handler = MouseWheelExt;
             if (handler != null) handler(this, e);
         }
 
