@@ -46,15 +46,22 @@ namespace Demo
             m_Events.KeyUp += OnKeyUp;
             m_Events.KeyPress += HookManager_KeyPress;
 
-            m_Events.MouseDown += OnMouseDown;
             m_Events.MouseUp += OnMouseUp;
             m_Events.MouseClick += OnMouseClick;
             m_Events.MouseDoubleClick += OnMouseDoubleClick;
 
             m_Events.MouseMove += HookManager_MouseMove;
-            m_Events.MouseWheel += HookManager_MouseWheel;
 
-            m_Events.MouseDownExt += HookManager_Supress;
+            if (checkBoxSupressMouseWheel.Checked)
+                m_Events.MouseWheelExt += HookManager_MouseWheelExt;
+            else
+                m_Events.MouseWheel += HookManager_MouseWheel;
+
+            if (checkBoxSuppressMouse.Checked)
+                m_Events.MouseDownExt += HookManager_Supress;
+            else
+                m_Events.MouseDown += OnMouseDown;
+            
         }
 
         private void Unsubscribe()
@@ -64,15 +71,22 @@ namespace Demo
             m_Events.KeyUp -= OnKeyUp;
             m_Events.KeyPress -= HookManager_KeyPress;
 
-            m_Events.MouseDown -= OnMouseDown;
             m_Events.MouseUp -= OnMouseUp;
             m_Events.MouseClick -= OnMouseClick;
             m_Events.MouseDoubleClick -= OnMouseDoubleClick;
 
             m_Events.MouseMove -= HookManager_MouseMove;
-            m_Events.MouseWheel -= HookManager_MouseWheel;
 
-            m_Events.MouseDownExt -= HookManager_Supress;
+            if (checkBoxSupressMouseWheel.Checked)
+                m_Events.MouseWheelExt -= HookManager_MouseWheelExt;
+            else
+                m_Events.MouseWheel -= HookManager_MouseWheel;
+
+            if (checkBoxSuppressMouse.Checked)
+                m_Events.MouseDownExt -= HookManager_Supress;
+            else
+                m_Events.MouseDown -= OnMouseDown;
+
             m_Events.Dispose();
             m_Events = null;
         }
@@ -81,9 +95,11 @@ namespace Demo
         {
             if (e.Button != MouseButtons.Right)
             {
+                Log(string.Format("MouseDown \t\t {0}\n", e.Button));
                 return;
             }
-            Log("Suppressed.\n");
+
+            Log(string.Format("MouseDown \t\t {0} Suppressed\n", e.Button));
             e.Handled = true;
         }
 
@@ -131,6 +147,13 @@ namespace Demo
         {
             labelWheel.Text = string.Format("Wheel={0:000}", e.Delta);
         }
+        
+        private void HookManager_MouseWheelExt(object sender, MouseEventExtArgs e)
+        {
+            labelWheel.Text = string.Format("Wheel={0:000}", e.Delta);
+            Log("Mouse Wheel Move Suppressed.\n");
+            e.Handled = true;
+        }
 
         private void Log(string text)
         {
@@ -152,6 +175,38 @@ namespace Demo
         private void radioNone_CheckedChanged(object sender, EventArgs e)
         {
             if (((RadioButton) sender).Checked) Unsubscribe();
+        }
+
+        private void checkBoxSupressMouseWheel_CheckedChanged(object sender, EventArgs e)
+        {
+            if (m_Events == null) return;
+
+            if (((CheckBox) sender).Checked)
+            {
+                m_Events.MouseWheel -= HookManager_MouseWheel;
+                m_Events.MouseWheelExt += HookManager_MouseWheelExt;
+            }
+            else
+            {
+                m_Events.MouseWheelExt -= HookManager_MouseWheelExt;
+                m_Events.MouseWheel += HookManager_MouseWheel;
+            }
+        }
+
+        private void checkBoxSuppressMouse_CheckedChanged(object sender, EventArgs e)
+        {
+            if (m_Events == null) return;
+
+            if (((CheckBox)sender).Checked)
+            {
+                m_Events.MouseDown -= OnMouseDown;
+                m_Events.MouseDownExt += HookManager_Supress;
+            }
+            else
+            {
+                m_Events.MouseDownExt -= HookManager_Supress;
+                m_Events.MouseDown += OnMouseDown;
+            }
         }
     }
 }

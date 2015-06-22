@@ -78,6 +78,12 @@ namespace Gma.System.MouseKeyHook.Implementation
             remove { GetMouseListener().MouseWheel -= value; }
         }
 
+        public event EventHandler<MouseEventExtArgs> MouseWheelExt
+        {
+            add { GetMouseListener().MouseWheelExt += value; }
+            remove { GetMouseListener().MouseWheelExt -= value; }
+        }
+
         public event MouseEventHandler MouseDoubleClick
         {
             add { GetMouseListener().MouseDoubleClick += value; }
