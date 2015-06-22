@@ -1,3 +1,8 @@
+[![nuget][nuget-badge]][nuget-url] [![master][master-appveyor-badge]][master-appveyor-url]
+
+ [nuget-badge]: https://img.shields.io/badge/nuget-v5.3.0-blue.svg
+ [nuget-url]: https://www.nuget.org/packages/MouseKeyHook
+
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
 
 ## What it does?
@@ -14,11 +19,10 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
   nuget install MouseKeyHook
 </pre>
 
- - [NuGet package][nuget]
- - [Source code][source]
+ - [NuGet package][nuget-url]
+ - [Source code][source-url]
 
- [nuget]: https://www.nuget.org/packages/MouseKeyHook
- [source]: https://github.com/gmamaladze/globalmousekeyhook
+ [source-url]: https://github.com/gmamaladze/globalmousekeyhook
 
  ## Usage
 
