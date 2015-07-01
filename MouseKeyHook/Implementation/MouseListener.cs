@@ -1,23 +1,61 @@
-﻿// This code is distributed under MIT license. 
+﻿// This code is distributed under MIT license.
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
-using System;
-using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
+using System;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace Gma.System.MouseKeyHook.Implementation
 {
+    // Because it is a P/Invoke method, 'GetSystemMetrics(int)'
+    // should be defined in a class named NativeMethods, SafeNativeMethods,
+    // or UnsafeNativeMethods.
+    // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724385(v=vs.85).aspx
+    internal static class NativeMethods
+    {
+        private const int SM_CXDRAG = 68;
+        private const int SM_CYDRAG = 69;
+
+        [DllImport("user32.dll")]
+        private static extern int GetSystemMetrics(int index);
+
+        public static int GetXDragThreshold()
+        {
+            return GetSystemMetrics(SM_CXDRAG);
+        }
+
+        public static int GetYDragThreshold()
+        {
+            return GetSystemMetrics(SM_CYDRAG);
+        }
+    }
+
     internal abstract class MouseListener : BaseListener, IMouseEvents
     {
+        private readonly int m_xDragThreshold;
+        private readonly int m_yDragThreshold;
+
         private readonly ButtonSet m_DoubleDown;
         private readonly ButtonSet m_SingleDown;
+
+        private bool m_IsDragging;
+
         private Point m_PreviousPosition;
+        private Point m_DragStartPosition;
+        private readonly Point m_UninitialisedPoint = new Point(-1, -1);
 
         protected MouseListener(Subscribe subscribe)
             : base(subscribe)
         {
-            m_PreviousPosition = new Point(-1, -1);
+            m_xDragThreshold = NativeMethods.GetXDragThreshold();
+            m_yDragThreshold = NativeMethods.GetYDragThreshold();
+            m_IsDragging = false;
+
+            m_PreviousPosition = m_UninitialisedPoint;
+            m_DragStartPosition = m_UninitialisedPoint;
+
             m_DoubleDown = new ButtonSet();
             m_SingleDown = new ButtonSet();
         }
@@ -26,12 +64,12 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             var e = GetEventArgs(data);
 
-            if (e.IsMouseKeyDown)
+            if (e.IsMouseButtonDown)
             {
                 ProcessDown(ref e);
             }
 
-            if (e.IsMouseKeyUp)
+            if (e.IsMouseButtonUp)
             {
                 ProcessUp(ref e);
             }
@@ -45,6 +83,8 @@ namespace Gma.System.MouseKeyHook.Implementation
             {
                 ProcessMove(ref e);
             }
+
+            ProcessDrag(ref e);
 
             return !e.Handled;
         }
@@ -108,6 +148,50 @@ namespace Gma.System.MouseKeyHook.Implementation
             OnMoveExt(e);
         }
 
+        private void ProcessDrag(ref MouseEventExtArgs e)
+        {
+            if (m_SingleDown.Contains(MouseButtons.Left))
+            {
+                if (m_DragStartPosition.Equals(m_UninitialisedPoint))
+                {
+                    m_DragStartPosition = e.Point;
+                }
+
+                ProcessDragStarted(ref e);
+            }
+            else
+            {
+                m_DragStartPosition = m_UninitialisedPoint;
+                ProcessDragFinished(ref e);
+            }
+        }
+
+        private void ProcessDragStarted(ref MouseEventExtArgs e)
+        {
+            if (!m_IsDragging)
+            {
+                var isXDragging = Math.Abs(e.Point.X - m_DragStartPosition.X) > m_xDragThreshold;
+                var isYDragging = Math.Abs(e.Point.Y - m_DragStartPosition.Y) > m_yDragThreshold;
+                m_IsDragging = isXDragging || isYDragging;
+
+                if (m_IsDragging)
+                {
+                    OnDragStarted(e);
+                    OnDragStartedExt(e);
+                }
+            }
+        }
+
+        private void ProcessDragFinished(ref MouseEventExtArgs e)
+        {
+            if (m_IsDragging)
+            {
+                OnDragFinished(e);
+                OnDragFinishedExt(e);
+                m_IsDragging = false;
+            }
+        }
+
         private bool HasMoved(Point actualPoint)
         {
             return m_PreviousPosition != actualPoint;
@@ -123,6 +207,10 @@ namespace Gma.System.MouseKeyHook.Implementation
         public event MouseEventHandler MouseWheel;
         public event EventHandler<MouseEventExtArgs> MouseWheelExt;
         public event MouseEventHandler MouseDoubleClick;
+        public event MouseEventHandler MouseDragStarted;
+        public event EventHandler<MouseEventExtArgs> MouseDragStartedExt;
+        public event MouseEventHandler MouseDragFinished;
+        public event EventHandler<MouseEventExtArgs> MouseDragFinishedExt;
 
         protected virtual void OnMove(MouseEventArgs e)
         {
@@ -181,6 +269,30 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected virtual void OnDoubleClick(MouseEventArgs e)
         {
             var handler = MouseDoubleClick;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnDragStarted(MouseEventArgs e)
+        {
+            var handler = MouseDragStarted;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnDragStartedExt(MouseEventExtArgs e)
+        {
+            var handler = MouseDragStartedExt;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnDragFinished(MouseEventArgs e)
+        {
+            var handler = MouseDragFinished;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnDragFinishedExt(MouseEventExtArgs e)
+        {
+            var handler = MouseDragFinishedExt;
             if (handler != null) handler(this, e);
         }
     }

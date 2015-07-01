@@ -90,6 +90,29 @@ namespace Gma.System.MouseKeyHook.Implementation
             remove { GetMouseListener().MouseDoubleClick -= value; }
         }
 
+        public event MouseEventHandler MouseDragStarted {
+            add { GetMouseListener().MouseDragStarted += value; }
+            remove { GetMouseListener().MouseDragStarted -= value; }
+        }
+
+        public event EventHandler<MouseEventExtArgs> MouseDragStartedExt
+        {
+            add { GetMouseListener().MouseDragStartedExt += value; }
+            remove { GetMouseListener().MouseDragStartedExt -= value; }
+        }
+
+        public event MouseEventHandler MouseDragFinished
+        {
+            add { GetMouseListener().MouseDragFinished += value; }
+            remove { GetMouseListener().MouseDragFinished -= value; }
+        }
+
+        public event EventHandler<MouseEventExtArgs> MouseDragFinishedExt
+        {
+            add { GetMouseListener().MouseDragFinishedExt += value; }
+            remove { GetMouseListener().MouseDragFinishedExt -= value; }
+        }
+        
         public void Dispose()
         {
             if (m_MouseListenerCache != null) m_MouseListenerCache.Dispose();

@@ -78,5 +78,33 @@ namespace Gma.System.MouseKeyHook
         ///     Occurs when a mouse button is double-clicked.
         /// </summary>
         event MouseEventHandler MouseDoubleClick;
+
+        /// <summary>
+        ///     Occurs when a drag event has started (left button held down whilst moving more than the system drag threshold).
+        /// </summary>
+        event MouseEventHandler MouseDragStarted;
+
+        /// <summary>
+        ///     Occurs when a drag event has started (left button held down whilst moving more than the system drag threshold).
+        /// </summary>
+        /// <remarks>
+        ///     This event provides extended arguments of type <see cref="MouseEventArgs" /> enabling you to
+        ///     suppress further processing of mouse movement in other applications.
+        /// </remarks>
+        event EventHandler<MouseEventExtArgs> MouseDragStartedExt;
+
+        /// <summary>
+        ///     Occurs when a drag event has completed.
+        /// </summary>
+        event MouseEventHandler MouseDragFinished;
+
+        /// <summary>
+        ///     Occurs when a drag event has completed.
+        /// </summary>
+        /// <remarks>
+        ///     This event provides extended arguments of type <see cref="MouseEventArgs" /> enabling you to
+        ///     suppress further processing of mouse movement in other applications.
+        /// </remarks>
+        event EventHandler<MouseEventExtArgs> MouseDragFinishedExt;
     }
 }
