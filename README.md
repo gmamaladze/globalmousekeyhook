@@ -40,7 +40,7 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
 
  private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
  {
-     Console.WriteLine("MouseDown: \t{0}", e.KeyChar);
+     Console.WriteLine("KeyPress: \t{0}", e.KeyChar);
  }
 
  private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
@@ -60,12 +60,14 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
      m_GlobalHook.Dispose();
  }
  ```
+(also have a look at the Demo app included with the source)
 
 ## How it works?
 
 This library attaches to windows global hooks, tracks keyboard and mouse clicks and movement and raises common .NET events with KeyEventArgs and MouseEventArgs, so you can easily retrieve any information you need:
  * Mouse coordinates
  * Mouse buttons clicked
+ * Mouse drag actions
  * Mouse wheel scrolls
  * Key presses and releases
  * Special key states

@@ -23,7 +23,7 @@ namespace Demo
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
         {
-            Console.WriteLine("MouseDown: \t{0}", e.KeyChar);
+            Console.WriteLine("KeyPress: \t{0}", e.KeyChar);
         }
 
         private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)

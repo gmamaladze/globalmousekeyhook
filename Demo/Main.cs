@@ -10,19 +10,19 @@ using Gma.System.MouseKeyHook.Implementation;
 
 namespace Demo
 {
-    public partial class Mian : Form
+    public partial class Main : Form
     {
         private IKeyboardMouseEvents m_Events;
 
-        public Mian()
+        public Main()
         {
             InitializeComponent();
             radioGlobal.Checked = true;
             SubscribeGlobal();
-            FormClosing += Mian_Closing;
+            FormClosing += Main_Closing;
         }
 
-        private void Mian_Closing(object sender, CancelEventArgs e)
+        private void Main_Closing(object sender, CancelEventArgs e)
         {
             Unsubscribe();
         }
@@ -52,6 +52,9 @@ namespace Demo
 
             m_Events.MouseMove += HookManager_MouseMove;
 
+            m_Events.MouseDragStarted += OnMouseDragStarted;
+            m_Events.MouseDragFinished += OnMouseDragFinished;
+
             if (checkBoxSupressMouseWheel.Checked)
                 m_Events.MouseWheelExt += HookManager_MouseWheelExt;
             else
@@ -76,6 +79,9 @@ namespace Demo
             m_Events.MouseDoubleClick -= OnMouseDoubleClick;
 
             m_Events.MouseMove -= HookManager_MouseMove;
+
+            m_Events.MouseDragStarted -= OnMouseDragStarted;
+            m_Events.MouseDragFinished -= OnMouseDragFinished;
 
             if (checkBoxSupressMouseWheel.Checked)
                 m_Events.MouseWheelExt -= HookManager_MouseWheelExt;
@@ -143,6 +149,16 @@ namespace Demo
             Log(string.Format("MouseDoubleClick \t\t {0}\n", e.Button));
         }
 
+        private void OnMouseDragStarted(object sender, MouseEventArgs e)
+        {
+            Log("MouseDragStarted\n");
+        }
+
+        private void OnMouseDragFinished(object sender, MouseEventArgs e)
+        {
+            Log("MouseDragFinished\n");
+        }
+
         private void HookManager_MouseWheel(object sender, MouseEventArgs e)
         {
             labelWheel.Text = string.Format("Wheel={0:000}", e.Delta);
@@ -207,6 +223,11 @@ namespace Demo
                 m_Events.MouseDownExt -= HookManager_Supress;
                 m_Events.MouseDown += OnMouseDown;
             }
+        }
+
+        private void clearLog_Click(object sender, EventArgs e)
+        {
+            textBoxLog.Clear();
         }
     }
 }

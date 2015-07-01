@@ -1,6 +1,6 @@
 ﻿namespace Demo
 {
-    partial class Mian
+    partial class Main
     {
         /// <summary>
         /// Required designer variable.
@@ -36,8 +36,9 @@
             this.labelMousePosition = new System.Windows.Forms.Label();
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.radioNone = new System.Windows.Forms.RadioButton();
+            this.clearLogButton = new System.Windows.Forms.Button();
             this.checkBoxSupressMouseWheel = new System.Windows.Forms.CheckBox();
+            this.radioNone = new System.Windows.Forms.RadioButton();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -134,6 +135,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.clearLogButton);
             this.groupBox2.Controls.Add(this.checkBoxSupressMouseWheel);
             this.groupBox2.Controls.Add(this.radioNone);
             this.groupBox2.Controls.Add(this.checkBoxSuppressMouse);
@@ -151,6 +153,27 @@
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             // 
+            // clearLogButton
+            // 
+            this.clearLogButton.Location = new System.Drawing.Point(515, 72);
+            this.clearLogButton.Name = "clearLogButton";
+            this.clearLogButton.Size = new System.Drawing.Size(75, 23);
+            this.clearLogButton.TabIndex = 16;
+            this.clearLogButton.Text = "Clear Log";
+            this.clearLogButton.UseVisualStyleBackColor = true;
+            this.clearLogButton.Click += new System.EventHandler(this.clearLog_Click);
+            // 
+            // checkBoxSupressMouseWheel
+            // 
+            this.checkBoxSupressMouseWheel.AutoSize = true;
+            this.checkBoxSupressMouseWheel.Location = new System.Drawing.Point(211, 72);
+            this.checkBoxSupressMouseWheel.Name = "checkBoxSupressMouseWheel";
+            this.checkBoxSupressMouseWheel.Size = new System.Drawing.Size(139, 17);
+            this.checkBoxSupressMouseWheel.TabIndex = 15;
+            this.checkBoxSupressMouseWheel.Text = "Suppress Mouse Wheel";
+            this.checkBoxSupressMouseWheel.UseVisualStyleBackColor = true;
+            this.checkBoxSupressMouseWheel.CheckedChanged += new System.EventHandler(this.checkBoxSupressMouseWheel_CheckedChanged);
+            // 
             // radioNone
             // 
             this.radioNone.AutoSize = true;
@@ -164,25 +187,14 @@
             this.radioNone.UseVisualStyleBackColor = false;
             this.radioNone.CheckedChanged += new System.EventHandler(this.radioNone_CheckedChanged);
             // 
-            // checkBoxSupressMouseWheel
-            // 
-            this.checkBoxSupressMouseWheel.AutoSize = true;
-            this.checkBoxSupressMouseWheel.Location = new System.Drawing.Point(211, 72);
-            this.checkBoxSupressMouseWheel.Name = "checkBoxSupressMouseWheel";
-            this.checkBoxSupressMouseWheel.Size = new System.Drawing.Size(139, 17);
-            this.checkBoxSupressMouseWheel.TabIndex = 15;
-            this.checkBoxSupressMouseWheel.Text = "Suppress Mouse Wheel";
-            this.checkBoxSupressMouseWheel.UseVisualStyleBackColor = true;
-            this.checkBoxSupressMouseWheel.CheckedChanged += new System.EventHandler(this.checkBoxSupressMouseWheel_CheckedChanged);
-            // 
-            // Mian
+            // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(602, 339);
             this.Controls.Add(this.textBoxLog);
             this.Controls.Add(this.groupBox2);
-            this.Name = "Mian";
+            this.Name = "Main";
             this.Text = "Mouse and Keyboard Hooks Demo";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
@@ -203,6 +215,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton radioNone;
         private System.Windows.Forms.CheckBox checkBoxSupressMouseWheel;
+        private System.Windows.Forms.Button clearLogButton;
     }
 }
 
