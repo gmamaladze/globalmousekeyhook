@@ -40,7 +40,7 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
 
  private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)
  {
-     Console.WriteLine("MouseDown: \t{0}", e.KeyChar);
+     Console.WriteLine("KeyPress: \t{0}", e.KeyChar);
  }
 
  private void GlobalHookMouseDownExt(object sender, MouseEventExtArgs e)
@@ -60,6 +60,7 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
      m_GlobalHook.Dispose();
  }
  ```
+(also have a look at the Demo app included with the source)
 
 ## How it works?
 
