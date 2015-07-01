@@ -19,17 +19,17 @@ namespace Gma.System.MouseKeyHook
         /// </summary>
         /// <param name="buttons">One of the MouseButtons values indicating which mouse button was pressed.</param>
         /// <param name="clicks">The number of times a mouse button was pressed.</param>
-        /// <param name="point">The x and y -coordinate of a mouse click, in pixels.</param>
+        /// <param name="point">The x and y coordinate of a mouse click, in pixels.</param>
         /// <param name="delta">A signed count of the number of detents the wheel has rotated.</param>
         /// <param name="timestamp">The system tick count when the event occurred.</param>
-        /// <param name="isMouseKeyDown">True if event signals mouse button down.</param>
-        /// <param name="isMouseKeyUp">True if event signals mouse button up.</param>
+        /// <param name="isMouseButtonDown">True if event signals mouse button down.</param>
+        /// <param name="isMouseButtonUp">True if event signals mouse button up.</param>
         internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, int timestamp,
-            bool isMouseKeyDown, bool isMouseKeyUp)
+            bool isMouseButtonDown, bool isMouseButtonUp)
             : base(buttons, clicks, point.X, point.Y, delta)
         {
-            IsMouseKeyDown = isMouseKeyDown;
-            IsMouseKeyUp = isMouseKeyUp;
+            IsMouseButtonDown = isMouseButtonDown;
+            IsMouseButtonUp = isMouseButtonUp;
             Timestamp = timestamp;
         }
 
@@ -58,12 +58,12 @@ namespace Gma.System.MouseKeyHook
         /// <summary>
         ///     True if event signals mouse button down.
         /// </summary>
-        public bool IsMouseKeyDown { get; private set; }
+        public bool IsMouseButtonDown { get; private set; }
 
         /// <summary>
         ///     True if event signals mouse button up.
         /// </summary>
-        public bool IsMouseKeyUp { get; private set; }
+        public bool IsMouseButtonUp { get; private set; }
 
         /// <summary>
         ///     The system tick count of when the event occurred.
@@ -108,54 +108,54 @@ namespace Gma.System.MouseKeyHook
             short mouseDelta = 0;
             int clickCount = 0;
 
-            bool isMouseKeyDown = false;
-            bool isMouseKeyUp = false;
+            bool isMouseButtonDown = false;
+            bool isMouseButtonUp = false;
 
 
             switch ((long) wParam)
             {
                 case Messages.WM_LBUTTONDOWN:
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     button = MouseButtons.Left;
                     clickCount = 1;
                     break;
                 case Messages.WM_LBUTTONUP:
-                    isMouseKeyUp = true;
+                    isMouseButtonUp = true;
                     button = MouseButtons.Left;
                     clickCount = 1;
                     break;
                 case Messages.WM_LBUTTONDBLCLK:
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     button = MouseButtons.Left;
                     clickCount = 2;
                     break;
                 case Messages.WM_RBUTTONDOWN:
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     button = MouseButtons.Right;
                     clickCount = 1;
                     break;
                 case Messages.WM_RBUTTONUP:
-                    isMouseKeyUp = true;
+                    isMouseButtonUp = true;
                     button = MouseButtons.Right;
                     clickCount = 1;
                     break;
                 case Messages.WM_RBUTTONDBLCLK:
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     button = MouseButtons.Right;
                     clickCount = 2;
                     break;
                 case Messages.WM_MBUTTONDOWN:
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     button = MouseButtons.Middle;
                     clickCount = 1;
                     break;
                 case Messages.WM_MBUTTONUP:
-                    isMouseKeyUp = true;
+                    isMouseButtonUp = true;
                     button = MouseButtons.Middle;
                     clickCount = 1;
                     break;
                 case Messages.WM_MBUTTONDBLCLK:
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     button = MouseButtons.Middle;
                     clickCount = 2;
                     break;
@@ -166,7 +166,7 @@ namespace Gma.System.MouseKeyHook
                     button = mouseInfo.MouseData == 1
                         ? MouseButtons.XButton1
                         : MouseButtons.XButton2;
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     clickCount = 1;
                     break;
 
@@ -174,12 +174,12 @@ namespace Gma.System.MouseKeyHook
                     button = mouseInfo.MouseData == 1
                         ? MouseButtons.XButton1
                         : MouseButtons.XButton2;
-                    isMouseKeyUp = true;
+                    isMouseButtonUp = true;
                     clickCount = 1;
                     break;
 
                 case Messages.WM_XBUTTONDBLCLK:
-                    isMouseKeyDown = true;
+                    isMouseButtonDown = true;
                     button = mouseInfo.MouseData == 1
                         ? MouseButtons.XButton1
                         : MouseButtons.XButton2;
@@ -197,15 +197,15 @@ namespace Gma.System.MouseKeyHook
                 mouseInfo.Point,
                 mouseDelta,
                 mouseInfo.Timestamp,
-                isMouseKeyDown,
-                isMouseKeyUp);
+                isMouseButtonDown,
+                isMouseButtonUp);
 
             return e;
         }
 
         internal MouseEventExtArgs ToDoubleClickEventArgs()
         {
-            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseKeyDown, IsMouseKeyUp);
+            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseButtonDown, IsMouseButtonUp);
         }
     }
 }
