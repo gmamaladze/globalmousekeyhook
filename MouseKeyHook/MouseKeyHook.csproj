@@ -211,6 +211,7 @@
     <Compile Include="WinApi\HookNativeMethods.cs" />
     <Compile Include="WinApi\HookProcedureHandle.cs" />
     <Compile Include="WinApi\HookResult.cs" />
+    <Compile Include="WinApi\HotkeysNativeMethods.cs" />
     <Compile Include="WinApi\MouseNativeMethods.cs" />
     <Compile Include="Implementation\MouseListener.cs" />
     <Compile Include="WinApi\MouseStruct.cs" />
