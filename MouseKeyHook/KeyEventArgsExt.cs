@@ -69,7 +69,7 @@ namespace Gma.System.MouseKeyHook
 
             Keys keyData = AppendModifierStates((Keys) wParam);
 
-            bool isKeyDown = !wasKeyDown && !isKeyReleased;
+            bool isKeyDown = !isKeyReleased;
             bool isKeyUp = wasKeyDown && isKeyReleased;
 
             return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp);
