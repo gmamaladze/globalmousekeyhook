@@ -87,7 +87,7 @@ namespace Gma.System.MouseKeyHook
             var wParam = data.WParam;
             var lParam = data.LParam;
 
-            if ((int) wParam != Messages.WM_KEYDOWN)
+            if ((int) wParam != Messages.WM_KEYDOWN && (int)wParam != Messages.WM_SYSKEYDOWN)
             {
                 yield break;
             }
