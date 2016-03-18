@@ -1,4 +1,4 @@
-﻿namespace Demo
+namespace Demo
 {
     partial class Main
     {
@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.checkBoxSuppressMouse = new System.Windows.Forms.CheckBox();
             this.panelSeparator = new System.Windows.Forms.Panel();
             this.radioGlobal = new System.Windows.Forms.RadioButton();
@@ -36,9 +37,14 @@
             this.labelMousePosition = new System.Windows.Forms.Label();
             this.textBoxLog = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.clearLogButton = new System.Windows.Forms.Button();
             this.checkBoxSupressMouseWheel = new System.Windows.Forms.CheckBox();
             this.radioNone = new System.Windows.Forms.RadioButton();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -123,18 +129,21 @@
             this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxLog.Location = new System.Drawing.Point(0, 106);
+            this.textBoxLog.Location = new System.Drawing.Point(0, 125);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(602, 233);
+            this.textBoxLog.Size = new System.Drawing.Size(602, 214);
             this.textBoxLog.TabIndex = 8;
             this.textBoxLog.WordWrap = false;
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.button1);
             this.groupBox2.Controls.Add(this.clearLogButton);
             this.groupBox2.Controls.Add(this.checkBoxSupressMouseWheel);
             this.groupBox2.Controls.Add(this.radioNone);
@@ -149,9 +158,39 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(602, 106);
+            this.groupBox2.Size = new System.Drawing.Size(602, 125);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(395, 96);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 24);
+            this.button3.TabIndex = 19;
+            this.button3.Text = "Play";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click_1);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(395, 68);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 27);
+            this.button2.TabIndex = 18;
+            this.button2.Text = "Stop";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click_1);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(395, 41);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 25);
+            this.button1.TabIndex = 17;
+            this.button1.Text = "Start";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // clearLogButton
             // 
@@ -187,6 +226,14 @@
             this.radioNone.UseVisualStyleBackColor = false;
             this.radioNone.CheckedChanged += new System.EventHandler(this.radioNone_CheckedChanged);
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // timer2
+            // 
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,6 +263,11 @@
         private System.Windows.Forms.RadioButton radioNone;
         private System.Windows.Forms.CheckBox checkBoxSupressMouseWheel;
         private System.Windows.Forms.Button clearLogButton;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 
