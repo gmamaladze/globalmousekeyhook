@@ -135,6 +135,7 @@ namespace Gma.System.MouseKeyHook.Implementation
             {
                 e = e.ToDoubleClickEventArgs();
                 OnUp(e);
+                OnUpExt(e);
                 OnDoubleClick(e);
                 m_DoubleDown.Remove(e.Button);
             }
