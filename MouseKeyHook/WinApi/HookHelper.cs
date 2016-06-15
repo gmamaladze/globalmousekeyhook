@@ -12,6 +12,9 @@ namespace Gma.System.MouseKeyHook.WinApi
 {
     internal static class HookHelper
     {
+        static HookProcedure _appHookProc;
+        static HookProcedure _globalHookProc;
+        
         public static HookResult HookAppMouse(Callback callback)
         {
             return HookApp(HookIds.WH_MOUSE, callback);
@@ -34,11 +37,11 @@ namespace Gma.System.MouseKeyHook.WinApi
 
         private static HookResult HookApp(int hookId, Callback callback)
         {
-            HookProcedure hookProcedure = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
+            _appHookProc = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
 
             var hookHandle = HookNativeMethods.SetWindowsHookEx(
                 hookId,
-                hookProcedure,
+                _appHookProc,
                 IntPtr.Zero,
                 ThreadNativeMethods.GetCurrentThreadId());
 
@@ -47,16 +50,16 @@ namespace Gma.System.MouseKeyHook.WinApi
                 ThrowLastUnmanagedErrorAsException();
             }
 
-            return new HookResult(hookHandle, hookProcedure);
+            return new HookResult(hookHandle, _appHookProc);
         }
 
         private static HookResult HookGlobal(int hookId, Callback callback)
         {
-            HookProcedure hookProcedure = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
+            _globalHookProc = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
 
             var hookHandle = HookNativeMethods.SetWindowsHookEx(
                 hookId,
-                hookProcedure,
+                _globalHookProc,
                 Process.GetCurrentProcess().MainModule.BaseAddress,
                 0);
 
@@ -65,7 +68,7 @@ namespace Gma.System.MouseKeyHook.WinApi
                 ThrowLastUnmanagedErrorAsException();
             }
 
-            return new HookResult(hookHandle, hookProcedure);
+            return new HookResult(hookHandle, _globalHookProc);
         }
 
         private static IntPtr HookProcedure(int nCode, IntPtr wParam, IntPtr lParam, Callback callback)
