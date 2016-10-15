@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
+using Gma.System.MouseKeyHook.HotKeys;
 using Gma.System.MouseKeyHook.Implementation;
 
 namespace Demo
@@ -13,6 +14,7 @@ namespace Demo
     public partial class Main : Form
     {
         private IKeyboardMouseEvents m_Events;
+        private IKeyboardEvents hotkeyEvents;
 
         public Main()
         {
@@ -20,6 +22,17 @@ namespace Demo
             radioGlobal.Checked = true;
             SubscribeGlobal();
             FormClosing += Main_Closing;
+
+            var manager = Hook.HotkeyManager(true);
+            var hks = new HotKeySet(new[] { Keys.End });
+            hks.OnHotKeysDownOnce += HotkeySet_OnHotKeysDownOnce;
+            manager.AddHotKeySet(hks);
+
+        }
+
+        private void HotkeySet_OnHotKeysDownOnce(object sender, HotKeyArgs e)
+        {
+            MessageBox.Show("KALABANGA");
         }
 
         private void Main_Closing(object sender, CancelEventArgs e)

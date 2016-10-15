@@ -184,6 +184,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="IHotkeyManager.cs" />
     <Compile Include="Implementation\AppKeyListener.cs" />
     <Compile Include="Implementation\AppMouseListener.cs" />
     <Compile Include="Implementation\ButtonSet.cs" />
@@ -227,7 +229,7 @@
     <Compile Include="HotKeys\HotKeyArgs.cs" />
     <Compile Include="HotKeys\HotKeySet.cs" />
     <Compile Include="HotKeys\HotKeySetCollection.cs" />
-    <Compile Include="HotKeys\HotKeySetsListener.cs" />
+    <Compile Include="HotKeys\HotKeySetsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

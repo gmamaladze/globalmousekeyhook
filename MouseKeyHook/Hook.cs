@@ -2,6 +2,7 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
+using Gma.System.MouseKeyHook.HotKeys;
 using Gma.System.MouseKeyHook.Implementation;
 
 namespace Gma.System.MouseKeyHook
@@ -33,6 +34,11 @@ namespace Gma.System.MouseKeyHook
         public static IKeyboardMouseEvents GlobalEvents()
         {
             return new GlobalEventFacade();
+        }
+
+        public static IHotkeyManager HotkeyManager(bool isGlobal)
+        {
+            return new HotKeySetsManager(isGlobal);
         }
     }
 }
