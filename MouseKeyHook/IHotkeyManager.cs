@@ -9,7 +9,7 @@ namespace Gma.System.MouseKeyHook
     /// <summary>
     ///     Provides hotkey managing
     /// </summary>
-    public interface IHotkeyManager
+    public interface IHotkeyManager : IDisposable
     {
         /// <summary>
         ///     Adds a HotKeySet to the HotSetKetCollection. 

@@ -11,7 +11,7 @@ using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.HotKeys
 {
-    internal class HotKeySetsListener : BaseListener
+    internal abstract class HotKeySetsListener : BaseListener
     {
         private HotKeySetCollection Collection { get; set; }
         internal HotKeySetsListener(Subscribe subscribe, HotKeySetCollection collection)
@@ -22,9 +22,11 @@ namespace Gma.System.MouseKeyHook.HotKeys
 
         protected override bool Callback(CallbackData data)
         {
-            var eDownUp = KeyEventArgsExt.FromRawDataGlobal(data);
+            var eDownUp = GetDownUpEventArgs(data);
             Collection.OnKey(eDownUp);
             return !eDownUp.Handled;
         }
+
+        protected abstract KeyEventArgsExt GetDownUpEventArgs(CallbackData data);
     }
 }

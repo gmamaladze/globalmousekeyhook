@@ -8,16 +8,17 @@ using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.HotKeys
 {
-    internal class HotKeySetsManager : IHotkeyManager, IDisposable
+    internal class HotKeySetsManager : IHotkeyManager
     {
         private readonly HotKeySetCollection m_Collection = new HotKeySetCollection();
-        private HotKeySetsListener m_KeyListener;
+        private readonly HotKeySetsListener m_KeyListener;
 
         internal HotKeySetsManager(bool isGlobal)
         {
-            m_KeyListener = isGlobal ? 
-                new HotKeySetsListener(HookHelper.HookGlobalKeyboard, m_Collection) 
-                : new HotKeySetsListener(HookHelper.HookAppKeyboard, m_Collection);
+            if (isGlobal)
+                m_KeyListener = new GlobalHotkeySetsListener(m_Collection);
+            else
+                m_KeyListener = new AppHotkeySetsListener(m_Collection);
         }
 
         public bool AddHotKeySet(HotKeySet hotKeySet)

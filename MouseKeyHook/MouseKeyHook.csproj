@@ -184,6 +184,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HotKeys\AppHotkeySetsListener.cs" />
+    <Compile Include="HotKeys\GlobalHotkeySetsListener.cs" />
     <Compile Include="HotKeys\HotKeySetsListener.cs" />
     <Compile Include="IHotkeyManager.cs" />
     <Compile Include="Implementation\AppKeyListener.cs" />
