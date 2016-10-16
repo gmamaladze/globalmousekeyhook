@@ -22,30 +22,24 @@ namespace Gma.System.MouseKeyHook.Implementation
         public void InvokeKeyDown(KeyEventArgsExt e)
         {
             var handler = KeyDown;
-            if (handler == null || e.Handled || !e.IsKeyDown)
-            {
+            if ((handler == null) || e.Handled || !e.IsKeyDown)
                 return;
-            }
             handler(this, e);
         }
 
         public void InvokeKeyPress(KeyPressEventArgsExt e)
         {
             var handler = KeyPress;
-            if (handler == null || e.Handled || e.IsNonChar)
-            {
+            if ((handler == null) || e.Handled || e.IsNonChar)
                 return;
-            }
             handler(this, e);
         }
 
         public void InvokeKeyUp(KeyEventArgsExt e)
         {
             var handler = KeyUp;
-            if (handler == null || e.Handled || !e.IsKeyUp)
-            {
+            if ((handler == null) || e.Handled || !e.IsKeyUp)
                 return;
-            }
             handler(this, e);
         }
 
@@ -56,10 +50,8 @@ namespace Gma.System.MouseKeyHook.Implementation
 
             InvokeKeyDown(eDownUp);
             foreach (var pressEventArg in pressEventArgs)
-            {
-                InvokeKeyPress(pressEventArg);    
-            }
-            
+                InvokeKeyPress(pressEventArg);
+
             InvokeKeyUp(eDownUp);
 
             return !eDownUp.Handled;

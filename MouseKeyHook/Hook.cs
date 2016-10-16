@@ -42,17 +42,18 @@ namespace Gma.System.MouseKeyHook
         /// <returns>
         ///     Returned instance is used for managing HotKeySets.
         /// </returns>
-        public static IHotkeyManager AppHotkeyManager()
+        public static IHotKeyManager AppHotkeyManager()
         {
             return new AppHotKeySetsManager();
         }
+
         /// <summary>
-        ///     Provides a means to manage global HotKeySets. 
+        ///     Provides a means to manage global HotKeySets.
         /// </summary>
         /// <returns>
         ///     Returned instance is used for managing HotKeySets.
         /// </returns>
-        public static IHotkeyManager GlobalHotkeyManager()
+        public static IHotKeyManager GlobalHotkeyManager()
         {
             return new GlobalHotKeySetsManager();
         }

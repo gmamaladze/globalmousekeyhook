@@ -3,15 +3,12 @@
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.HotKeys
 {
-    internal abstract class HotKeySetsManager : IHotkeyManager
+    internal abstract class HotKeySetsManager : IHotKeyManager
     {
         private readonly HotKeySetCollection m_Collection = new HotKeySetCollection();
         private readonly HotKeySetsListener m_KeyListener;

@@ -13,7 +13,7 @@ namespace Demo
     internal class Sample
     {
         private IKeyboardMouseEvents m_GlobalHook;
-        private IHotkeyManager m_HotkeyManager;
+        private IHotKeyManager _mHotKeyManager;
         public void Subscribe()
         {
             // Note: for the application hook, use the Hook.AppEvents() instead
@@ -24,12 +24,12 @@ namespace Demo
 
             // Just as with normal hooks, we instantiate the IHotKeyManager
             // from the Hook class
-            m_HotkeyManager = Hook.GlobalHotkeyManager();
+            _mHotKeyManager = Hook.GlobalHotkeyManager();
             var newHotkey = new HotKeySet(new[] {Keys.End, Keys.LControlKey, Keys.ControlKey})
             {
                 Name = "Ctrl+End hook",
             };
-            m_HotkeyManager.AddHotKeySet(newHotkey);
+            _mHotKeyManager.AddHotKeySet(newHotkey);
             newHotkey.OnHotKeysDownOnce += CtrlEndOnHotKeysDownOnce;
         }
 

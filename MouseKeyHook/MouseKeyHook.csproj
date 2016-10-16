@@ -189,7 +189,7 @@
     <Compile Include="HotKeys\GlobalHotKeySetsListener.cs" />
     <Compile Include="HotKeys\GlobalHotKeySetsManager.cs" />
     <Compile Include="HotKeys\HotKeySetsListener.cs" />
-    <Compile Include="IHotkeyManager.cs" />
+    <Compile Include="IHotKeyManager.cs" />
     <Compile Include="Implementation\AppKeyListener.cs" />
     <Compile Include="Implementation\AppMouseListener.cs" />
     <Compile Include="Implementation\ButtonSet.cs" />

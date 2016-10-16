@@ -15,7 +15,7 @@ namespace Demo
     public partial class Main : Form
     {
         private IKeyboardMouseEvents m_Events;
-        private IHotkeyManager m_HotkeyManager;
+        private IHotKeyManager _mHotKeyManager;
 
         public Main()
         {
@@ -49,7 +49,7 @@ namespace Demo
 
         private void SetupHotKeyManager(bool isGlobal)
         {
-            m_HotkeyManager = isGlobal ? Hook.GlobalHotkeyManager() : Hook.AppHotkeyManager();
+            _mHotKeyManager = isGlobal ? Hook.GlobalHotkeyManager() : Hook.AppHotkeyManager();
             var hks = new HotKeySet(new[] { Keys.End, Keys.LControlKey, Keys.ControlKey });
             hks.RegisterExclusiveOrKey(new[] { Keys.LControlKey, Keys.ControlKey });
             hks.OnHotKeysDownOnce += (sender, args) =>
@@ -57,7 +57,7 @@ namespace Demo
                 Log(string.Format("HotKeySet \t\t \"{0}\" -  {1}\n", hks.Name, string.Join("+", hks.HotKeys)));
             };
             labelHotkey.Text = string.Format("HotKey: {0}", string.Join(" + ", hks.HotKeys));
-            m_HotkeyManager.AddHotKeySet(hks);
+            _mHotKeyManager.AddHotKeySet(hks);
         }
 
         private void Subscribe(IKeyboardMouseEvents events)
@@ -117,8 +117,8 @@ namespace Demo
             m_Events.Dispose();
             m_Events = null;
 
-            m_HotkeyManager.Dispose();
-            m_HotkeyManager = null;
+            _mHotKeyManager.Dispose();
+            _mHotKeyManager = null;
         }
 
         private void HookManager_Supress(object sender, MouseEventExtArgs e)
