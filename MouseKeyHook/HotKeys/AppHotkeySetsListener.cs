@@ -1,8 +1,8 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Gma.System.MouseKeyHook.Implementation;
 using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.HotKeys
