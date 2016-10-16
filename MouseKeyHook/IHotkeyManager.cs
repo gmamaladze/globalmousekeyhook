@@ -12,11 +12,21 @@ namespace Gma.System.MouseKeyHook
     public interface IHotkeyManager : IDisposable
     {
         /// <summary>
-        ///     Adds a HotKeySet to the HotSetKetCollection. 
+        ///     Add a HotKeySet to the HotSetKetCollection.  
         /// </summary>
-        /// <param name="hotKeySet">hotkey</param>
-        /// <returns></returns>
-        bool AddHotKeySet(HotKeySet hotKeySet);
+        /// <param name="hotKeySet">HotKeySet to add</param>
+        void AddHotKeySet(HotKeySet hotKeySet);
+        /// <summary>
+        ///     Remove a HotKeySet from the collection.
+        /// </summary>
+        /// <param name="hotKeySet"></param>
         void RemoveHotKeySet(HotKeySet hotKeySet);
+
+        /// <summary>
+        ///     Filters HotKeySets based on the predicate
+        /// </summary>
+        /// <param name="predicate">A function to test each element for a condition</param>
+        /// <returns>Filtered HotKeySet IEnumerable</returns>
+        IEnumerable<HotKeySet> FindHotKeySetsWhere(Func<HotKeySet, bool> predicate);
     }
 }

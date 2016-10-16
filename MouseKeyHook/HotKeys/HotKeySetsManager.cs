@@ -3,31 +3,29 @@
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.HotKeys
 {
-    internal class HotKeySetsManager : IHotkeyManager
+    internal abstract class HotKeySetsManager : IHotkeyManager
     {
         private readonly HotKeySetCollection m_Collection = new HotKeySetCollection();
         private readonly HotKeySetsListener m_KeyListener;
 
-        internal HotKeySetsManager(bool isGlobal)
+        internal HotKeySetsManager()
         {
-            if (isGlobal)
-                m_KeyListener = new GlobalHotKeySetsListener(m_Collection);
-            else
-                m_KeyListener = new AppHotKeySetsListener(m_Collection);
+            m_KeyListener = GeyHotKeySetsListener(m_Collection);
         }
 
-        public bool AddHotKeySet(HotKeySet hotKeySet)
+        public void AddHotKeySet(HotKeySet hotKeySet)
         {
-            if ((hotKeySet == null)
-                || m_Collection.Any(hks => hks.HotKeys.SequenceEqual(hotKeySet.HotKeys)))
-                return false;
+            if (hotKeySet == null)
+                return;
             m_Collection.Add(hotKeySet);
-            return true;
         }
 
         public void RemoveHotKeySet(HotKeySet hotKeySet)
@@ -35,9 +33,16 @@ namespace Gma.System.MouseKeyHook.HotKeys
             m_Collection.Remove(hotKeySet);
         }
 
+        public IEnumerable<HotKeySet> FindHotKeySetsWhere(Func<HotKeySet, bool> predicate)
+        {
+            return m_Collection.Where(predicate).ToArray();
+        }
+
         public void Dispose()
         {
             m_KeyListener.Dispose();
         }
+
+        protected abstract HotKeySetsListener GeyHotKeySetsListener(HotKeySetCollection collection);
     }
 }

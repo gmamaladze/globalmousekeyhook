@@ -36,9 +36,25 @@ namespace Gma.System.MouseKeyHook
             return new GlobalEventFacade();
         }
 
-        public static IHotkeyManager HotkeyManager(bool isGlobal)
+        /// <summary>
+        ///     Provides a means to manage application HotKeySets.
+        /// </summary>
+        /// <returns>
+        ///     Returned instance is used for managing HotKeySets.
+        /// </returns>
+        public static IHotkeyManager AppHotkeyManager()
         {
-            return new HotKeySetsManager(isGlobal);
+            return new AppHotKeySetsManager();
+        }
+        /// <summary>
+        ///     Provides a means to manage global HotKeySets. 
+        /// </summary>
+        /// <returns>
+        ///     Returned instance is used for managing HotKeySets.
+        /// </returns>
+        public static IHotkeyManager GlobalHotkeyManager()
+        {
+            return new GlobalHotKeySetsManager();
         }
     }
 }

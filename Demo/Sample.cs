@@ -3,15 +3,17 @@
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Linq;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
+using Gma.System.MouseKeyHook.HotKeys;
 
 namespace Demo
 {
     internal class Sample
     {
         private IKeyboardMouseEvents m_GlobalHook;
-
+        private IHotkeyManager m_HotkeyManager;
         public void Subscribe()
         {
             // Note: for the application hook, use the Hook.AppEvents() instead
@@ -19,6 +21,21 @@ namespace Demo
 
             m_GlobalHook.MouseDownExt += GlobalHookMouseDownExt;
             m_GlobalHook.KeyPress += GlobalHookKeyPress;
+
+            // Just as with normal hooks, we instantiate the IHotKeyManager
+            // from the Hook class
+            m_HotkeyManager = Hook.GlobalHotkeyManager();
+            var newHotkey = new HotKeySet(new[] {Keys.End, Keys.LControlKey, Keys.ControlKey})
+            {
+                Name = "Ctrl+End hook",
+            };
+            m_HotkeyManager.AddHotKeySet(newHotkey);
+            newHotkey.OnHotKeysDownOnce += CtrlEndOnHotKeysDownOnce;
+        }
+
+        private void CtrlEndOnHotKeysDownOnce(object sender, HotKeyArgs hotKeyArgs)
+        {
+            MessageBox.Show("HotKey fired!");
         }
 
         private void GlobalHookKeyPress(object sender, KeyPressEventArgs e)

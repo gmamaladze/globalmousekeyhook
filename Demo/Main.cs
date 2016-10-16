@@ -49,7 +49,7 @@ namespace Demo
 
         private void SetupHotKeyManager(bool isGlobal)
         {
-            m_HotkeyManager = Hook.HotkeyManager(isGlobal);
+            m_HotkeyManager = isGlobal ? Hook.GlobalHotkeyManager() : Hook.AppHotkeyManager();
             var hks = new HotKeySet(new[] { Keys.End, Keys.LControlKey, Keys.ControlKey });
             hks.RegisterExclusiveOrKey(new[] { Keys.LControlKey, Keys.ControlKey });
             hks.OnHotKeysDownOnce += (sender, args) =>
