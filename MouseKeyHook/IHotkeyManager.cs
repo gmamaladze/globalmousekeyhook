@@ -1,7 +1,9 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2015 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Gma.System.MouseKeyHook.HotKeys;
 
 namespace Gma.System.MouseKeyHook
@@ -9,7 +11,7 @@ namespace Gma.System.MouseKeyHook
     /// <summary>
     ///     Provides hotkey managing
     /// </summary>
-    public interface IHotkeyManager : IDisposable
+    public interface IHotKeyManager : IDisposable
     {
         /// <summary>
         ///     Add a HotKeySet to the HotSetKetCollection.  
