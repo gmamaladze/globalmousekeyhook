@@ -9,8 +9,8 @@ namespace Gma.System.MouseKeyHook.HotKeys
 {
     internal class AppHotKeySetsListener : HotKeySetsListener
     {
-        public AppHotKeySetsListener(HotKeySetCollection collection)
-            : base(HookHelper.HookAppKeyboard, collection)
+        public AppHotKeySetsListener()
+            : base(HookHelper.HookAppKeyboard)
         {
         }
 

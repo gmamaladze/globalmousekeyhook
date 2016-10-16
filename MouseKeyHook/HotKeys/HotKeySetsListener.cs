@@ -9,13 +9,12 @@ namespace Gma.System.MouseKeyHook.HotKeys
 {
     internal abstract class HotKeySetsListener : KeyListener
     {
-        internal HotKeySetsListener(Subscribe subscribe, HotKeySetCollection collection)
-            : base(subscribe)
+        internal HotKeySetsListener(Subscribe subscribe) : base(subscribe)
         {
-            Collection = collection;
+            Collection = new HotKeySetCollection();
         }
 
-        private HotKeySetCollection Collection { get; }
+        internal HotKeySetCollection Collection { get; private set; }
 
         protected override bool Callback(CallbackData data)
         {

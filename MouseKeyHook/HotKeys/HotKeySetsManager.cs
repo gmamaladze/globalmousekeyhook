@@ -10,29 +10,23 @@ namespace Gma.System.MouseKeyHook.HotKeys
 {
     internal abstract class HotKeySetsManager : IHotKeyManager
     {
-        private readonly HotKeySetCollection m_Collection = new HotKeySetCollection();
-        private readonly HotKeySetsListener m_KeyListener;
-
-        internal HotKeySetsManager()
-        {
-            m_KeyListener = GeyHotKeySetsListener(m_Collection);
-        }
+        private HotKeySetsListener m_KeyListener;
 
         public void AddHotKeySet(HotKeySet hotKeySet)
         {
             if (hotKeySet == null)
                 return;
-            m_Collection.Add(hotKeySet);
+            GetListener().Collection.Add(hotKeySet);
         }
 
         public void RemoveHotKeySet(HotKeySet hotKeySet)
         {
-            m_Collection.Remove(hotKeySet);
+            GetListener().Collection.Remove(hotKeySet);
         }
 
         public IEnumerable<HotKeySet> FindHotKeySetsWhere(Func<HotKeySet, bool> predicate)
         {
-            return m_Collection.Where(predicate).ToArray();
+            return GetListener().Collection.Where(predicate).ToArray();
         }
 
         public void Dispose()
@@ -40,6 +34,14 @@ namespace Gma.System.MouseKeyHook.HotKeys
             m_KeyListener.Dispose();
         }
 
-        protected abstract HotKeySetsListener GeyHotKeySetsListener(HotKeySetCollection collection);
+        private HotKeySetsListener GetListener()
+        {
+            if(m_KeyListener != null)
+                return m_KeyListener;
+            m_KeyListener = GeyHotKeySetsListener();
+            return m_KeyListener;
+        }
+
+        protected abstract HotKeySetsListener GeyHotKeySetsListener();
     }
 }

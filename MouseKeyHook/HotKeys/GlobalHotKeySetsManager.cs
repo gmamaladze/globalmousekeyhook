@@ -6,9 +6,9 @@ namespace Gma.System.MouseKeyHook.HotKeys
 {
     class GlobalHotKeySetsManager : HotKeySetsManager
     {
-        protected override HotKeySetsListener GeyHotKeySetsListener(HotKeySetCollection collection)
+        protected override HotKeySetsListener GeyHotKeySetsListener()
         {
-            return new GlobalHotKeySetsListener(collection);
+            return new GlobalHotKeySetsListener();
         }
     }
 }
