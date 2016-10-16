@@ -7,9 +7,9 @@ using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.HotKeys
 {
-    internal class AppHotkeySetsListener : HotKeySetsListener
+    internal class AppHotKeySetsListener : HotKeySetsListener
     {
-        public AppHotkeySetsListener(HotKeySetCollection collection) : base(HookHelper.HookAppKeyboard, collection)
+        public AppHotKeySetsListener(HotKeySetCollection collection) : base(HookHelper.HookAppKeyboard, collection)
         {
         }
         protected override KeyEventArgsExt GetDownUpEventArgs(CallbackData data)

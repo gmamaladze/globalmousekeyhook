@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using Gma.System.MouseKeyHook.HotKeys;
@@ -25,11 +26,6 @@ namespace Demo
 
            
 
-        }
-
-        private void HotkeySet_OnHotKeysDownOnce(object sender, HotKeyArgs e)
-        {
-            MessageBox.Show("KALABANGA");
         }
 
         private void Main_Closing(object sender, CancelEventArgs e)
@@ -54,8 +50,13 @@ namespace Demo
         private void SetupHotKeyManager(bool isGlobal)
         {
             m_HotkeyManager = Hook.HotkeyManager(isGlobal);
-            var hks = new HotKeySet(new[] { Keys.End, Keys.LControlKey });
-            hks.OnHotKeysDownOnce += HotkeySet_OnHotKeysDownOnce;
+            var hks = new HotKeySet(new[] { Keys.End, Keys.LControlKey, Keys.ControlKey });
+            hks.RegisterExclusiveOrKey(new[] { Keys.LControlKey, Keys.ControlKey });
+            hks.OnHotKeysDownOnce += (sender, args) =>
+            {
+                Log(string.Format("HotKeySet \t\t \"{0}\" -  {1}\n", hks.Name, string.Join("+", hks.HotKeys)));
+            };
+            labelHotkey.Text = string.Format("HotKey: {0}", string.Join(" + ", hks.HotKeys));
             m_HotkeyManager.AddHotKeySet(hks);
         }
 

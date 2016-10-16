@@ -16,9 +16,9 @@ namespace Gma.System.MouseKeyHook.HotKeys
         internal HotKeySetsManager(bool isGlobal)
         {
             if (isGlobal)
-                m_KeyListener = new GlobalHotkeySetsListener(m_Collection);
+                m_KeyListener = new GlobalHotKeySetsListener(m_Collection);
             else
-                m_KeyListener = new AppHotkeySetsListener(m_Collection);
+                m_KeyListener = new AppHotKeySetsListener(m_Collection);
         }
 
         public bool AddHotKeySet(HotKeySet hotKeySet)

@@ -39,6 +39,7 @@
             this.clearLogButton = new System.Windows.Forms.Button();
             this.checkBoxSupressMouseWheel = new System.Windows.Forms.CheckBox();
             this.radioNone = new System.Windows.Forms.RadioButton();
+            this.labelHotkey = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -135,6 +136,7 @@
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.labelHotkey);
             this.groupBox2.Controls.Add(this.clearLogButton);
             this.groupBox2.Controls.Add(this.checkBoxSupressMouseWheel);
             this.groupBox2.Controls.Add(this.radioNone);
@@ -187,6 +189,17 @@
             this.radioNone.UseVisualStyleBackColor = false;
             this.radioNone.CheckedChanged += new System.EventHandler(this.radioNone_CheckedChanged);
             // 
+            // labelHotkey
+            // 
+            this.labelHotkey.BackColor = System.Drawing.Color.White;
+            this.labelHotkey.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelHotkey.Location = new System.Drawing.Point(376, 50);
+            this.labelHotkey.Name = "labelHotkey";
+            this.labelHotkey.Size = new System.Drawing.Size(214, 13);
+            this.labelHotkey.TabIndex = 17;
+            this.labelHotkey.Text = "HotKeySet: {0}";
+            this.labelHotkey.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -216,6 +229,7 @@
         private System.Windows.Forms.RadioButton radioNone;
         private System.Windows.Forms.CheckBox checkBoxSupressMouseWheel;
         private System.Windows.Forms.Button clearLogButton;
+        private System.Windows.Forms.Label labelHotkey;
     }
 }
 
