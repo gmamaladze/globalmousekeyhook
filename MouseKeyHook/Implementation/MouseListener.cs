@@ -119,14 +119,15 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         protected virtual void ProcessUp(ref MouseEventExtArgs e)
         {
+            OnUp(e);
+            OnUpExt(e);
+            if (e.Handled)
+            {
+                return;
+            }
+
             if (m_SingleDown.Contains(e.Button))
             {
-                OnUp(e);
-                OnUpExt(e);
-                if (e.Handled)
-                {
-                    return;
-                }
                 OnClick(e);
                 m_SingleDown.Remove(e.Button);
             }
@@ -134,8 +135,6 @@ namespace Gma.System.MouseKeyHook.Implementation
             if (m_DoubleDown.Contains(e.Button))
             {
                 e = e.ToDoubleClickEventArgs();
-                OnUp(e);
-                OnUpExt(e);
                 OnDoubleClick(e);
                 m_DoubleDown.Remove(e.Button);
             }
