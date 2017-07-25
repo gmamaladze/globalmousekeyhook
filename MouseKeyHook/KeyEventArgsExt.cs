@@ -25,12 +25,13 @@ namespace Gma.System.MouseKeyHook
         {
         }
 
-        internal KeyEventArgsExt(Keys keyData, int timestamp, bool isKeyDown, bool isKeyUp)
+        internal KeyEventArgsExt(Keys keyData, int timestamp, bool isKeyDown, bool isKeyUp, bool isExtendedKey)
             : this(keyData)
         {
             Timestamp = timestamp;
             IsKeyDown = isKeyDown;
             IsKeyUp = isKeyUp;
+            IsExtendedKey = isExtendedKey;
         }
 
         /// <summary>
@@ -48,6 +49,12 @@ namespace Gma.System.MouseKeyHook
         /// </summary>
         public bool IsKeyUp { get; private set; }
 
+
+        /// <summary>
+        /// True if event signals, that the key is an extended key
+        /// </summary>
+        public bool IsExtendedKey { get; private set; }
+
         internal static KeyEventArgsExt FromRawDataApp(CallbackData data)
         {
             var wParam = data.WParam;
@@ -57,6 +64,7 @@ namespace Gma.System.MouseKeyHook
 
             const uint maskKeydown = 0x40000000; // for bit 30
             const uint maskKeyup = 0x80000000; // for bit 31
+            const uint maskExtendedKey = 0x1000000; // for bit 24
 
             int timestamp = Environment.TickCount;
 
@@ -66,13 +74,15 @@ namespace Gma.System.MouseKeyHook
             bool wasKeyDown = (flags & maskKeydown) > 0;
             //bit 31 Specifies the transition state. The value is 0 if the key is being pressed and 1 if it is being released.
             bool isKeyReleased = (flags & maskKeyup) > 0;
+            //bit 24 Specifies the extended key state. The value is 1 if the key is an extended key, otherwise the value is 0.
+            bool isExtendedKey = (flags & maskExtendedKey) > 0;
 
             Keys keyData = AppendModifierStates((Keys) wParam);
 
             bool isKeyDown = !isKeyReleased;
             bool isKeyUp = wasKeyDown && isKeyReleased;
 
-            return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp);
+            return new KeyEventArgsExt(keyData, timestamp, isKeyDown, isKeyUp, isExtendedKey);
         }
 
         internal static KeyEventArgsExt FromRawDataGlobal(CallbackData data)
@@ -81,13 +91,17 @@ namespace Gma.System.MouseKeyHook
             var lParam = data.LParam;
             var keyboardHookStruct =
                 (KeyboardHookStruct) Marshal.PtrToStructure(lParam, typeof (KeyboardHookStruct));
-            var keyData = AppendModifierStates((Keys) keyboardHookStruct.VirtualKeyCode);
+
+            var keyData = AppendModifierStates((Keys)keyboardHookStruct.VirtualKeyCode);
 
             var keyCode = (int) wParam;
             bool isKeyDown = (keyCode == Messages.WM_KEYDOWN || keyCode == Messages.WM_SYSKEYDOWN);
             bool isKeyUp = (keyCode == Messages.WM_KEYUP || keyCode == Messages.WM_SYSKEYUP);
 
-            return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp);
+            const uint maskExtendedKey = 0x1;
+            bool isExtendedKey = (keyboardHookStruct.Flags & maskExtendedKey) > 0;
+
+            return new KeyEventArgsExt(keyData, keyboardHookStruct.Time, isKeyDown, isKeyUp, isExtendedKey);
         }
 
         // # It is not possible to distinguish Keys.LControlKey and Keys.RControlKey when they are modifiers
