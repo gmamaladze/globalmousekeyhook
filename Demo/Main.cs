@@ -4,8 +4,10 @@
 
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
+using Gma.System.MouseKeyHook.HotKeys;
 using Gma.System.MouseKeyHook.Implementation;
 
 namespace Demo
@@ -13,6 +15,7 @@ namespace Demo
     public partial class Main : Form
     {
         private IKeyboardMouseEvents m_Events;
+        private IHotKeyManager _mHotKeyManager;
 
         public Main()
         {
@@ -20,6 +23,9 @@ namespace Demo
             radioGlobal.Checked = true;
             SubscribeGlobal();
             FormClosing += Main_Closing;
+
+           
+
         }
 
         private void Main_Closing(object sender, CancelEventArgs e)
@@ -31,12 +37,27 @@ namespace Demo
         {
             Unsubscribe();
             Subscribe(Hook.AppEvents());
+            SetupHotKeyManager(false);
         }
 
         private void SubscribeGlobal()
         {
             Unsubscribe();
             Subscribe(Hook.GlobalEvents());
+            SetupHotKeyManager(true);
+        }
+
+        private void SetupHotKeyManager(bool isGlobal)
+        {
+            _mHotKeyManager = isGlobal ? Hook.GlobalHotkeyManager() : Hook.AppHotkeyManager();
+            var hks = new HotKeySet(new[] { Keys.End, Keys.LControlKey, Keys.ControlKey });
+            hks.RegisterExclusiveOrKey(new[] { Keys.LControlKey, Keys.ControlKey });
+            hks.OnHotKeysDownOnce += (sender, args) =>
+            {
+                Log(string.Format("HotKeySet \t\t \"{0}\" -  {1}\n", hks.Name, string.Join("+", hks.HotKeys)));
+            };
+            labelHotkey.Text = string.Format("HotKey: {0}", string.Join(" + ", hks.HotKeys));
+            _mHotKeyManager.AddHotKeySet(hks);
         }
 
         private void Subscribe(IKeyboardMouseEvents events)
@@ -95,6 +116,9 @@ namespace Demo
 
             m_Events.Dispose();
             m_Events = null;
+
+            _mHotKeyManager.Dispose();
+            _mHotKeyManager = null;
         }
 
         private void HookManager_Supress(object sender, MouseEventExtArgs e)
