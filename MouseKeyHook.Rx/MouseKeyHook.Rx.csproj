@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Chord.cs" />
+    <Compile Include="KeySequence.cs" />
     <Compile Include="KeyObserverExtensions.cs" />
     <Compile Include="KeyEvent.cs" />
     <Compile Include="KeyEventKind.cs" />

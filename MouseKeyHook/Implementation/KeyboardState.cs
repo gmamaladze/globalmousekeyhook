@@ -17,7 +17,7 @@ namespace Gma.System.MouseKeyHook.Implementation
     ///     This class is basically a managed wrapper of GetKeyboardState API function
     ///     http://msdn.microsoft.com/en-us/library/ms646299
     /// </remarks>
-    internal class KeyboardState
+    public class KeyboardState
     {
         private readonly byte[] m_KeyboardStateNative;
 

@@ -1,54 +1,62 @@
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Windows.Forms;
+using Gma.System.MouseKeyHook.Implementation;
 
 namespace MouseKeyHook.Rx
 {
     public class Chord
     {
-        public bool Matches(IEnumerable<KeyEvent> events)
-        {
-            return events.SequenceEqual(this.Events);
-        }
+        public Keys Trigger { get; set; }
+        public Keys[] Modifiers { get; set; }
 
-        public static Chord Of(params KeyEvent[] events)
+        public static Chord FromString(string chord)
         {
-            return new Chord(events);
-        }
+            var parts = chord.Split('+');
+            var parsed = new Keys[parts.Length];
+            for (var i = 0; i < parts.Length; i++)
+            {
+                Keys keyCode;
+                var isOk = Enum.TryParse(parts[i], out keyCode);
+                if (!isOk) return null;
+                parsed[i] = keyCode;
+            }
 
-        protected bool Equals(Chord other)
-        {
-            return Events.Equals(other.Events);
-        }
+            var result = new Chord();
 
-        public override bool Equals(object obj)
-        {
-            var chord = (Chord)obj;
-            return chord != null && Matches(chord.Events);
-        }
-
-        internal static int CombineHashCodes(int h1, int h2)
-        {
-            return (((h1 << 5) + h1) ^ h2);
-        }
-
-        public override int GetHashCode()
-        {
-            return this
-                .Events
-                .Select(evt => evt.GetHashCode())
-                .Aggregate(37, CombineHashCodes);
+            var lastIdx = parsed.Length - 1;
+            for (var i = 0; i < lastIdx; i++)
+            {
+                result.Modifiers[i] = parsed[i];
+            }
+            result.Trigger = parsed[lastIdx];
+            return result;
         }
 
         public override string ToString()
         {
-            return Events.Aggregate(string.Empty, (s, e) => s+" "+e.ToString());
+            return string.Join("+", Modifiers) + "+" + Trigger;
         }
 
-        public IEnumerable<KeyEvent> Events { get; }
-
-        public Chord(IEnumerable<KeyEvent> events)
+        public bool Matches(Keys trigger)
         {
-            Events = events;
+            if (trigger != Trigger) return false;
+            var keyboardState = KeyboardState.GetCurrent();
+            return Modifiers.All(modifier => IsDown(keyboardState, modifier));
+        }
+
+        private static bool IsDown(KeyboardState state, Keys modifier)
+        {
+            switch (modifier)
+            {
+                case Keys.Alt:
+                    return state.IsDown(Keys.LMenu) | state.IsDown(Keys.RMenu);
+                case Keys.Control:
+                    return state.IsDown(Keys.LControlKey) | state.IsDown(Keys.RControlKey);
+                case Keys.Shift:
+                    return state.IsDown(Keys.LShiftKey) | state.IsDown(Keys.RShiftKey);
+            }
+            return state.IsDown(modifier);
         }
     }
 }

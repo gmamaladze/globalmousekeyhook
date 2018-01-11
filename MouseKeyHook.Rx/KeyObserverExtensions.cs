@@ -5,7 +5,9 @@ using System.Linq;
 using Gma.System.MouseKeyHook;
 using srx=System.Reactive.Linq;
 using System.Reactive.Linq;
+using System.Text;
 using System.Windows.Forms;
+using Microsoft.SqlServer.Server;
 
 namespace MouseKeyHook.Rx
 {
@@ -29,18 +31,18 @@ namespace MouseKeyHook.Rx
                 .Merge(upObserver);
         }
 
-        public static IObservable<Chord> Chords(this IObservable<KeyEvent> upDownObservable, int minChodLength=2, int maxChordLength = 3)
+        public static IObservable<KeySequence> KeySequences(this IObservable<KeyEvent> upDownObservable, int minLength=2, int maxLength = 3)
         {
             return Enumerable
-                .Range(minChodLength, maxChordLength)
+                .Range(minLength, maxLength)
                 .Select(n => upDownObservable
                     .Buffer(n, 1)
-                .Select(buffer => new Chord(buffer)))
+                .Select(buffer => new KeySequence(buffer)))
                 .Merge();
         }
 
-        public static IObservable<T> ChordsMapped<T>(this IObservable<KeyEvent> upDownObservable,
-            IDictionary<Chord, T> map)
+        public static IObservable<T> KeySequenceMapped<T>(this IObservable<KeyEvent> upDownObservable,
+            IDictionary<KeySequence, T> map)
         {
             var min = map
                 .Keys
@@ -53,9 +55,19 @@ namespace MouseKeyHook.Rx
                 .Max();
 
             return upDownObservable
-                .Chords(min, max)
+                .KeySequences(min, max)
                 .Where(map.ContainsKey)
                 .Select(chord => map[chord]);
         }
+
+        public static IObservable<Chord> ChordObservable(this IKeyboardEvents source, IEnumerable<Chord> expected)
+        {
+            return srx
+                .Observable
+                .FromEventPattern<KeyEventArgs>(source, "KeyDown")
+                .Select(ep => ep.EventArgs.KeyCode)
+                .Select(keyCode => expected.FirstOrDefault(current => current.Matches(keyCode)))
+                .Where(chord=>chord!=null);
+        } 
     }
 }
