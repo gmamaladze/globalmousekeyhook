@@ -1,6 +1,6 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9493FAA3-FC1F-49CB-B0F0-E7FF3593B08B}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,6 +16,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyHook", "MouseKeyHook\MouseKeyHook.csproj", "{F52AA97E-180A-40ED-8F2B-09080171D6C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Demo", "Demo\Demo.csproj", "{693C8A54-2FA1-408B-9896-7CB1E5E9E257}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MouseKeyHook.Rx", "MouseKeyHook.Rx\MouseKeyHook.Rx.csproj", "{9754749C-1EEA-4468-8C32-B5BAC3235F54}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{1DE6BB2E-ED17-4507-9E71-65DA4580C131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleHook.Rx", "ConsoleHook.Rx\ConsoleHook.Rx.csproj", "{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,8 +53,36 @@ Global
 		{693C8A54-2FA1-408B-9896-7CB1E5E9E257}.Release|Any CPU.Build.0 = Release|Any CPU
 		{693C8A54-2FA1-408B-9896-7CB1E5E9E257}.Release|x64.ActiveCfg = Release|Any CPU
 		{693C8A54-2FA1-408B-9896-7CB1E5E9E257}.Release|x86.ActiveCfg = Release|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Debug|x64.Build.0 = Debug|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Debug|x86.Build.0 = Debug|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Release|x64.ActiveCfg = Release|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Release|x64.Build.0 = Release|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Release|x86.ActiveCfg = Release|Any CPU
+		{9754749C-1EEA-4468-8C32-B5BAC3235F54}.Release|x86.Build.0 = Release|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Debug|x64.Build.0 = Debug|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Debug|x86.Build.0 = Debug|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Release|x64.ActiveCfg = Release|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Release|x64.Build.0 = Release|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Release|x86.ActiveCfg = Release|Any CPU
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{693C8A54-2FA1-408B-9896-7CB1E5E9E257} = {1DE6BB2E-ED17-4507-9E71-65DA4580C131}
+		{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B} = {1DE6BB2E-ED17-4507-9E71-65DA4580C131}
 	EndGlobalSection
 EndGlobal
