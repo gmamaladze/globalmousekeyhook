@@ -1,3 +1,7 @@
+// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +10,12 @@ namespace MouseKeyHook.Rx
 {
     public class Sequence<T> : IEnumerable<T>
     {
+        private readonly T[] _elements;
+
+        public Sequence(params T[] elements)
+        {
+            _elements = elements;
+        }
 
         public int Length => _elements.Length;
 
@@ -14,21 +24,14 @@ namespace MouseKeyHook.Rx
             return _elements.Cast<T>().GetEnumerator();
         }
 
-        public override string ToString()
-        {
-            return string.Join(",", _elements);
-        }
-
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
         }
 
-        private readonly T[] _elements;
-
-        public Sequence(params T[] elements)
+        public override string ToString()
         {
-            _elements = elements;
+            return string.Join(",", _elements);
         }
 
 
@@ -42,17 +45,17 @@ namespace MouseKeyHook.Rx
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
-            return Equals((Trigger)obj);
+            if (obj.GetType() != GetType()) return false;
+            return Equals((Trigger) obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                return _elements.Length + 13 ^
-                       ((_elements.Length != 0 
-                            ? _elements[0].GetHashCode() ^ _elements[_elements.Length-1].GetHashCode() 
+                return (_elements.Length + 13) ^
+                       ((_elements.Length != 0
+                            ? _elements[0].GetHashCode() ^ _elements[_elements.Length - 1].GetHashCode()
                             : 0) * 397);
             }
         }

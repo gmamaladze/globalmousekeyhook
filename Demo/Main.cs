@@ -6,7 +6,6 @@ using System;
 using System.ComponentModel;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
-using Gma.System.MouseKeyHook.Implementation;
 
 namespace Demo
 {
@@ -64,7 +63,6 @@ namespace Demo
                 m_Events.MouseDownExt += HookManager_Supress;
             else
                 m_Events.MouseDown += OnMouseDown;
-            
         }
 
         private void Unsubscribe()
@@ -163,7 +161,7 @@ namespace Demo
         {
             labelWheel.Text = string.Format("Wheel={0:000}", e.Delta);
         }
-        
+
         private void HookManager_MouseWheelExt(object sender, MouseEventExtArgs e)
         {
             labelWheel.Text = string.Format("Wheel={0:000}", e.Delta);
@@ -213,7 +211,7 @@ namespace Demo
         {
             if (m_Events == null) return;
 
-            if (((CheckBox)sender).Checked)
+            if (((CheckBox) sender).Checked)
             {
                 m_Events.MouseDown -= OnMouseDown;
                 m_Events.MouseDownExt += HookManager_Supress;

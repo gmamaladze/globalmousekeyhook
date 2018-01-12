@@ -23,9 +23,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             var handler = KeyDown;
             if (handler == null || e.Handled || !e.IsKeyDown)
-            {
                 return;
-            }
             handler(this, e);
         }
 
@@ -33,9 +31,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             var handler = KeyPress;
             if (handler == null || e.Handled || e.IsNonChar)
-            {
                 return;
-            }
             handler(this, e);
         }
 
@@ -43,25 +39,21 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             var handler = KeyUp;
             if (handler == null || e.Handled || !e.IsKeyUp)
-            {
                 return;
-            }
             handler(this, e);
         }
 
         protected override bool Callback(CallbackData data)
         {
             var eDownUp = GetDownUpEventArgs(data);
-           
+
             InvokeKeyDown(eDownUp);
 
             if (KeyPress != null)
             {
                 var pressEventArgs = GetPressEventArgs(data);
                 foreach (var pressEventArg in pressEventArgs)
-                {
                     InvokeKeyPress(pressEventArg);
-                }
             }
 
             InvokeKeyUp(eDownUp);

@@ -1,3 +1,7 @@
+// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.Implementation;
 
@@ -7,8 +11,8 @@ namespace MouseKeyHook.Rx
     {
         public KeyEvent(Keys keyCode, KeyEventKind kind = KeyEventKind.Down)
         {
-            this.KeyCode = keyCode;
-            this.Kind = kind;
+            KeyCode = keyCode;
+            Kind = kind;
         }
 
         public KeyEventKind Kind { get; }

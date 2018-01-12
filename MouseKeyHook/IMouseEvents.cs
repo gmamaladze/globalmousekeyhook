@@ -51,7 +51,7 @@ namespace Gma.System.MouseKeyHook
         event MouseEventHandler MouseUp;
 
         /// <summary>
-        /// Occurs when a mouse button is released.
+        ///     Occurs when a mouse button is released.
         /// </summary>
         /// <remarks>
         ///     This event provides extended arguments of type <see cref="MouseEventArgs" /> enabling you to

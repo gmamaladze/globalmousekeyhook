@@ -33,7 +33,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// <returns>An instance of <see cref="KeyboardState" /> class representing a snapshot of keyboard state at certain moment.</returns>
         public static KeyboardState GetCurrent()
         {
-            byte[] keyboardStateNative = new byte[256];
+            var keyboardStateNative = new byte[256];
             KeyboardNativeMethods.GetKeyboardState(keyboardStateNative);
             return new KeyboardState(keyboardStateNative);
         }
@@ -58,8 +58,8 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         private bool IsDownRaw(Keys key)
         {
-            byte keyState = GetKeyState(key);
-            bool isDown = GetHighBit(keyState);
+            var keyState = GetKeyState(key);
+            var isDown = GetHighBit(keyState);
             return isDown;
         }
 
@@ -73,8 +73,8 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// </returns>
         public bool IsToggled(Keys key)
         {
-            byte keyState = GetKeyState(key);
-            bool isToggled = GetLowBit(keyState);
+            var keyState = GetKeyState(key);
+            var isToggled = GetLowBit(keyState);
             return isToggled;
         }
 
@@ -86,29 +86,23 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// <returns><b>true</b> - all were down. <b>false</b> - at least one was up.</returns>
         public bool AreAllDown(IEnumerable<Keys> keys)
         {
-            foreach (Keys key in keys)
-            {
+            foreach (var key in keys)
                 if (!IsDown(key))
-                {
                     return false;
-                }
-            }
             return true;
         }
 
         private byte GetKeyState(Keys key)
         {
-            int virtualKeyCode = (int) key;
+            var virtualKeyCode = (int) key;
             if (virtualKeyCode < 0 || virtualKeyCode > 255)
-            {
                 throw new ArgumentOutOfRangeException("key", key, "The value must be between 0 and 255.");
-            }
             return m_KeyboardStateNative[virtualKeyCode];
         }
 
         private static bool GetHighBit(byte value)
         {
-            return (value >> 7) != 0;
+            return value >> 7 != 0;
         }
 
         private static bool GetLowBit(byte value)

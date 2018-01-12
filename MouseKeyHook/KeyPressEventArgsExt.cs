@@ -38,12 +38,12 @@ namespace Gma.System.MouseKeyHook
         /// <summary>
         ///     True if represents a system or functional non char key.
         /// </summary>
-        public bool IsNonChar { get; private set; }
+        public bool IsNonChar { get; }
 
         /// <summary>
         ///     The system tick count of when the event occurred.
         /// </summary>
-        public int Timestamp { get; private set; }
+        public int Timestamp { get; }
 
         internal static IEnumerable<KeyPressEventArgsExt> FromRawDataApp(CallbackData data)
         {
@@ -64,9 +64,7 @@ namespace Gma.System.MouseKeyHook
             var isKeyReleased = (flags & maskKeyup) > 0;
 
             if (!wasKeyDown && !isKeyReleased)
-            {
                 yield break;
-            }
 
             var virtualKeyCode = (int) wParam;
             var scanCode = checked((int) (flags & maskScanCode));
@@ -77,9 +75,7 @@ namespace Gma.System.MouseKeyHook
             KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
             if (chars == null) yield break;
             foreach (var ch in chars)
-            {
                 yield return new KeyPressEventArgsExt(ch);
-            }
         }
 
         internal static IEnumerable<KeyPressEventArgsExt> FromRawDataGlobal(CallbackData data)
@@ -87,13 +83,11 @@ namespace Gma.System.MouseKeyHook
             var wParam = data.WParam;
             var lParam = data.LParam;
 
-            if ((int) wParam != Messages.WM_KEYDOWN && (int)wParam != Messages.WM_SYSKEYDOWN)
-            {
+            if ((int) wParam != Messages.WM_KEYDOWN && (int) wParam != Messages.WM_SYSKEYDOWN)
                 yield break;
-            }
 
-            KeyboardHookStruct keyboardHookStruct =
-                (KeyboardHookStruct) Marshal.PtrToStructure(lParam, typeof (KeyboardHookStruct));
+            var keyboardHookStruct =
+                (KeyboardHookStruct) Marshal.PtrToStructure(lParam, typeof(KeyboardHookStruct));
 
             var virtualKeyCode = keyboardHookStruct.VirtualKeyCode;
             var scanCode = keyboardHookStruct.ScanCode;
@@ -110,9 +104,7 @@ namespace Gma.System.MouseKeyHook
                 KeyboardNativeMethods.TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, out chars);
                 if (chars == null) yield break;
                 foreach (var current in chars)
-                {
                     yield return new KeyPressEventArgsExt(current, keyboardHookStruct.Time);
-                }
             }
         }
     }

@@ -14,6 +14,7 @@ namespace Gma.System.MouseKeyHook.WinApi
     {
         //values from Winuser.h in Microsoft SDK.
         public const byte VK_SHIFT = 0x10;
+
         public const byte VK_CAPITAL = 0x14;
         public const byte VK_NUMLOCK = 0x90;
         public const byte VK_LSHIFT = 0xA0;
@@ -25,16 +26,22 @@ namespace Gma.System.MouseKeyHook.WinApi
         public const byte VK_LWIN = 0x5B;
         public const byte VK_RWIN = 0x5C;
         public const byte VK_SCROLL = 0x91;
+
         public const byte VK_INSERT = 0x2D;
+
         //may be possible to use these aggregates instead of L and R separately (untested)
         public const byte VK_CONTROL = 0x11;
+
         public const byte VK_MENU = 0x12;
+
         public const byte VK_PACKET = 0xE7;
+
         //Used to pass Unicode characters as if they were keystrokes. The VK_PACKET key is the low word of a 32-bit Virtual Key value used for non-keyboard input methods
-        private static int lastVirtualKeyCode = 0;
-        private static int lastScanCode = 0;
+        private static int lastVirtualKeyCode;
+
+        private static int lastScanCode;
         private static byte[] lastKeyState = new byte[255];
-        private static bool lastIsDead = false;
+        private static bool lastIsDead;
 
         /// <summary>
         ///     Translates a virtual key to its character equivalent using the current keyboard layout without knowing the
@@ -47,7 +54,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         internal static void TryGetCharFromKeyboardState(int virtualKeyCode, int fuState, out char[] chars)
         {
             var dwhkl = GetActiveKeyboard();
-            int scanCode = MapVirtualKeyEx(virtualKeyCode, (int) MapType.MAPVK_VK_TO_VSC, dwhkl);
+            var scanCode = MapVirtualKeyEx(virtualKeyCode, (int) MapType.MAPVK_VK_TO_VSC, dwhkl);
             TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out chars);
         }
 
@@ -59,7 +66,8 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <param name="fuState"></param>
         /// <param name="chars"></param>
         /// <returns></returns>
-        internal static void TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, out char[] chars)
+        internal static void TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState,
+            out char[] chars)
         {
             var dwhkl = GetActiveKeyboard(); //get the active keyboard layout
             TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out chars);
@@ -74,12 +82,13 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <param name="dwhkl"></param>
         /// <param name="chars"></param>
         /// <returns></returns>
-        internal static void TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, IntPtr dwhkl, out char[] chars)
+        internal static void TryGetCharFromKeyboardState(int virtualKeyCode, int scanCode, int fuState, IntPtr dwhkl,
+            out char[] chars)
         {
-            StringBuilder pwszBuff = new StringBuilder(64);
-            KeyboardState keyboardState = KeyboardState.GetCurrent();
-            byte[] currentKeyboardState = keyboardState.GetNativeState();
-            bool isDead = false;
+            var pwszBuff = new StringBuilder(64);
+            var keyboardState = KeyboardState.GetCurrent();
+            var currentKeyboardState = keyboardState.GetNativeState();
+            var isDead = false;
 
             if (keyboardState.IsDown(Keys.ShiftKey))
                 currentKeyboardState[(byte) Keys.ShiftKey] = 0x80;
@@ -87,7 +96,8 @@ namespace Gma.System.MouseKeyHook.WinApi
             if (keyboardState.IsToggled(Keys.CapsLock))
                 currentKeyboardState[(byte) Keys.CapsLock] = 0x01;
 
-            var relevantChars = ToUnicodeEx(virtualKeyCode, scanCode, currentKeyboardState, pwszBuff, pwszBuff.Capacity, fuState, dwhkl);
+            var relevantChars = ToUnicodeEx(virtualKeyCode, scanCode, currentKeyboardState, pwszBuff, pwszBuff.Capacity,
+                fuState, dwhkl);
 
             switch (relevantChars)
             {
@@ -102,14 +112,14 @@ namespace Gma.System.MouseKeyHook.WinApi
                     break;
 
                 case 1:
-                    if (pwszBuff.Length > 0) chars = new[] { pwszBuff[0] };
+                    if (pwszBuff.Length > 0) chars = new[] {pwszBuff[0]};
                     else chars = null;
                     break;
 
                 // Two or more (only two of them is relevant)
                 default:
-                    if (pwszBuff.Length > 1) chars = new[] { pwszBuff[0], pwszBuff[1] };
-                    else chars = new[] { pwszBuff[0] };
+                    if (pwszBuff.Length > 1) chars = new[] {pwszBuff[0], pwszBuff[1]};
+                    else chars = new[] {pwszBuff[0]};
                     break;
             }
 
@@ -117,7 +127,7 @@ namespace Gma.System.MouseKeyHook.WinApi
             {
                 if (chars != null)
                 {
-                    StringBuilder sbTemp = new StringBuilder(5);
+                    var sbTemp = new StringBuilder(5);
                     ToUnicodeEx(lastVirtualKeyCode, lastScanCode, lastKeyState, sbTemp, sbTemp.Capacity, 0, dwhkl);
                     lastIsDead = false;
                     lastVirtualKeyCode = 0;
@@ -140,7 +150,7 @@ namespace Gma.System.MouseKeyHook.WinApi
             int rc;
             do
             {
-                byte[] lpKeyStateNull = new Byte[255];
+                var lpKeyStateNull = new byte[255];
                 rc = ToUnicodeEx(vk, sc, lpKeyStateNull, sb, sb.Capacity, 0, hkl);
             } while (rc < 0);
         }
@@ -153,9 +163,9 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// <returns>HKL</returns>
         private static IntPtr GetActiveKeyboard()
         {
-            IntPtr hActiveWnd = ThreadNativeMethods.GetForegroundWindow(); //handle to focused window
+            var hActiveWnd = ThreadNativeMethods.GetForegroundWindow(); //handle to focused window
             int dwProcessId;
-            int hCurrentWnd = ThreadNativeMethods.GetWindowThreadProcessId(hActiveWnd, out dwProcessId);
+            var hCurrentWnd = ThreadNativeMethods.GetWindowThreadProcessId(hActiveWnd, out dwProcessId);
             //thread of focused window
             return GetKeyboardLayout(hCurrentWnd); //get the layout identifier for the thread whose window is focused
         }
@@ -258,7 +268,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         public static extern int ToUnicodeEx(int wVirtKey,
             int wScanCode,
             byte[] lpKeyState,
-            [Out, MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder pwszBuff,
+            [Out] [MarshalAs(UnmanagedType.LPWStr, SizeConst = 64)] StringBuilder pwszBuff,
             int cchBuff,
             int wFlags,
             IntPtr dwhkl);

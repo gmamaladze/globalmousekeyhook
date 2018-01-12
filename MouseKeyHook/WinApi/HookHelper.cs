@@ -12,9 +12,9 @@ namespace Gma.System.MouseKeyHook.WinApi
 {
     internal static class HookHelper
     {
-        static HookProcedure _appHookProc;
-        static HookProcedure _globalHookProc;
-        
+        private static HookProcedure _appHookProc;
+        private static HookProcedure _globalHookProc;
+
         public static HookResult HookAppMouse(Callback callback)
         {
             return HookApp(HookIds.WH_MOUSE, callback);
@@ -46,9 +46,7 @@ namespace Gma.System.MouseKeyHook.WinApi
                 ThreadNativeMethods.GetCurrentThreadId());
 
             if (hookHandle.IsInvalid)
-            {
                 ThrowLastUnmanagedErrorAsException();
-            }
 
             return new HookResult(hookHandle, _appHookProc);
         }
@@ -64,9 +62,7 @@ namespace Gma.System.MouseKeyHook.WinApi
                 0);
 
             if (hookHandle.IsInvalid)
-            {
                 ThrowLastUnmanagedErrorAsException();
-            }
 
             return new HookResult(hookHandle, _globalHookProc);
         }
@@ -75,17 +71,13 @@ namespace Gma.System.MouseKeyHook.WinApi
         {
             var passThrough = nCode != 0;
             if (passThrough)
-            {
                 return CallNextHookEx(nCode, wParam, lParam);
-            }
 
             var callbackData = new CallbackData(wParam, lParam);
             var continueProcessing = callback(callbackData);
 
             if (!continueProcessing)
-            {
                 return new IntPtr(-1);
-            }
 
             return CallNextHookEx(nCode, wParam, lParam);
         }

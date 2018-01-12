@@ -1,24 +1,22 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Gma.System.MouseKeyHook;
-using MouseKeyHook;
-using System.Reactive.Linq;
 using System.Threading;
-using MouseKeyHook.Rx;
 using System.Windows.Forms;
 
 namespace ConsoleHook.Rx
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var quit = new AutoResetEvent(false);
 
-            var selector = new Dictionary<string, Action<AutoResetEvent>>()
+            var selector = new Dictionary<string, Action<AutoResetEvent>>
             {
                 {"1. Detect key sequence", DetectSequences.Do},
                 {"2. Detect key combinationss", DetectCombinations.Do},
@@ -31,21 +29,18 @@ namespace ConsoleHook.Rx
             {
                 Console.WriteLine("Please select one of these:");
                 foreach (var selectorKey in selector.Keys)
-                {
                     Console.WriteLine(selectorKey);
-                }
                 var ch = Console.ReadKey(true).KeyChar;
                 action = selector
                     .Where(p => p.Key.StartsWith(ch.ToString()))
-                    .Select(p=>p.Value).FirstOrDefault();
+                    .Select(p => p.Value).FirstOrDefault();
             }
             Console.WriteLine("--------------------------------------------------");
             action(quit);
 
             while (!quit.WaitOne(100))
-            {
                 Application.DoEvents();
-            };
+            ;
         }
 
         private static void Exit(AutoResetEvent quit)

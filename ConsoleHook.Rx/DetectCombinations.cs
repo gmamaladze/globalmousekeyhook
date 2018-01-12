@@ -1,4 +1,8 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -26,16 +30,14 @@ namespace ConsoleHook.Rx
                 .Matching(triggers)
                 .ForEachAsync(trigger =>
                 {
-                    if (trigger==quitTrigger) quit.Set();
+                    if (trigger == quitTrigger) quit.Set();
                     Console.WriteLine(trigger);
                 });
 
             Console.WriteLine("Press Control+Q to quit.");
             Console.WriteLine("Monitoring folowing combinations:");
             foreach (var name in triggers)
-            {
                 Console.WriteLine("\t" + name);
-            }
         }
     }
 }

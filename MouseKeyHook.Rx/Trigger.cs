@@ -1,3 +1,7 @@
+// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,21 +11,21 @@ namespace MouseKeyHook.Rx
 {
     public class Trigger
     {
-        public Keys TriggerKey { get; }
-
-        public IEnumerable<Keys> AdditionalKeys => _addKeys;
-
-        public IEnumerable<Keys> AllKeys => _addKeys.Concat(Enumerable.Repeat(TriggerKey, 1)); 
-
         private readonly Stack<Keys> _addKeys;
-
-        public int Length => _addKeys.Count + 1;
 
         private Trigger(Keys triggerKey, IEnumerable<Keys> additionalKeys)
         {
             TriggerKey = triggerKey;
-            _addKeys = new Stack<Keys>(additionalKeys.OrderBy(k=>k));
+            _addKeys = new Stack<Keys>(additionalKeys.OrderBy(k => k));
         }
+
+        public Keys TriggerKey { get; }
+
+        public IEnumerable<Keys> AdditionalKeys => _addKeys;
+
+        public IEnumerable<Keys> AllKeys => _addKeys.Concat(Enumerable.Repeat(TriggerKey, 1));
+
+        public int Length => _addKeys.Count + 1;
 
         public static Trigger On(Keys key)
         {
@@ -30,7 +34,7 @@ namespace MouseKeyHook.Rx
 
         public Trigger And(Keys key)
         {
-            return new Trigger(this.TriggerKey, _addKeys.Concat(Enumerable.Repeat(key, 1)));
+            return new Trigger(TriggerKey, _addKeys.Concat(Enumerable.Repeat(key, 1)));
         }
 
         public Trigger Control()
@@ -57,7 +61,7 @@ namespace MouseKeyHook.Rx
         {
             var parts = trigger
                 .Split('+')
-                .Select(p=>Enum.Parse(typeof(Keys), p))
+                .Select(p => Enum.Parse(typeof(Keys), p))
                 .Cast<Keys>();
             var stack = new Stack<Keys>(parts);
             var triggerKey = stack.Pop();
@@ -75,7 +79,7 @@ namespace MouseKeyHook.Rx
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((Trigger) obj);
         }
 
@@ -83,8 +87,8 @@ namespace MouseKeyHook.Rx
         {
             unchecked
             {
-                return _addKeys.Count+13 ^ 
-                       ((_addKeys.Count!=0 ? (int)_addKeys.Peek() :0 ) * 397) ^ 
+                return (_addKeys.Count + 13) ^
+                       ((_addKeys.Count != 0 ? (int) _addKeys.Peek() : 0) * 397) ^
                        (int) TriggerKey;
             }
         }
