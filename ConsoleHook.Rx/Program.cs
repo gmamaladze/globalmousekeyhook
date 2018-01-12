@@ -21,7 +21,7 @@ namespace ConsoleHook.Rx
             var selector = new Dictionary<string, Action<AutoResetEvent>>()
             {
                 {"1. Detect key sequence", SequenceSample},
-                {"2. Detect key combination (chord)", ChordSample},
+                {"2. Detect key combinationss", CombinationSample},
                 {"Q. Quit", Exit}
             };
 
@@ -48,61 +48,63 @@ namespace ConsoleHook.Rx
             };
         }
 
+        private static void CombinationSample(AutoResetEvent quit)
+        {
+            var quitTrigger = Trigger.FromString("Control+Q");
+            var triggers = new[]
+            {
+                quitTrigger,
+                Trigger.On(Keys.H).Alt().Shift(),
+                Trigger.On(Keys.E).And(Keys.Q).And(Keys.W)
+            };
+
+
+            Hook
+                .GlobalEvents()
+                .KeyDownObservable()
+                .Matching(triggers)
+                .ForEachAsync(trigger =>
+                {
+                    if (trigger==quitTrigger) quit.Set();
+                    Console.WriteLine(trigger);
+                });
+
+            Console.WriteLine("Press Control+Q to quit.");
+            Console.WriteLine("Monitoring folowing combinations:");
+            foreach (var name in triggers)
+            {
+                Console.WriteLine("\t" + name);
+            }
+        }
+
         private static void Exit(AutoResetEvent quit)
         {
             quit.Set();
         }
 
-        private static void ChordSample(AutoResetEvent quit)
-        {
-            var chords = new []
-            {
-                new Chord {Trigger = Keys.H, Modifiers = new [] {Keys.Alt, Keys.Shift}},
-                new Chord {Trigger = Keys.Q, Modifiers = new [] {Keys.Control}}
-            };
-
-            Hook
-                .GlobalEvents()
-                .ChordObservable(chords)
-                .Select(chord=>chord.ToString())
-                .ForEachAsync(name =>
-                {
-                    if (name == "Control+Q") quit.Set();
-                    Console.WriteLine(name);
-                });
-
-            Console.WriteLine("Press Ctrl+Q to quit.");
-            Console.WriteLine("Monitoring folowing sequences:");
-            foreach (var name in chords)
-            {
-                Console.WriteLine("\t" + name);
-            }
-
-        }
-
         private static void SequenceSample(AutoResetEvent quit)
         {
-            var map = new Dictionary<KeySequence, string>
+            var map = new []
             {
-                {KeySequence.Of(Keys.LControlKey.Down(), Keys.Q.Down()), "Ctrl+Q"},
-                {KeySequence.Of(Keys.LMenu.Down(), Keys.LShiftKey.Down(), Keys.H.Down()), "Alt+Shift+H"},
-                {KeySequence.Of(Keys.RShiftKey.Down(), Keys.Z.Down(), Keys.Z.Up(), Keys.Z.Down()), "Shift+Z,Z"}
+                new KeySequence("Control+Q", Keys.Q.Control().Down()),
+                new KeySequence("Alt+Shift+H", Keys.H.Alt().Shift().Down()),
+                new KeySequence("Shift+Z,Z", Keys.Z.Shift().Down(), Keys.Z.Shift().Up(), Keys.Z.Shift().Down()),
+                new KeySequence("abc", Keys.A.Down(), Keys.B.Down(), Keys.C.Down()), 
             };
-
 
             Hook
                 .GlobalEvents()
-                .UpDownObservable()
-                .KeySequenceMapped(map)
-                .ForEachAsync(name =>
+                .UpDownEvents()
+                .Match(map)
+                .ForEachAsync(sequence =>
                 {
-                    if (name == "Ctrl+Q") quit.Set();
-                    Console.WriteLine(name);
+                    if (sequence.Id == "Control+Q") quit.Set();
+                    Console.WriteLine(sequence);
                 });
 
-            Console.WriteLine("Press Ctrl+Q to quit.");
+            Console.WriteLine("Press Control+Q to quit.");
             Console.WriteLine("Monitoring folowing sequences:");
-            foreach (var name in map.Values)
+            foreach (var name in map)
             {
                 Console.WriteLine("\t" + name);
             }

@@ -52,14 +52,18 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected override bool Callback(CallbackData data)
         {
             var eDownUp = GetDownUpEventArgs(data);
-            var pressEventArgs = GetPressEventArgs(data);
-
+           
             InvokeKeyDown(eDownUp);
-            foreach (var pressEventArg in pressEventArgs)
+
+            if (KeyPress != null)
             {
-                InvokeKeyPress(pressEventArg);    
+                var pressEventArgs = GetPressEventArgs(data);
+                foreach (var pressEventArg in pressEventArgs)
+                {
+                    InvokeKeyPress(pressEventArg);
+                }
             }
-            
+
             InvokeKeyUp(eDownUp);
 
             return !eDownUp.Handled;

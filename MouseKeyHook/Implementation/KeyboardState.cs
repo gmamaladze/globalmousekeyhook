@@ -50,6 +50,14 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// <returns><b>true</b> if key was down, <b>false</b> - if key was up.</returns>
         public bool IsDown(Keys key)
         {
+            if (key == Keys.Alt) return IsDownRaw(Keys.LMenu) || IsDownRaw(Keys.RMenu);
+            if (key == Keys.Shift) return IsDownRaw(Keys.LShiftKey) || IsDownRaw(Keys.RShiftKey);
+            if (key == Keys.Control) return IsDownRaw(Keys.LControlKey) || IsDownRaw(Keys.RControlKey);
+            return IsDownRaw(key);
+        }
+
+        private bool IsDownRaw(Keys key)
+        {
             byte keyState = GetKeyState(key);
             bool isDown = GetHighBit(keyState);
             return isDown;
@@ -82,10 +90,10 @@ namespace Gma.System.MouseKeyHook.Implementation
             {
                 if (!IsDown(key))
                 {
-                    return true;
+                    return false;
                 }
             }
-            return false;
+            return true;
         }
 
         private byte GetKeyState(Keys key)
