@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 using MouseKeyHook.Rx;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ConsoleHook.Rx
 {
@@ -18,8 +19,8 @@ namespace ConsoleHook.Rx
         {
             var expected = new HashSet<KeySequence>
             {
-                new KeySequence(Keys.Control, Keys.Q),
-                new KeySequence(Keys.Alt, Keys.Shift)
+                new KeySequence(Keys.A, Keys.B, Keys.C),
+                new KeySequence(Keys.Q, Keys.Q)  
             };
 
             Hook
@@ -29,7 +30,7 @@ namespace ConsoleHook.Rx
                 //.Matching(expected)
                 .ForEachAsync(sequence =>
                 {
-                    if (sequence.ToString() == "Control+Q") quit.Set();
+                    if (sequence.SequenceEqual(new []{Keys.Q, Keys.Q})) quit.Set();
                     Console.WriteLine(sequence);
                 });
 

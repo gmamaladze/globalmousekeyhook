@@ -3,7 +3,7 @@
 <package>
   <metadata>
     <id>MouseKeyHook</id>
-    <version>5.4.0</version>
+    <version>5.5.0</version>
     <title>$title$</title>
     <authors>George Mamaladze</authors>
     <owners>George Mamaladze</owners>
@@ -23,7 +23,7 @@
       Additionally, there is a possibility to supress certain keyboard or mouse clicks, or detect special key combinations.
     </description>
     <summary>This library allows you to tap keyboard and mouse, to detect and record their activity even when an application is inactive and runs in background.</summary>
-    <copyright>(c) George Mamaladze 2000-2014</copyright>
+    <copyright>(c) George Mamaladze 2000-2018</copyright>
     <tags>keyboard mouse hook event global spy</tags>
   </metadata>
 </package>

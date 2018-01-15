@@ -18,8 +18,8 @@ namespace ConsoleHook.Rx
 
             var selector = new Dictionary<string, Action<AutoResetEvent>>
             {
-                {"1. Detect key sequence", DetectSequences.Do},
-                {"2. Detect key combinationss", DetectCombinations.Do},
+                {"1. Detect key combinationss", DetectCombinations.Do},
+                {"2. Detect key sequence", DetectSequences.Do},
                 {"Q. Quit", Exit}
             };
 

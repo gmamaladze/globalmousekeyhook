@@ -70,11 +70,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MouseKeyHook.Rx\MouseKeyHook.Rx.csproj">
+    <ProjectReference Include="..\..\MouseKeyHook.Rx\MouseKeyHook.Rx.csproj">
       <Project>{9754749c-1eea-4468-8c32-b5bac3235f54}</Project>
       <Name>MouseKeyHook.Rx</Name>
     </ProjectReference>
-    <ProjectReference Include="..\MouseKeyHook\MouseKeyHook.csproj">
+    <ProjectReference Include="..\..\MouseKeyHook\MouseKeyHook.csproj">
       <Project>{f52aa97e-180a-40ed-8f2b-09080171d6c7}</Project>
       <Name>MouseKeyHook</Name>
     </ProjectReference>
