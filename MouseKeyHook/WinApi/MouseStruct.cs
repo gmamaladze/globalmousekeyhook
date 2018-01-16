@@ -2,7 +2,6 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
-using System;
 using System.Runtime.InteropServices;
 
 namespace Gma.System.MouseKeyHook.WinApi
@@ -44,11 +43,11 @@ namespace Gma.System.MouseKeyHook.WinApi
         ///         </item>
         ///     </list>
         /// </remarks>
-        [FieldOffset(0x0A)] public Int16 MouseData;
+        [FieldOffset(0x0A)] public short MouseData;
 
         /// <summary>
         ///     Returns a Timestamp associated with the input, in System Ticks.
         /// </summary>
-        [FieldOffset(0x10)] public Int32 Timestamp;
+        [FieldOffset(0x10)] public int Timestamp;
     }
 }

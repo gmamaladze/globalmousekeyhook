@@ -49,7 +49,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
-            if (obj.GetType() != typeof (Point)) return false;
+            if (obj.GetType() != typeof(Point)) return false;
             return Equals((Point) obj);
         }
 
@@ -57,7 +57,7 @@ namespace Gma.System.MouseKeyHook.WinApi
         {
             unchecked
             {
-                return (X*397) ^ Y;
+                return (X * 397) ^ Y;
             }
         }
     }

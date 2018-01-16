@@ -1,6 +1,6 @@
 [![nuget][nuget-badge]][nuget-url] [![master][master-appveyor-badge]][master-appveyor-url]
 
- [nuget-badge]: https://img.shields.io/badge/nuget-v5.3.0-blue.svg
+ [nuget-badge]: https://img.shields.io/badge/nuget-v5.4.0-blue.svg
  [nuget-url]: https://www.nuget.org/packages/MouseKeyHook
 
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)

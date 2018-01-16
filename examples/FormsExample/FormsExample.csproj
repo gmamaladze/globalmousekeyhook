@@ -81,7 +81,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MouseKeyHook\MouseKeyHook.csproj">
+    <ProjectReference Include="..\..\MouseKeyHook\MouseKeyHook.csproj">
       <Project>{F52AA97E-180A-40ED-8F2B-09080171D6C7}</Project>
       <Name>MouseKeyHook</Name>
     </ProjectReference>

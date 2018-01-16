@@ -2,10 +2,10 @@
 // Copyright (c) 2015 George Mamaladze
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
-using Gma.System.MouseKeyHook.WinApi;
 using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using Gma.System.MouseKeyHook.WinApi;
 
 namespace Gma.System.MouseKeyHook.Implementation
 {
@@ -34,17 +34,16 @@ namespace Gma.System.MouseKeyHook.Implementation
 
     internal abstract class MouseListener : BaseListener, IMouseEvents
     {
-        private readonly int m_xDragThreshold;
-        private readonly int m_yDragThreshold;
-
         private readonly ButtonSet m_DoubleDown;
         private readonly ButtonSet m_SingleDown;
+        private readonly Point m_UninitialisedPoint = new Point(-1, -1);
+        private readonly int m_xDragThreshold;
+        private readonly int m_yDragThreshold;
+        private Point m_DragStartPosition;
 
         private bool m_IsDragging;
 
         private Point m_PreviousPosition;
-        private Point m_DragStartPosition;
-        private readonly Point m_UninitialisedPoint = new Point(-1, -1);
 
         protected MouseListener(Subscribe subscribe)
             : base(subscribe)
@@ -60,29 +59,36 @@ namespace Gma.System.MouseKeyHook.Implementation
             m_SingleDown = new ButtonSet();
         }
 
+        public event MouseEventHandler MouseMove;
+        public event EventHandler<MouseEventExtArgs> MouseMoveExt;
+        public event MouseEventHandler MouseClick;
+        public event MouseEventHandler MouseDown;
+        public event EventHandler<MouseEventExtArgs> MouseDownExt;
+        public event MouseEventHandler MouseUp;
+        public event EventHandler<MouseEventExtArgs> MouseUpExt;
+        public event MouseEventHandler MouseWheel;
+        public event EventHandler<MouseEventExtArgs> MouseWheelExt;
+        public event MouseEventHandler MouseDoubleClick;
+        public event MouseEventHandler MouseDragStarted;
+        public event EventHandler<MouseEventExtArgs> MouseDragStartedExt;
+        public event MouseEventHandler MouseDragFinished;
+        public event EventHandler<MouseEventExtArgs> MouseDragFinishedExt;
+
         protected override bool Callback(CallbackData data)
         {
             var e = GetEventArgs(data);
 
             if (e.IsMouseButtonDown)
-            {
                 ProcessDown(ref e);
-            }
 
             if (e.IsMouseButtonUp)
-            {
                 ProcessUp(ref e);
-            }
 
             if (e.WheelScrolled)
-            {
                 ProcessWheel(ref e);
-            }
 
             if (HasMoved(e.Point))
-            {
                 ProcessMove(ref e);
-            }
 
             ProcessDrag(ref e);
 
@@ -102,31 +108,24 @@ namespace Gma.System.MouseKeyHook.Implementation
             OnDown(e);
             OnDownExt(e);
             if (e.Handled)
-            {
                 return;
-            }
 
             if (e.Clicks == 2)
-            {
                 m_DoubleDown.Add(e.Button);
-            }
 
             if (e.Clicks == 1)
-            {
                 m_SingleDown.Add(e.Button);
-            }
         }
 
         protected virtual void ProcessUp(ref MouseEventExtArgs e)
         {
+            OnUp(e);
+            OnUpExt(e);
+            if (e.Handled)
+                return;
+
             if (m_SingleDown.Contains(e.Button))
             {
-                OnUp(e);
-                OnUpExt(e);
-                if (e.Handled)
-                {
-                    return;
-                }
                 OnClick(e);
                 m_SingleDown.Remove(e.Button);
             }
@@ -134,7 +133,6 @@ namespace Gma.System.MouseKeyHook.Implementation
             if (m_DoubleDown.Contains(e.Button))
             {
                 e = e.ToDoubleClickEventArgs();
-                OnUp(e);
                 OnDoubleClick(e);
                 m_DoubleDown.Remove(e.Button);
             }
@@ -153,9 +151,7 @@ namespace Gma.System.MouseKeyHook.Implementation
             if (m_SingleDown.Contains(MouseButtons.Left))
             {
                 if (m_DragStartPosition.Equals(m_UninitialisedPoint))
-                {
                     m_DragStartPosition = e.Point;
-                }
 
                 ProcessDragStarted(ref e);
             }
@@ -196,21 +192,6 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             return m_PreviousPosition != actualPoint;
         }
-
-        public event MouseEventHandler MouseMove;
-        public event EventHandler<MouseEventExtArgs> MouseMoveExt;
-        public event MouseEventHandler MouseClick;
-        public event MouseEventHandler MouseDown;
-        public event EventHandler<MouseEventExtArgs> MouseDownExt;
-        public event MouseEventHandler MouseUp;
-        public event EventHandler<MouseEventExtArgs> MouseUpExt;
-        public event MouseEventHandler MouseWheel;
-        public event EventHandler<MouseEventExtArgs> MouseWheelExt;
-        public event MouseEventHandler MouseDoubleClick;
-        public event MouseEventHandler MouseDragStarted;
-        public event EventHandler<MouseEventExtArgs> MouseDragStartedExt;
-        public event MouseEventHandler MouseDragFinished;
-        public event EventHandler<MouseEventExtArgs> MouseDragFinishedExt;
 
         protected virtual void OnMove(MouseEventArgs e)
         {

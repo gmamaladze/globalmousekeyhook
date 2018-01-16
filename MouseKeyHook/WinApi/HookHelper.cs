@@ -12,6 +12,9 @@ namespace Gma.System.MouseKeyHook.WinApi
 {
     internal static class HookHelper
     {
+        private static HookProcedure _appHookProc;
+        private static HookProcedure _globalHookProc;
+
         public static HookResult HookAppMouse(Callback callback)
         {
             return HookApp(HookIds.WH_MOUSE, callback);
@@ -34,55 +37,47 @@ namespace Gma.System.MouseKeyHook.WinApi
 
         private static HookResult HookApp(int hookId, Callback callback)
         {
-            HookProcedure hookProcedure = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
+            _appHookProc = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
 
             var hookHandle = HookNativeMethods.SetWindowsHookEx(
                 hookId,
-                hookProcedure,
+                _appHookProc,
                 IntPtr.Zero,
                 ThreadNativeMethods.GetCurrentThreadId());
 
             if (hookHandle.IsInvalid)
-            {
                 ThrowLastUnmanagedErrorAsException();
-            }
 
-            return new HookResult(hookHandle, hookProcedure);
+            return new HookResult(hookHandle, _appHookProc);
         }
 
         private static HookResult HookGlobal(int hookId, Callback callback)
         {
-            HookProcedure hookProcedure = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
+            _globalHookProc = (code, param, lParam) => HookProcedure(code, param, lParam, callback);
 
             var hookHandle = HookNativeMethods.SetWindowsHookEx(
                 hookId,
-                hookProcedure,
+                _globalHookProc,
                 Process.GetCurrentProcess().MainModule.BaseAddress,
                 0);
 
             if (hookHandle.IsInvalid)
-            {
                 ThrowLastUnmanagedErrorAsException();
-            }
 
-            return new HookResult(hookHandle, hookProcedure);
+            return new HookResult(hookHandle, _globalHookProc);
         }
 
         private static IntPtr HookProcedure(int nCode, IntPtr wParam, IntPtr lParam, Callback callback)
         {
             var passThrough = nCode != 0;
             if (passThrough)
-            {
                 return CallNextHookEx(nCode, wParam, lParam);
-            }
 
             var callbackData = new CallbackData(wParam, lParam);
             var continueProcessing = callback(callbackData);
 
             if (!continueProcessing)
-            {
                 return new IntPtr(-1);
-            }
 
             return CallNextHookEx(nCode, wParam, lParam);
         }

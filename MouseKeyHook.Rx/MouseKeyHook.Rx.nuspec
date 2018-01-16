@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>MouseKeyHook.Rx</id>
+    <version>5.5.0-alpha</version>
+    <title>$title$</title>
+    <authors>George Mamaladze</authors>
+    <owners>George Mamaladze</owners>
+    <licenseUrl>https://github.com/gmamaladze/globalmousekeyhook/blob/master/LICENSE.txt</licenseUrl>
+    <projectUrl>https://github.com/gmamaladze/globalmousekeyhook</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/gmamaladze/globalmousekeyhook/develop/mouse-keyboard-hook-logo32x32.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      This is an extension to the MouseKeyHook library which allows you to observe keyboard and mouse venets in reactive manner using Rx.Net (System.Reactive) extensions.
+    </description>
+    <summary>This is an extension to the MouseKeyHook library which allows you to observe keyboard and mouse evnets in reactive manner using Rx.Net (System.Reactive) extensions.</summary>
+    <copyright>(c) George Mamaladze 2000-2018</copyright>
+    <tags>keyboard mouse hook reactive Rx event global spy</tags>
+  </metadata>
+</package>

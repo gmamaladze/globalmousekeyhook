@@ -44,8 +44,9 @@ namespace Gma.System.MouseKeyHook.WinApi
         ///         </item>
         ///     </list>
         /// </remarks>
-        [FieldOffset(0x16)] public Int16 MouseData_x86;
-        [FieldOffset(0x22)] public Int16 MouseData_x64;
+        [FieldOffset(0x16)] public short MouseData_x86;
+
+        [FieldOffset(0x22)] public short MouseData_x64;
 
         /// <summary>
         ///     Converts the current <see cref="AppMouseStruct" /> into a <see cref="MouseStruct" />.
@@ -56,9 +57,9 @@ namespace Gma.System.MouseKeyHook.WinApi
         /// </remarks>
         public MouseStruct ToMouseStruct()
         {
-            MouseStruct tmp = new MouseStruct();
+            var tmp = new MouseStruct();
             tmp.Point = Point;
-            tmp.MouseData = (IntPtr.Size == 4) ? MouseData_x86 : MouseData_x64;
+            tmp.MouseData = IntPtr.Size == 4 ? MouseData_x86 : MouseData_x64;
             tmp.Timestamp = Environment.TickCount;
             return tmp;
         }

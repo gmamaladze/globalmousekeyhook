@@ -58,17 +58,17 @@ namespace Gma.System.MouseKeyHook
         /// <summary>
         ///     True if event signals mouse button down.
         /// </summary>
-        public bool IsMouseButtonDown { get; private set; }
+        public bool IsMouseButtonDown { get; }
 
         /// <summary>
         ///     True if event signals mouse button up.
         /// </summary>
-        public bool IsMouseButtonUp { get; private set; }
+        public bool IsMouseButtonUp { get; }
 
         /// <summary>
         ///     The system tick count of when the event occurred.
         /// </summary>
-        public int Timestamp { get; private set; }
+        public int Timestamp { get; }
 
         /// <summary>
         /// </summary>
@@ -82,8 +82,8 @@ namespace Gma.System.MouseKeyHook
             var wParam = data.WParam;
             var lParam = data.LParam;
 
-            AppMouseStruct marshalledMouseStruct =
-                (AppMouseStruct) Marshal.PtrToStructure(lParam, typeof (AppMouseStruct));
+            var marshalledMouseStruct =
+                (AppMouseStruct) Marshal.PtrToStructure(lParam, typeof(AppMouseStruct));
             return FromRawDataUniversal(wParam, marshalledMouseStruct.ToMouseStruct());
         }
 
@@ -92,7 +92,7 @@ namespace Gma.System.MouseKeyHook
             var wParam = data.WParam;
             var lParam = data.LParam;
 
-            MouseStruct marshalledMouseStruct = (MouseStruct) Marshal.PtrToStructure(lParam, typeof (MouseStruct));
+            var marshalledMouseStruct = (MouseStruct) Marshal.PtrToStructure(lParam, typeof(MouseStruct));
             return FromRawDataUniversal(wParam, marshalledMouseStruct);
         }
 
@@ -104,12 +104,12 @@ namespace Gma.System.MouseKeyHook
         /// <returns>A new MouseEventExtArgs object.</returns>
         private static MouseEventExtArgs FromRawDataUniversal(IntPtr wParam, MouseStruct mouseInfo)
         {
-            MouseButtons button = MouseButtons.None;
+            var button = MouseButtons.None;
             short mouseDelta = 0;
-            int clickCount = 0;
+            var clickCount = 0;
 
-            bool isMouseButtonDown = false;
-            bool isMouseButtonUp = false;
+            var isMouseButtonDown = false;
+            var isMouseButtonUp = false;
 
 
             switch ((long) wParam)
