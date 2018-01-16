@@ -21,11 +21,20 @@ namespace MouseKeyHook.Rx
 
         public Keys TriggerKey { get; }
 
-        public IEnumerable<Keys> AdditionalKeys => _addKeys;
+        public IEnumerable<Keys> AdditionalKeys
+        {
+            get { return _addKeys; }
+        }
 
-        public IEnumerable<Keys> AllKeys => _addKeys.Concat(Enumerable.Repeat(TriggerKey, 1));
+        public IEnumerable<Keys> AllKeys
+        {
+            get { return _addKeys.Concat(Enumerable.Repeat(TriggerKey, 1)); }
+        }
 
-        public int Length => _addKeys.Count + 1;
+        public int Length
+        {
+            get { return _addKeys.Count + 1; }
+        }
 
         public static Trigger On(Keys key)
         {

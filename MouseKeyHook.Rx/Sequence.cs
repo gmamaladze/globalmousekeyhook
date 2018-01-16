@@ -17,7 +17,10 @@ namespace MouseKeyHook.Rx
             _elements = elements;
         }
 
-        public int Length => _elements.Length;
+        public int Length
+        {
+            get { return _elements.Length; }
+        }
 
         public IEnumerator<T> GetEnumerator()
         {

@@ -15,8 +15,15 @@ namespace MouseKeyHook.Rx
         {
         }
 
-        public Keys KeyCode => Item1;
-        public KeyboardState State => Item2;
+        public Keys KeyCode
+        {
+            get { return Item1; }
+        }
+
+        public KeyboardState State
+        {
+            get { return Item2; }
+        }
 
         public bool Matches(Trigger trigger)
         {

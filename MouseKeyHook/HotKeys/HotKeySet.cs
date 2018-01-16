@@ -77,14 +77,17 @@ namespace Gma.System.MouseKeyHook.HotKeys
         /// <summary>
         ///     Returns whether the set of Keys is activated
         /// </summary>
-        public bool HotKeysActivated => m_hotkeydowncount == m_hotkeystate.Count - m_remappingCount;
+        public bool HotKeysActivated
+        {
+            get { return m_hotkeydowncount == m_hotkeystate.Count - m_remappingCount; }
+        }
 
         /// <summary>
         ///     Gets or sets the enabled state of the HotKey set.
         /// </summary>
         public bool Enabled
         {
-            get => m_enabled;
+            get { return m_enabled; }
             set
             {
                 if (value)
