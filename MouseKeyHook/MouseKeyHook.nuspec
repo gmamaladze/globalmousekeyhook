@@ -9,7 +9,6 @@
     <owners>George Mamaladze</owners>
     <licenseUrl>https://github.com/gmamaladze/globalmousekeyhook/blob/master/LICENSE.txt</licenseUrl>
     <projectUrl>https://github.com/gmamaladze/globalmousekeyhook</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/gmamaladze/globalmousekeyhook/develop/mouse-keyboard-hook-logo32x32.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
       This library attaches to windows global hooks, tracks keyboard and mouse clicks and movement and raises common .NET events with KeyEventArgs and MouseEventArgs, so you can easily retrieve any information you need:
