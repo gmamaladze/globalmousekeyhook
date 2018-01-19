@@ -17,8 +17,8 @@
     <copyright>(c) George Mamaladze 2000-2018</copyright>
     <tags>keyboard mouse hook reactive Rx event global spy</tags>
     <dependencies>
-      <dependecy id="System.Reactive" version="3.1"/>
-      <dependecy id="MouseKeyHook" version="5.5"/>
+      <dependency id="System.Reactive" version="3.1"/>
+      <dependency id="MouseKeyHook" version="5.5"/>
     </dependencies>
     <iconUrl>https://raw.githubusercontent.com/gmamaladze/globalmousekeyhook/master/mouse-keyboard-hook-logo64x64.png</iconUrl>
   </metadata>
