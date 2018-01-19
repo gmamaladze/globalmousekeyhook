@@ -3,7 +3,7 @@
 <package>
   <metadata>
     <id>MouseKeyHook</id>
-    <version>5.5.0</version>
+    <version>5.6.0-alpha</version>
     <title>$title$</title>
     <authors>George Mamaladze</authors>
     <owners>George Mamaladze</owners>
@@ -25,5 +25,6 @@
     <summary>This library allows you to tap keyboard and mouse, to detect and record their activity even when an application is inactive and runs in background.</summary>
     <copyright>(c) George Mamaladze 2000-2018</copyright>
     <tags>keyboard mouse hook event global spy</tags>
+    <iconUrl>https://raw.githubusercontent.com/gmamaladze/globalmousekeyhook/master/mouse-keyboard-hook-logo64x64.png</iconUrl>
   </metadata>
 </package>
