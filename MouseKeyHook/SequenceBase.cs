@@ -5,15 +5,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Gma.System.MouseKeyHook;
 
-namespace MouseKeyHook.Rx
+namespace Gma.System.MouseKeyHook
 {
-    public class Sequence<T> : IEnumerable<T>
+    public class Sequence : SequenceBase<TriggerChord>
+    {
+        public Sequence(params TriggerChord[] triggerChords) : base(triggerChords)
+        {
+            
+        } 
+    }
+
+
+    public abstract class SequenceBase<T> : IEnumerable<T>
     {
         private readonly T[] _elements;
 
-        public Sequence(params T[] elements)
+        protected SequenceBase(params T[] elements)
         {
             _elements = elements;
         }
@@ -39,7 +47,7 @@ namespace MouseKeyHook.Rx
         }
 
 
-        protected bool Equals(Sequence<T> other)
+        protected bool Equals(SequenceBase<T> other)
         {
             if (_elements.Length != other._elements.Length) return false;
             return _elements.SequenceEqual(other._elements);
@@ -64,12 +72,12 @@ namespace MouseKeyHook.Rx
             }
         }
 
-        public static bool operator ==(Sequence<T> left, Sequence<T> right)
+        public static bool operator ==(SequenceBase<T> left, SequenceBase<T> right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Sequence<T> left, Sequence<T> right)
+        public static bool operator !=(SequenceBase<T> left, SequenceBase<T> right)
         {
             return !Equals(left, right);
         }

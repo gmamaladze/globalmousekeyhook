@@ -15,15 +15,7 @@ namespace Gma.System.MouseKeyHook
 
         internal Chord(IEnumerable<Keys> additionalKeys)
         {
-            _keys = new Stack<Keys>(additionalKeys.OrderBy(k => k));
-        }
-
-        /// <summary>
-        /// Number of keys
-        /// </summary>
-        public int Length
-        {
-            get { return _keys.Count; }
+            _keys = new Stack<Keys>(additionalKeys.Select(k=>k.Normalize()).OrderBy(k => k));
         }
 
         /// <summary>

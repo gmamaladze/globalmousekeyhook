@@ -58,9 +58,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="KeySequence.cs" />
     <Compile Include="KeyWithState.cs" />
-    <Compile Include="Sequence.cs" />
     <Compile Include="KeyObserverExtensions.cs" />
     <Compile Include="KeyEvent.cs" />
     <Compile Include="KeyEventKind.cs" />

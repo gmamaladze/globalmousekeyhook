@@ -206,6 +206,7 @@
     <Compile Include="Implementation\KeyboardState.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
     <Compile Include="Implementation\Subscribe.cs" />
+    <Compile Include="SequenceBase.cs" />
     <Compile Include="TriggerChord.cs" />
     <Compile Include="WinApi\AppMouseStruct.cs" />
     <Compile Include="WinApi\CallbackData.cs" />

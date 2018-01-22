@@ -21,7 +21,7 @@ namespace Gma.System.MouseKeyHook
 
         private TriggerChord(Keys triggerKey, Chord chord)
         {
-            TriggerKey = triggerKey;
+            TriggerKey = triggerKey.Normalize();
             _chord =chord;
         }
 
@@ -33,14 +33,6 @@ namespace Gma.System.MouseKeyHook
         internal IEnumerable<Keys> GetAllKeys
         {
             get { return _chord.Concat(Enumerable.Repeat(TriggerKey, 1)); }
-        }
-
-        /// <summary>
-        /// Length of the key combination.
-        /// </summary>
-        public int Length
-        {
-            get { return _chord.Length + 1; }
         }
 
         /// <summary>

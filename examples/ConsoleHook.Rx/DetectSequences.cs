@@ -17,27 +17,7 @@ namespace ConsoleHook.Rx
     {
         public static void Do(AutoResetEvent quit)
         {
-            var expected = new HashSet<KeySequence>
-            {
-                new KeySequence(Keys.A, Keys.B, Keys.C),
-                new KeySequence(Keys.Q, Keys.Q)  
-            };
 
-            Hook
-                .GlobalEvents()
-                .KeyDownObservable()
-                .Sequences(2,3)
-                //.Matching(expected)
-                .ForEachAsync(sequence =>
-                {
-                    if (sequence.SequenceEqual(new []{Keys.Q, Keys.Q})) quit.Set();
-                    Console.WriteLine(sequence);
-                });
-
-            Console.WriteLine("Press Control+Q to quit.");
-            Console.WriteLine("Monitoring folowing sequences:");
-            foreach (var name in expected)
-                Console.WriteLine("\t" + name);
         }
     }
 }
