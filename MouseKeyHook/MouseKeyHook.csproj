@@ -188,6 +188,7 @@
     <Compile Include="Implementation\AppKeyListener.cs" />
     <Compile Include="Implementation\AppMouseListener.cs" />
     <Compile Include="Implementation\ButtonSet.cs" />
+    <Compile Include="KeyCombinationExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
