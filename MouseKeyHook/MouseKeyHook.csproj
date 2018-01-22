@@ -184,6 +184,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Chord.cs" />
     <Compile Include="Implementation\AppKeyListener.cs" />
     <Compile Include="Implementation\AppMouseListener.cs" />
     <Compile Include="Implementation\ButtonSet.cs" />
@@ -204,6 +205,7 @@
     <Compile Include="Implementation\KeyboardState.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
     <Compile Include="Implementation\Subscribe.cs" />
+    <Compile Include="TriggerChord.cs" />
     <Compile Include="WinApi\AppMouseStruct.cs" />
     <Compile Include="WinApi\CallbackData.cs" />
     <Compile Include="WinApi\HookHelper.cs" />

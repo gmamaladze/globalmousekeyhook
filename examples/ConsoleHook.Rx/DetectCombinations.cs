@@ -15,12 +15,12 @@ namespace ConsoleHook.Rx
     {
         public static void Do(AutoResetEvent quit)
         {
-            var quitTrigger = Trigger.FromString("Control+Q");
+            var quitTrigger = TriggerChord.FromString("Control+Q");
             var triggers = new[]
             {
                 quitTrigger,
-                Trigger.On(Keys.H).Alt().Shift(),
-                Trigger.On(Keys.E).And(Keys.Q).And(Keys.W)
+                TriggerChord.Create(Keys.H).Alt().Shift(),
+                TriggerChord.Create(Keys.E).And(Keys.Q).And(Keys.W)
             };
 
 

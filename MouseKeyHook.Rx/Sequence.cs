@@ -5,6 +5,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Gma.System.MouseKeyHook;
 
 namespace MouseKeyHook.Rx
 {
@@ -49,7 +50,7 @@ namespace MouseKeyHook.Rx
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Trigger) obj);
+            return Equals((TriggerChord) obj);
         }
 
         public override int GetHashCode()

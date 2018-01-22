@@ -47,18 +47,18 @@ namespace MouseKeyHook.Rx
                 .Select(evt => new KeyWithState(evt, KeyboardState.GetCurrent()));
         }
 
-        public static IObservable<Trigger> Matching(this IObservable<Keys> source, IEnumerable<Trigger> triggers)
+        public static IObservable<TriggerChord> Matching(this IObservable<Keys> source, IEnumerable<TriggerChord> triggers)
         {
             return source
                 .WithState()
                 .SelectMany(se => triggers.Where(se.Matches));
         }
 
-        public static IObservable<Trigger> MatchingLongest(this IObservable<Keys> source, IEnumerable<Trigger> triggers)
+        public static IObservable<TriggerChord> MatchingLongest(this IObservable<Keys> source, IEnumerable<TriggerChord> triggers)
         {
             var sortedTriggers = triggers
                 .GroupBy(t => t.TriggerKey)
-                .Select(group => new KeyValuePair<Keys, IEnumerable<Trigger>>(group.Key, group.OrderBy(t => -t.Length)))
+                .Select(group => new KeyValuePair<Keys, IEnumerable<TriggerChord>>(group.Key, group.OrderBy(t => -t.Length)))
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
 
             return source
