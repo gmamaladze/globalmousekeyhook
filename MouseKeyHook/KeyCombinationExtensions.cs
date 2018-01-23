@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using Gma.System.MouseKeyHook.Implementation;
 
 namespace Gma.System.MouseKeyHook
@@ -14,94 +11,82 @@ namespace Gma.System.MouseKeyHook
     public static class KeyCombinationExtensions
     {
         /// <summary>
-        /// 
+        /// Detects a key or key combination and triggers the corresponding action.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="map"></param>
-        public static void OnCombination(this IKeyboardEvents source, IEnumerable<KeyValuePair<Chord, Action>> map)
+        /// <param name="source">
+        ///     An instance of Global or Application hook. Use <see cref="Hook.GlobalEvents"/> or <see cref="Hook.AppEvents"/> to create it.</param>
+        /// <param name="map">
+        ///     This map contains the list of key combinations mapped to corresponding actions. You can use a dictionary initilizer to easily create it.
+        ///     Whenever a listed combination will be detected a corresponding action will be triggered.
+        /// </param>
+        /// <param name="reset">
+        ///     This optional action will be executed when some key was pressed but it was not part of any wanted combinations. 
+        /// </param>
+        public static void OnCombination(this IKeyboardEvents source, IEnumerable<KeyValuePair<Combination, Action>> map, Action reset=null)
         {
-            var watchlists = new HashSet<Keys>(map.SelectMany(p=>p.Key));
-            OnCombination<Chord>(source, map, watchlists, null);
-        }
-
-        private static void OnCombination<T>(
-            IKeyboardEvents source, 
-            IEnumerable<KeyValuePair<T, Action>> map, 
-            IEnumerable<Keys> watchlists, 
-            Action reset) 
-                where T:IEnumerable<Keys>
-        {
+            var watchlists = map.GroupBy(k => k.Key.TriggerKey)
+                .ToDictionary(g => g.Key, g => g.ToArray());
             source.KeyDown += (sender, e) =>
             {
-                if (!watchlists.Contains(e.KeyCode)) return;
-                var state = KeyboardState.GetCurrent();
-                var matches = map.Where(pair => state.AreAllDown(pair.Key)).Select(pair=>pair.Value);
-                var isEmpyty = true;
-                foreach (var current in matches)
-                {
-                    current();
-                    isEmpyty = false;
+                var found = watchlists.TryGetValue(e.KeyCode, out KeyValuePair<Combination, Action>[] element);
+                if (!found) {
+                    reset?.Invoke();
+                    return;
                 }
-                if (isEmpyty) reset?.Invoke();
+                var state = KeyboardState.GetCurrent();
+                var action = reset;
+                var maxLength = 0;
+                foreach (var current in element)
+                {
+                    var matches = current.Key.Chord.All(state.IsDown);
+                    if (!matches) continue;
+                    if (maxLength > current.Key.ChordLength) continue;
+                    maxLength = current.Key.ChordLength;
+                    action = current.Value;
+                }
+                action?.Invoke();
             };
         }
 
+
         /// <summary>
-        /// 
+        /// Detects a key or key combination sequence and triggers the corresponding action.
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="map"></param>
-        public static void OnCombination(this IKeyboardEvents source, IEnumerable<KeyValuePair<TriggerChord, Action>> map)
+        /// <param name="source">An instance of Global or Application hook. Use <see cref="Hook.GlobalEvents"/> or <see cref="Hook.AppEvents"/> to create it.</param>
+        /// <param name="map">
+        ///     This map contains the list of sequences mapped to corresponding actions. You can use a dictionary initilizer to easily create it.
+        ///     Whenever a listed sequnce will be detected a corresponding action will be triggered. If two or more sequences match the longest one will be used.
+        ///     Example: sequences may A,B,C and B,C might be detected simultanously if user pressed first A then B then C. In this case only action corresponding 
+        ///     to 'A,B,C' will be triggered.
+        /// </param>
+        public static void OnSequence(this IKeyboardEvents source, IEnumerable<KeyValuePair<Sequence, Action>> map)
         {
-            var watchlists = new HashSet<Keys>(map.Select(p => p.Key.TriggerKey));
-            OnCombination<TriggerChord>(source, map, watchlists, null);
-        }
-
-
-        public static void OnSequence(this IKeyboardEvents source, IDictionary<Sequence, Action> map)
-        {
-
-            var endsWith = new Func<Queue<TriggerChord>, Sequence, bool>((chords, sequence) =>
+            var actBySeq = map.ToArray();
+            var endsWith = new Func<Queue<Combination>, Sequence, bool>((chords, sequence) =>
             {
                 var skipCount = chords.Count - sequence.Length;
                 return skipCount >= 0 && chords.Skip(skipCount).SequenceEqual(sequence);
             });
 
-            var max = map.Select(p => p.Key).Max(c => c.Length);
-            var min = map.Select(p => p.Key).Min(c => c.Length);
-            Queue<TriggerChord> buffer = new Queue<TriggerChord>(max);
+            var max = actBySeq.Select(p => p.Key).Max(c => c.Length);
+            var min = actBySeq.Select(p => p.Key).Min(c => c.Length);
+            var buffer = new Queue<Combination>(max);
 
-            var wrapMap = map.SelectMany(p => p.Key).ToDictionary(c => c, c => new Action(() =>
+            var wrapMap = actBySeq.SelectMany(p => p.Key).Select(c=>new KeyValuePair<Combination, Action>(c, () =>
             {
                 buffer.Enqueue(c);
                 if (buffer.Count > max) buffer.Dequeue();
                 if (buffer.Count < min) return;
-                foreach (var pair in map)
-                {
-                    var sequence = pair.Key;
-                    if (!endsWith(buffer, sequence)) continue;
-                    var action = pair.Value;
-                    action();
-                }
+                //Invoke action corresponding to the longest matching sequence
+                actBySeq
+                    .Where(pair => endsWith(buffer, pair.Key))
+                    .OrderBy(pair => pair.Key.Length)
+                    .Select(pair=>pair.Value)
+                    .LastOrDefault()
+                    ?.Invoke();
             }));
 
-
-            var watchlists = new HashSet<Keys>(
-                map.Select(p => p.Key).SelectMany(s => s.SelectMany(k => k.GetAllKeys)));
-            OnCombination(source, wrapMap, watchlists, buffer.Clear);
-        }
-
-
-
-        public static Keys Normalize(this Keys key)
-        {
-            if ((key & Keys.LControlKey) == Keys.LControlKey ||
-                (key & Keys.RControlKey) == Keys.RControlKey) return Keys.Control;
-            if ((key & Keys.LShiftKey) == Keys.LShiftKey ||
-                (key & Keys.RShiftKey) == Keys.RShiftKey) return Keys.Shift;
-            if ((key & Keys.LMenu) == Keys.LMenu ||
-                (key & Keys.RMenu) == Keys.RMenu) return Keys.Alt;
-            return key;
+            OnCombination(source, wrapMap, buffer.Clear);
         }
     }
 }

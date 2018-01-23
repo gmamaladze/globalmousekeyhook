@@ -26,11 +26,11 @@ namespace MouseKeyHook.Rx
             get { return Item2; }
         }
 
-        public bool Matches(TriggerChord triggerChord)
+        public bool Matches(Combination combination)
         {
             return
-                KeyCode == triggerChord.TriggerKey &&
-                State.AreAllDown(triggerChord);
+                KeyCode == combination.TriggerKey &&
+                State.AreAllDown(combination.Chord);
         }
     }
 }

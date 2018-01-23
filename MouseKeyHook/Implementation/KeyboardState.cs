@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook.WinApi;
 
@@ -50,10 +51,11 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// <returns><b>true</b> if key was down, <b>false</b> - if key was up.</returns>
         public bool IsDown(Keys key)
         {
+            if ((int)key < 256) return IsDownRaw(key);
             if (key == Keys.Alt) return IsDownRaw(Keys.LMenu) || IsDownRaw(Keys.RMenu);
             if (key == Keys.Shift) return IsDownRaw(Keys.LShiftKey) || IsDownRaw(Keys.RShiftKey);
             if (key == Keys.Control) return IsDownRaw(Keys.LControlKey) || IsDownRaw(Keys.RControlKey);
-            return IsDownRaw(key);
+            return false;
         }
 
         private bool IsDownRaw(Keys key)
@@ -86,10 +88,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         /// <returns><b>true</b> - all were down. <b>false</b> - at least one was up.</returns>
         public bool AreAllDown(IEnumerable<Keys> keys)
         {
-            foreach (var key in keys)
-                if (!IsDown(key))
-                    return false;
-            return true;
+            return keys.All(IsDown);
         }
 
         private byte GetKeyState(Keys key)
