@@ -130,4 +130,4 @@ This library attaches to windows global hooks, tracks keyboard and mouse clicks 
 
 ## License
 
-The MIT license see: [LICENSE.txt](/license.txt)
+The MIT license see: [LICENSE.txt](/LICENSE.txt)

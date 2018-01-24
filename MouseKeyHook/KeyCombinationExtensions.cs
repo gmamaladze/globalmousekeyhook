@@ -36,7 +36,8 @@ namespace Gma.System.MouseKeyHook
                 .ToDictionary(g => g.Key, g => g.ToArray());
             source.KeyDown += (sender, e) =>
             {
-                var found = watchlists.TryGetValue(e.KeyCode, out KeyValuePair<Combination, Action>[] element);
+                KeyValuePair<Combination, Action>[] element;
+                var found = watchlists.TryGetValue(e.KeyCode, out element);
                 if (!found)
                 {
                     reset?.Invoke();
