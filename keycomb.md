@@ -12,7 +12,7 @@ The string is just names of keys concatenated by '+' character without spaces. F
 
 Btw. constructing a `Combination` form a strings is probably the most convenient way, but you can also use bolder methods:
 
-```
+```CSharp
 var undo2 = Combination.TriggeredBy(Keys.Z).With(Keys.Control);
 ```
 
@@ -22,7 +22,7 @@ The order of keys inside combination except the last one is arbitrary. The combi
 Now we need to tell our code what to do whenever a particular key combination is detected. Here we use actions instead of events. An action is either a method with `void` return and no arguments or a trivial lambda.
 
 ### 2. Define actions
-```Sharp
+```CSharp
 Action actionUndo = DoSomething;
 Action actionFullScreen = () => { Console.WriteLine("You Pressed FULL SCREEN"); };
 
@@ -93,7 +93,7 @@ Hook.GlobalEvents().OnCombination(new Dictionary<Combination, Action>
 ## Quickstart Sequences
 Since applications run out of simple key combinations for shortcuts many of them use sequences.
 
-![](keysequences.png)
+![](/keysequence.png)
 
 A sequence can be described using `Sequnce` class.
 
