@@ -184,12 +184,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chord.cs" />
+    <Compile Include="Implementation\Chord.cs" />
     <Compile Include="Implementation\AppKeyListener.cs" />
     <Compile Include="Implementation\AppMouseListener.cs" />
     <Compile Include="Implementation\ButtonSet.cs" />
     <Compile Include="KeyCombinationExtensions.cs" />
-    <Compile Include="KeysExtensions.cs" />
+    <Compile Include="Implementation\KeysExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

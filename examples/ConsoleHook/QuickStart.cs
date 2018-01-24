@@ -1,14 +1,15 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
 
 namespace ConsoleHook
 {
-    class QuickStart
+    internal class QuickStart
     {
         public void Do()
         {
@@ -60,13 +61,12 @@ namespace ConsoleHook
 
             var assignment = new Dictionary<Sequence, Action>
             {
-                {exitVim, ()=>Console.WriteLine("No!")},
-                {rename, ()=>Console.WriteLine("rename2")},
-                {exitReally, ()=>Console.WriteLine("Ok.")},
+                {exitVim, () => Console.WriteLine("No!")},
+                {rename, () => Console.WriteLine("rename2")},
+                {exitReally, () => Console.WriteLine("Ok.")}
             };
 
             Hook.GlobalEvents().OnSequence(assignment);
         }
-
     }
 }

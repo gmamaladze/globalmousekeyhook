@@ -1,4 +1,8 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
@@ -14,19 +18,17 @@ namespace ConsoleHook
             {
                 //Specify which key combinations to detect and action - what to do if detected.
                 //You can create a key combinations directly from string or ...
-                {Combination.FromString("A+B+C") , () => Console.WriteLine(":-)")},
+                {Combination.FromString("A+B+C"), () => Console.WriteLine(":-)")},
                 //... or alternatively you can use builder methods
-                {Combination.TriggeredBy(Keys.F).With(Keys.E).With(Keys.D) , () => Console.WriteLine(":-D")},
-                {Combination.FromString("Alt+A") , () => Console.WriteLine(":-P")},
-                {Combination.FromString("Control+Shift+Z") , () => Console.WriteLine(":-/")},
-                {Combination.FromString("Escape") , () => quit.Set()},
+                {Combination.TriggeredBy(Keys.F).With(Keys.E).With(Keys.D), () => Console.WriteLine(":-D")},
+                {Combination.FromString("Alt+A"), () => Console.WriteLine(":-P")},
+                {Combination.FromString("Control+Shift+Z"), () => Console.WriteLine(":-/")},
+                {Combination.FromString("Escape"), () => quit.Set()}
             };
 
             Console.WriteLine("Detecting following combinations:");
             foreach (var combination in map.Keys)
-            {
-                Console.WriteLine("\t{0}",combination);
-            }
+                Console.WriteLine("\t{0}", combination);
             Console.WriteLine("Press ESC to exit.");
 
             //Actual loop

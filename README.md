@@ -6,7 +6,7 @@
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
 
 ## NEWS!
-Added support for detection of key combinations and sequences see.: (Quickstart - Detecting Key Combinations and Seuqnces)[keycomb.md]
+Added support for detection of key combinations and sequences see.: [Quickstart - Detecting Key Combinations and Seuqnces](keycomb.md)
 
 ## What it does?
 

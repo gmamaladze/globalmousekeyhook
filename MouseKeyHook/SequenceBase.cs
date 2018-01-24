@@ -9,7 +9,7 @@ using System.Linq;
 namespace Gma.System.MouseKeyHook
 {
     /// <summary>
-    /// Describes a sequence of generic objects.
+    ///     Describes a sequence of generic objects.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public abstract class SequenceBase<T> : IEnumerable<T>
@@ -17,7 +17,7 @@ namespace Gma.System.MouseKeyHook
         private readonly T[] _elements;
 
         /// <summary>
-        /// Creates an instance of sequnce from sequnce elements.
+        ///     Creates an instance of sequnce from sequnce elements.
         /// </summary>
         /// <param name="elements"></param>
         protected SequenceBase(params T[] elements)
@@ -26,7 +26,7 @@ namespace Gma.System.MouseKeyHook
         }
 
         /// <summary>
-        /// Number of elements in the sequnce.
+        ///     Number of elements in the sequnce.
         /// </summary>
         public int Length
         {

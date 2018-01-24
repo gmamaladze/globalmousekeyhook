@@ -1,13 +1,18 @@
+// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using Gma.System.MouseKeyHook.Implementation;
 
 namespace Gma.System.MouseKeyHook
 {
     /// <summary>
-    /// Used to represent a key combination as frequently used in application as shortcuts.
-    /// e.g. Alt+Shift+R. This combination is triggered when 'R' is pressed after 'Alt' and 'Shift' are already down.
+    ///     Used to represent a key combination as frequently used in application as shortcuts.
+    ///     e.g. Alt+Shift+R. This combination is triggered when 'R' is pressed after 'Alt' and 'Shift' are already down.
     /// </summary>
     public class Combination
     {
@@ -21,16 +26,16 @@ namespace Gma.System.MouseKeyHook
         private Combination(Keys triggerKey, Chord chord)
         {
             TriggerKey = triggerKey.Normalize();
-            _chord =chord;
+            _chord = chord;
         }
 
         /// <summary>
-        /// Last key which triggers the combination.
+        ///     Last key which triggers the combination.
         /// </summary>
         public Keys TriggerKey { get; }
 
         /// <summary>
-        /// Keys which all must be alredy down when trigger key is pressed. 
+        ///     Keys which all must be alredy down when trigger key is pressed.
         /// </summary>
         public IEnumerable<Keys> Chord
         {
@@ -38,7 +43,7 @@ namespace Gma.System.MouseKeyHook
         }
 
         /// <summary>
-        /// Number of chord (modifier) keys which must be already down when the trigger key is pressed.
+        ///     Number of chord (modifier) keys which must be already down when the trigger key is pressed.
         /// </summary>
         public int ChordLength
         {
@@ -46,7 +51,8 @@ namespace Gma.System.MouseKeyHook
         }
 
         /// <summary>
-        /// A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy"/>, <see cref="With"/>, <see cref="Control"/>, <see cref="Shift"/>, <see cref="Alt"/>. 
+        ///     A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy" />,
+        ///     <see cref="With" />, <see cref="Control" />, <see cref="Shift" />, <see cref="Alt" />.
         /// </summary>
         /// <param name="key"></param>
         public static Combination TriggeredBy(Keys key)
@@ -55,7 +61,8 @@ namespace Gma.System.MouseKeyHook
         }
 
         /// <summary>
-        /// A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy"/>, <see cref="With"/>, <see cref="Control"/>, <see cref="Shift"/>, <see cref="Alt"/>. 
+        ///     A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy" />,
+        ///     <see cref="With" />, <see cref="Control" />, <see cref="Shift" />, <see cref="Alt" />.
         /// </summary>
         /// <param name="key"></param>
         public Combination With(Keys key)
@@ -64,7 +71,8 @@ namespace Gma.System.MouseKeyHook
         }
 
         /// <summary>
-        /// A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy"/>, <see cref="With"/>, <see cref="Control"/>, <see cref="Shift"/>, <see cref="Alt"/>. 
+        ///     A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy" />,
+        ///     <see cref="With" />, <see cref="Control" />, <see cref="Shift" />, <see cref="Alt" />.
         /// </summary>
         public Combination Control()
         {
@@ -72,14 +80,17 @@ namespace Gma.System.MouseKeyHook
         }
 
         /// <summary>
-        /// A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy"/>, <see cref="With"/>, <see cref="Control"/>, <see cref="Shift"/>, <see cref="Alt"/>. 
+        ///     A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy" />,
+        ///     <see cref="With" />, <see cref="Control" />, <see cref="Shift" />, <see cref="Alt" />.
         /// </summary>
         public Combination Alt()
         {
             return With(Keys.Alt);
         }
+
         /// <summary>
-        /// A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy"/>, <see cref="With"/>, <see cref="Control"/>, <see cref="Shift"/>, <see cref="Alt"/>. 
+        ///     A chainable builder method to simplify chord creation. Used along with <see cref="TriggeredBy" />,
+        ///     <see cref="With" />, <see cref="Control" />, <see cref="Shift" />, <see cref="Alt" />.
         /// </summary>
         public Combination Shift()
         {
@@ -90,12 +101,12 @@ namespace Gma.System.MouseKeyHook
         /// <inheritdoc />
         public override string ToString()
         {
-            return string.Join("+", Chord.Concat(Enumerable.Repeat(TriggerKey,1)));
+            return string.Join("+", Chord.Concat(Enumerable.Repeat(TriggerKey, 1)));
         }
 
         /// <summary>
-        /// TriggeredBy a chord from any string like this 'Alt+Shift+R'.
-        /// Nothe that the trigger key must be the last one. 
+        ///     TriggeredBy a chord from any string like this 'Alt+Shift+R'.
+        ///     Nothe that the trigger key must be the last one.
         /// </summary>
         public static Combination FromString(string trigger)
         {
@@ -111,8 +122,8 @@ namespace Gma.System.MouseKeyHook
         /// <inheritdoc />
         protected bool Equals(Combination other)
         {
-            return 
-                TriggerKey == other.TriggerKey 
+            return
+                TriggerKey == other.TriggerKey
                 && Chord.Equals(other.Chord);
         }
 

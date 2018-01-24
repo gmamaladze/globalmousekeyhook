@@ -1,10 +1,14 @@
+// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace Gma.System.MouseKeyHook
+namespace Gma.System.MouseKeyHook.Implementation
 {
     internal class Chord : IEnumerable<Keys>
     {
@@ -12,7 +16,7 @@ namespace Gma.System.MouseKeyHook
 
         internal Chord(IEnumerable<Keys> additionalKeys)
         {
-            _keys = additionalKeys.Select(k=>k.Normalize()).OrderBy(k => k).ToArray();
+            _keys = additionalKeys.Select(k => k.Normalize()).OrderBy(k => k).ToArray();
         }
 
         public int Count
@@ -23,6 +27,11 @@ namespace Gma.System.MouseKeyHook
         public IEnumerator<Keys> GetEnumerator()
         {
             return _keys.Cast<Keys>().GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
 
         public override string ToString()
@@ -45,13 +54,13 @@ namespace Gma.System.MouseKeyHook
             if (_keys.Length != other._keys.Length) return false;
             return _keys.SequenceEqual(other._keys);
         }
-        
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Chord)obj);
+            return Equals((Chord) obj);
         }
 
         public override int GetHashCode()
@@ -59,13 +68,8 @@ namespace Gma.System.MouseKeyHook
             unchecked
             {
                 return (_keys.Length + 13) ^
-                       ((_keys.Length != 0 ? (int)_keys[0] ^ (int)_keys[_keys.Length-1] : 0) * 397);
+                       ((_keys.Length != 0 ? (int) _keys[0] ^ (int) _keys[_keys.Length - 1] : 0) * 397);
             }
-        }
-        
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
         }
     }
 }

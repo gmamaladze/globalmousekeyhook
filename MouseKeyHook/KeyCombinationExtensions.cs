@@ -1,4 +1,8 @@
-﻿using System;
+﻿// This code is distributed under MIT license. 
+// Copyright (c) 2010-2018 George Mamaladze
+// See license.txt or http://opensource.org/licenses/mit-license.php
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Gma.System.MouseKeyHook.Implementation;
@@ -6,30 +10,35 @@ using Gma.System.MouseKeyHook.Implementation;
 namespace Gma.System.MouseKeyHook
 {
     /// <summary>
-    /// Extension methods to detect key combinations
+    ///     Extension methods to detect key combinations
     /// </summary>
     public static class KeyCombinationExtensions
     {
         /// <summary>
-        /// Detects a key or key combination and triggers the corresponding action.
+        ///     Detects a key or key combination and triggers the corresponding action.
         /// </summary>
         /// <param name="source">
-        ///     An instance of Global or Application hook. Use <see cref="Hook.GlobalEvents"/> or <see cref="Hook.AppEvents"/> to create it.</param>
+        ///     An instance of Global or Application hook. Use <see cref="Hook.GlobalEvents" /> or <see cref="Hook.AppEvents" /> to
+        ///     create it.
+        /// </param>
         /// <param name="map">
-        ///     This map contains the list of key combinations mapped to corresponding actions. You can use a dictionary initilizer to easily create it.
+        ///     This map contains the list of key combinations mapped to corresponding actions. You can use a dictionary initilizer
+        ///     to easily create it.
         ///     Whenever a listed combination will be detected a corresponding action will be triggered.
         /// </param>
         /// <param name="reset">
-        ///     This optional action will be executed when some key was pressed but it was not part of any wanted combinations. 
+        ///     This optional action will be executed when some key was pressed but it was not part of any wanted combinations.
         /// </param>
-        public static void OnCombination(this IKeyboardEvents source, IEnumerable<KeyValuePair<Combination, Action>> map, Action reset=null)
+        public static void OnCombination(this IKeyboardEvents source,
+            IEnumerable<KeyValuePair<Combination, Action>> map, Action reset = null)
         {
             var watchlists = map.GroupBy(k => k.Key.TriggerKey)
                 .ToDictionary(g => g.Key, g => g.ToArray());
             source.KeyDown += (sender, e) =>
             {
                 var found = watchlists.TryGetValue(e.KeyCode, out KeyValuePair<Combination, Action>[] element);
-                if (!found) {
+                if (!found)
+                {
                     reset?.Invoke();
                     return;
                 }
@@ -50,13 +59,19 @@ namespace Gma.System.MouseKeyHook
 
 
         /// <summary>
-        /// Detects a key or key combination sequence and triggers the corresponding action.
+        ///     Detects a key or key combination sequence and triggers the corresponding action.
         /// </summary>
-        /// <param name="source">An instance of Global or Application hook. Use <see cref="Hook.GlobalEvents"/> or <see cref="Hook.AppEvents"/> to create it.</param>
+        /// <param name="source">
+        ///     An instance of Global or Application hook. Use <see cref="Hook.GlobalEvents" /> or
+        ///     <see cref="Hook.AppEvents" /> to create it.
+        /// </param>
         /// <param name="map">
-        ///     This map contains the list of sequences mapped to corresponding actions. You can use a dictionary initilizer to easily create it.
-        ///     Whenever a listed sequnce will be detected a corresponding action will be triggered. If two or more sequences match the longest one will be used.
-        ///     Example: sequences may A,B,C and B,C might be detected simultanously if user pressed first A then B then C. In this case only action corresponding 
+        ///     This map contains the list of sequences mapped to corresponding actions. You can use a dictionary initilizer to
+        ///     easily create it.
+        ///     Whenever a listed sequnce will be detected a corresponding action will be triggered. If two or more sequences match
+        ///     the longest one will be used.
+        ///     Example: sequences may A,B,C and B,C might be detected simultanously if user pressed first A then B then C. In this
+        ///     case only action corresponding
         ///     to 'A,B,C' will be triggered.
         /// </param>
         public static void OnSequence(this IKeyboardEvents source, IEnumerable<KeyValuePair<Sequence, Action>> map)
@@ -72,7 +87,7 @@ namespace Gma.System.MouseKeyHook
             var min = actBySeq.Select(p => p.Key).Min(c => c.Length);
             var buffer = new Queue<Combination>(max);
 
-            var wrapMap = actBySeq.SelectMany(p => p.Key).Select(c=>new KeyValuePair<Combination, Action>(c, () =>
+            var wrapMap = actBySeq.SelectMany(p => p.Key).Select(c => new KeyValuePair<Combination, Action>(c, () =>
             {
                 buffer.Enqueue(c);
                 if (buffer.Count > max) buffer.Dequeue();
@@ -81,7 +96,7 @@ namespace Gma.System.MouseKeyHook
                 actBySeq
                     .Where(pair => endsWith(buffer, pair.Key))
                     .OrderBy(pair => pair.Key.Length)
-                    .Select(pair=>pair.Value)
+                    .Select(pair => pair.Value)
                     .LastOrDefault()
                     ?.Invoke();
             }));
