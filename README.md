@@ -6,7 +6,7 @@
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
 
 ## NEWS!
-Added support for detection of key combinations and sequences see.: [Quickstart - Detecting Key Combinations and Seuqnces](keycomb.md)
+Added support for detection of key combinations and sequences see: [Quickstart - Detecting Key Combinations and Seuqnces](keycomb.md)
 
 ## What it does?
 
@@ -130,6 +130,4 @@ This library attaches to windows global hooks, tracks keyboard and mouse clicks 
 
 ## License
 
-The MIT license (Refer to the [LICENSE.md][license] file)
-
- [license]: https://github.com/gmamaladze/globalmousekeyhook/blob/master/LICENSE.txt
+The MIT license see: [LICENSE.txt](/license.txt)
