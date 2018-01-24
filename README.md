@@ -5,6 +5,9 @@
 
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
 
+## NEWS!
+Added support for detection of key combinations and sequences see.: [Quickstart - Detecting Key Combinations and Seuqnces](keycomb.md)
+
 ## What it does?
 
 This library allows you to tap keyboard and mouse, to detect and record their activity even when an application is inactive and runs in background.

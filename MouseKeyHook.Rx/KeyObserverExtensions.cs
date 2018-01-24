@@ -47,18 +47,18 @@ namespace MouseKeyHook.Rx
                 .Select(evt => new KeyWithState(evt, KeyboardState.GetCurrent()));
         }
 
-        public static IObservable<Trigger> Matching(this IObservable<Keys> source, IEnumerable<Trigger> triggers)
+        public static IObservable<Combination> Matching(this IObservable<Keys> source, IEnumerable<Combination> triggers)
         {
             return source
                 .WithState()
                 .SelectMany(se => triggers.Where(se.Matches));
         }
 
-        public static IObservable<Trigger> MatchingLongest(this IObservable<Keys> source, IEnumerable<Trigger> triggers)
+        public static IObservable<Combination> MatchingLongest(this IObservable<Keys> source, IEnumerable<Combination> triggers)
         {
             var sortedTriggers = triggers
                 .GroupBy(t => t.TriggerKey)
-                .Select(group => new KeyValuePair<Keys, IEnumerable<Trigger>>(group.Key, group.OrderBy(t => -t.Length)))
+                .Select(group => new KeyValuePair<Keys, IEnumerable<Combination>>(group.Key, group.OrderBy(t => -t.ChordLength)))
                 .ToDictionary(pair => pair.Key, pair => pair.Value);
 
             return source
@@ -67,34 +67,5 @@ namespace MouseKeyHook.Rx
                 .Select(se => sortedTriggers[se.KeyCode].First(se.Matches));
         }
 
-        public static IObservable<Sequence<T>> Sequences<T>(this IObservable<T> source, int minLength, int maxLength)
-        {
-            return Enumerable
-                .Range(minLength, maxLength-1)
-                .Select(n => source
-                    .Buffer(n, 1))
-                .Merge()
-                .Select(s => new Sequence<T>(s.ToArray()));
-        }
-
-        public static IObservable<IEnumerable<T>> Matching<T>(this IObservable<T> source,
-            IEnumerable<IEnumerable<T>> whitelist)
-        {
-            var min = whitelist.Select(e => e.Count()).Min();
-            var max = whitelist.Select(e => e.Count()).Max();
-
-            return source.Sequences(min, max)
-                .SelectMany(sequence => whitelist.Where(w => w.SequenceEqual(sequence)));
-        }
-
-        public static IObservable<Sequence<T>> Matching<T>(this IObservable<T> source, ISet<Sequence<T>> whitelist)
-        {
-            var min = whitelist.Select(e => e.Count()).Min();
-            var max = whitelist.Select(e => e.Count()).Max();
-
-            return source
-                .Sequences(min, max)
-                .Where(whitelist.Contains);
-        }
     }
 }

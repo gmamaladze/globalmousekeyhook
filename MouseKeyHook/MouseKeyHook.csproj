@@ -184,9 +184,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implementation\Chord.cs" />
     <Compile Include="Implementation\AppKeyListener.cs" />
     <Compile Include="Implementation\AppMouseListener.cs" />
     <Compile Include="Implementation\ButtonSet.cs" />
+    <Compile Include="KeyCombinationExtensions.cs" />
+    <Compile Include="Implementation\KeysExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -204,6 +207,9 @@
     <Compile Include="Implementation\KeyboardState.cs" />
     <Compile Include="KeyPressEventArgsExt.cs" />
     <Compile Include="Implementation\Subscribe.cs" />
+    <Compile Include="Sequence.cs" />
+    <Compile Include="SequenceBase.cs" />
+    <Compile Include="Combination.cs" />
     <Compile Include="WinApi\AppMouseStruct.cs" />
     <Compile Include="WinApi\CallbackData.cs" />
     <Compile Include="WinApi\HookHelper.cs" />

@@ -3,21 +3,20 @@
 // See license.txt or http://opensource.org/licenses/mit-license.php
 
 using System;
-using System.Reactive.Linq;
 using System.Threading;
-using System.Windows.Forms;
 using Gma.System.MouseKeyHook;
-using MouseKeyHook.Rx;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace ConsoleHook.Rx
+namespace ConsoleHook
 {
-    internal class DetectSequences
+    internal class LogKeys
     {
         public static void Do(AutoResetEvent quit)
         {
-
+            Hook.GlobalEvents().KeyPress += (sender, e) =>
+            {
+                Console.Write(e.KeyChar);
+                if (e.KeyChar == 'q') quit.Set();
+            };
         }
     }
 }

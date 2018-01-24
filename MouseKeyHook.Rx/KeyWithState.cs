@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows.Forms;
+using Gma.System.MouseKeyHook;
 using Gma.System.MouseKeyHook.Implementation;
 
 namespace MouseKeyHook.Rx
@@ -25,11 +26,11 @@ namespace MouseKeyHook.Rx
             get { return Item2; }
         }
 
-        public bool Matches(Trigger trigger)
+        public bool Matches(Combination combination)
         {
             return
-                KeyCode == trigger.TriggerKey &&
-                State.AreAllDown(trigger.AdditionalKeys);
+                KeyCode == combination.TriggerKey &&
+                State.AreAllDown(combination.Chord);
         }
     }
 }
