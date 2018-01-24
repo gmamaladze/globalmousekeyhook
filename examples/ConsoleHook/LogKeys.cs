@@ -10,12 +10,13 @@ namespace ConsoleHook
 {
     internal class LogKeys
     {
-        public static void Do(AutoResetEvent quit)
+        public static void Do(Action  quit)
         {
+            Console.WriteLine("Press Q to quit.");
             Hook.GlobalEvents().KeyPress += (sender, e) =>
             {
                 Console.Write(e.KeyChar);
-                if (e.KeyChar == 'q') quit.Set();
+                if (e.KeyChar == 'q') quit();
             };
         }
     }

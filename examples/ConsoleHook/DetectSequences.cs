@@ -11,13 +11,13 @@ namespace ConsoleHook
 {
     internal class DetectSequences
     {
-        public static void Do(AutoResetEvent quit)
+        public static void Do(Action quit)
         {
             var map = new Dictionary<Sequence, Action>
             {
                 {Sequence.FromString("Control+Z,B"), Console.WriteLine},
                 {Sequence.FromString("Control+Z,Z"), Console.WriteLine},
-                {Sequence.FromString("Escape,Escape,Escape"), () => quit.Set()}
+                {Sequence.FromString("Escape,Escape,Escape"), quit}
             };
 
             Console.WriteLine("Detecting following combinations:");
