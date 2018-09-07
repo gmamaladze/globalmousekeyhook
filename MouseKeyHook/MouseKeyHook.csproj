@@ -265,7 +265,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="globalmousekeyhookSignKey.snk" />
     <None Include="MouseKeyHook.nuspec" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
