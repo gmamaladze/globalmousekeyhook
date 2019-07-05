@@ -59,7 +59,7 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
      m_GlobalHook.MouseDownExt -= GlobalHookMouseDownExt;
      m_GlobalHook.KeyPress -= GlobalHookKeyPress;
 
-     //It is recommened to dispose it
+     //It is recommended to dispose it
      m_GlobalHook.Dispose();
  }
  ```
