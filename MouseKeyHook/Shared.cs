@@ -18,7 +18,7 @@ namespace Gma.System.MouseKeyHook
                         if (p.Length == 1 && TryGetKeyFromChar(p.First(), out Keys key))
                             return key;
                         else
-                            return (Keys)Enum.Parse(typeof(Keys), p, false);
+                            return (Keys)Enum.Parse(typeof(Keys), p, true);
 
                     });
             return new Stack<Keys>(keys);
