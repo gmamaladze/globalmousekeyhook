@@ -41,11 +41,7 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         public static Chord FromString(string chord)
         {
-            var parts = chord
-                .Split('+')
-                .Select(p => Enum.Parse(typeof(Keys), p))
-                .Cast<Keys>();
-            var stack = new Stack<Keys>(parts);
+            var stack = Shared.FromString(chord);
             return new Chord(stack);
         }
 
