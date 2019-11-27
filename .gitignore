@@ -181,4 +181,4 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
-/.vs/MouseKeyHook/v15/Server/sqlite3
+.vs
