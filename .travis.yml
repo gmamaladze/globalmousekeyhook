@@ -1,3 +1,4 @@
+os: windows
 language: csharp
 solution: MouseKeyHook.sln
 dotnet: 3.0.101
