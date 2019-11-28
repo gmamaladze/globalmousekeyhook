@@ -1,2 +1,5 @@
 language: csharp
 solution: MouseKeyHook.sln
+dotnet: 3.0.100
+before_script:
+  - dotnet restore
