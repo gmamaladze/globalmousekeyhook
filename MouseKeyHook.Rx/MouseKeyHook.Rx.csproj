@@ -4,7 +4,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9754749C-1EEA-4468-8C32-B5BAC3235F54}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.0;net462;net472</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net462;net472</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MouseKeyHook.Rx</RootNamespace>
@@ -14,7 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Version>5.6.0-alpha</Version>
-    <Copyright>(c) George Mamaladze 2000-2018</Copyright>
+    <Copyright>(c) George Mamaladze 2000-2020</Copyright>
     <Description>This is an extension to the MouseKeyHook library which allows you to observe keyboard and mouse venets in reactive manner using Rx.Net (System.Reactive) extensions.</Description>
     <Authors>George Mamaladze</Authors>
     <PackageId>MouseKeyHook.Rx</PackageId>
@@ -22,7 +22,7 @@
     <PackageProjectUrl>https://github.com/gmamaladze/globalmousekeyhook</PackageProjectUrl>
     <PackageTags>keyboard mouse hook reactive Rx event global spy</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/alexx-grand/globalmousekeyhook</RepositoryUrl>
+    <RepositoryUrl>https://github.com/gmamaladze/globalmousekeyhook</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -48,10 +48,10 @@
     <None Include="MouseKeyHook.Rx.nuspec" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Reactive" Version="4.2.0" />
-    <PackageReference Include="System.Reactive.Core" Version="4.2.0" />
-    <PackageReference Include="System.Reactive.Interfaces" Version="4.2.0" />
-    <PackageReference Include="System.Reactive.Linq" Version="4.2.0" />
-    <PackageReference Include="System.Reactive.PlatformServices" Version="4.2.0" />
+    <PackageReference Include="System.Reactive" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.Core" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.Interfaces" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.PlatformServices" Version="4.3.2" />
   </ItemGroup>
 </Project>

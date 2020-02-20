@@ -10,7 +10,7 @@
     <Version>5.6.1-alpha</Version>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.0;net462;net472</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net462;net472</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>Gma.System.MouseKeyHook</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -27,13 +27,13 @@
 
       Additionally, there is a possibility to supress certain keyboard or mouse clicks, or detect special key combinations.
     </Description>
-    <Copyright>(c) George Mamaladze 2000-2018</Copyright>
+    <Copyright>(c) George Mamaladze 2000-2020</Copyright>
     <PackageId>MouseKeyHook</PackageId>
     <PackageIconUrl>https://raw.githubusercontent.com/gmamaladze/globalmousekeyhook/master/mouse-keyboard-hook-logo64x64.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/gmamaladze/globalmousekeyhook</PackageProjectUrl>
     <PackageTags>keyboard mouse hook event global spy</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <RepositoryUrl>https://github.com/alexx-grand/globalmousekeyhook</RepositoryUrl>
+    <RepositoryUrl>https://github.com/gmamaladze/globalmousekeyhook</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
