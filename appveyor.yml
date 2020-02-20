@@ -1,5 +1,5 @@
 version: 1.0.{build}
 before_build:
-- cmd: dotnet restore
+- appveyor-retry dotnet restore -v Normal
 build:
-  verbosity: minimal
+  verbosity: normal
