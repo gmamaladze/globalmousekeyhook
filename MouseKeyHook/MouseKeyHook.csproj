@@ -191,6 +191,7 @@
     <Compile Include="Implementation\ButtonSet.cs" />
     <Compile Include="KeyCombinationExtensions.cs" />
     <Compile Include="Implementation\KeysExtensions.cs" />
+    <Compile Include="KeyDownTxtEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
