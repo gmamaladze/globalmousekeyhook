@@ -24,13 +24,19 @@ namespace Gma.System.MouseKeyHook.Implementation
             remove { GetKeyListener().KeyPress -= value; }
         }
 
-        public event KeyEventHandler KeyUp
+	    public event EventHandler<KeyDownTxtEventArgs> KeyDownTxt
+	    {
+		    add { GetKeyListener().KeyDownTxt += value; }
+		    remove { GetKeyListener().KeyDownTxt -= value; }
+	    }
+
+	    public event KeyEventHandler KeyUp
         {
             add { GetKeyListener().KeyUp += value; }
             remove { GetKeyListener().KeyUp -= value; }
         }
 
-        public event MouseEventHandler MouseMove
+	    public event MouseEventHandler MouseMove
         {
             add { GetMouseListener().MouseMove += value; }
             remove { GetMouseListener().MouseMove -= value; }
