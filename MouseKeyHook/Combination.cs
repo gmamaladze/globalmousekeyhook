@@ -110,11 +110,7 @@ namespace Gma.System.MouseKeyHook
         /// </summary>
         public static Combination FromString(string trigger)
         {
-            var parts = trigger
-                .Split('+')
-                .Select(p => Enum.Parse(typeof(Keys), p))
-                .Cast<Keys>();
-            var stack = new Stack<Keys>(parts);
+            var stack = Shared.FromString(trigger);
             var triggerKey = stack.Pop();
             return new Combination(triggerKey, stack);
         }

@@ -3,6 +3,8 @@
 // See license.txt or https://mit-license.org/
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -54,9 +56,49 @@ namespace Gma.System.MouseKeyHook.WinApi
         internal static void TryGetCharFromKeyboardState(int virtualKeyCode, int fuState, out char[] chars)
         {
             var dwhkl = GetActiveKeyboard();
-            var scanCode = MapVirtualKeyEx(virtualKeyCode, (int) MapType.MAPVK_VK_TO_VSC, dwhkl);
+            var scanCode = MapVirtualKeyEx(virtualKeyCode, (int)MapType.MAPVK_VK_TO_VSC, dwhkl);
             TryGetCharFromKeyboardState(virtualKeyCode, scanCode, fuState, dwhkl, out chars);
         }
+
+        private static IntPtr _currentKeyboard = IntPtr.Zero;
+        private static Dictionary<char, Keys> _characterConversionDict = null;
+
+        /// <summary>
+        /// Character to <see cref="Keys"/> conversion dictionary that is constructed once on access. After the first asccess, it will update every time the active keyboard changes.
+        /// </summary>
+        private static Dictionary<char, Keys> CharacterConversionDict
+        {
+            get
+            {
+                var currentKeyboard = GetActiveKeyboard();
+                if (_characterConversionDict == null || _currentKeyboard != currentKeyboard)
+                {
+                    _currentKeyboard = currentKeyboard;
+                    _characterConversionDict = new Dictionary<char, Keys>();
+                    var enumValues =
+                        Enum.GetValues(typeof(Keys))
+                            .Cast<int>()
+                            .Distinct();
+
+                    foreach (int code in enumValues)
+                    {
+                        char mapped = (char)MapVirtualKeyEx(code, (int)MapType.MAPVK_VK_TO_CHAR, currentKeyboard);
+                        if (!_characterConversionDict.ContainsKey(mapped))
+                            _characterConversionDict.Add(mapped, (Keys)code);
+                    }
+                }
+
+                return _characterConversionDict;
+            }
+        }
+        
+        /// <summary>
+        /// Converts a character to the first matching <see cref="Keys"/> enum value.
+        /// </summary>
+        /// <param name="c">The character to convert</param>
+        /// <param name="key">The key that matches the character</param>
+        /// <returns>True if the conversion was successful, otherwise false.</returns>
+        internal static bool TryGetKeyFromChar(char c, out Keys key) => CharacterConversionDict.TryGetValue(c, out key);
 
         /// <summary>
         ///     Translates a virtual key to its character equivalent using the current keyboard layout

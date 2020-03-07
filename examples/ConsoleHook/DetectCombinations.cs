@@ -18,11 +18,13 @@ namespace ConsoleHook
             {
                 //Specify which key combinations to detect and action - what to do if detected.
                 //You can create a key combinations directly from string or ...
+                {Combination.FromString(@"A+\"), () => Console.WriteLine(":-*") },
                 {Combination.FromString("A+B+C"), () => Console.WriteLine(":-)")},
-                //... or alternatively you can use builder methods
-                {Combination.TriggeredBy(Keys.F).With(Keys.E).With(Keys.D), () => Console.WriteLine(":-D")},
                 {Combination.FromString("Alt+A"), () => Console.WriteLine(":-P")},
                 {Combination.FromString("Control+Shift+Z"), () => Console.WriteLine(":-/")},
+                //... or alternatively you can use builder methods
+                {Combination.TriggeredBy(Keys.F).With(Keys.E).With(Keys.D), () => Console.WriteLine(":-D")},
+
                 {Combination.FromString("Escape"), quit}
             };
 
