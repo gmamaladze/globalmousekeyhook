@@ -40,8 +40,7 @@ namespace ConsoleHook
 
             Application.Run(new ApplicationContext());
         }
-
-
+       
         private static void Exit(Action quit)
         {
             Application.Exit();
