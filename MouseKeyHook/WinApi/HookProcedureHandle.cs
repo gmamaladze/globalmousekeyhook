@@ -24,8 +24,14 @@ namespace Gma.System.MouseKeyHook.WinApi
         protected override bool ReleaseHandle()
         {
             //NOTE Calling Unhook during processexit causes deley
-            if (_closing) return true;
-            return HookNativeMethods.UnhookWindowsHookEx(handle) != 0;
+            var ret = HookNativeMethods.UnhookWindowsHookEx(handle);
+            if (ret != 0)
+            {
+                base.Dispose();
+                return true;
+            }
+            else
+                return true;
         }
     }
 }
