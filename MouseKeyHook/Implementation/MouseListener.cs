@@ -68,6 +68,8 @@ namespace Gma.System.MouseKeyHook.Implementation
         public event EventHandler<MouseEventExtArgs> MouseUpExt;
         public event MouseEventHandler MouseWheel;
         public event EventHandler<MouseEventExtArgs> MouseWheelExt;
+        public event MouseEventHandler MouseHWheel;
+        public event EventHandler<MouseEventExtArgs> MouseHWheelExt;
         public event MouseEventHandler MouseDoubleClick;
         public event MouseEventHandler MouseDragStarted;
         public event EventHandler<MouseEventExtArgs> MouseDragStartedExt;
@@ -85,7 +87,12 @@ namespace Gma.System.MouseKeyHook.Implementation
                 ProcessUp(ref e);
 
             if (e.WheelScrolled)
-                ProcessWheel(ref e);
+            {
+                if (e.IsHorizontalWheel)
+                    ProcessHWheel(ref e);
+                else
+                    ProcessWheel(ref e);
+            }
 
             if (HasMoved(e.Point))
                 ProcessMove(ref e);
@@ -101,6 +108,12 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             OnWheel(e);
             OnWheelExt(e);
+        }
+
+        protected virtual void ProcessHWheel(ref MouseEventExtArgs e)
+        {
+            OnHWheel(e);
+            OnHWheelExt(e);
         }
 
         protected virtual void ProcessDown(ref MouseEventExtArgs e)
@@ -244,6 +257,18 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected virtual void OnWheelExt(MouseEventExtArgs e)
         {
             var handler = MouseWheelExt;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnHWheel(MouseEventArgs e)
+        {
+            var handler = MouseHWheel;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnHWheelExt(MouseEventExtArgs e)
+        {
+            var handler = MouseHWheelExt;
             if (handler != null) handler(this, e);
         }
 

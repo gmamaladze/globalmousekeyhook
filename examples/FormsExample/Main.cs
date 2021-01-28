@@ -55,9 +55,15 @@ namespace Demo
             m_Events.MouseDragFinished += OnMouseDragFinished;
 
             if (checkBoxSupressMouseWheel.Checked)
+            {
                 m_Events.MouseWheelExt += HookManager_MouseWheelExt;
+                m_Events.MouseHWheelExt += HookManager_MouseHWheelExt;
+            }
             else
+            {
                 m_Events.MouseWheel += HookManager_MouseWheel;
+                m_Events.MouseHWheel += HookManager_MouseHWheel;
+            }
 
             if (checkBoxSuppressMouse.Checked)
                 m_Events.MouseDownExt += HookManager_Supress;
@@ -82,9 +88,15 @@ namespace Demo
             m_Events.MouseDragFinished -= OnMouseDragFinished;
 
             if (checkBoxSupressMouseWheel.Checked)
+            {
                 m_Events.MouseWheelExt -= HookManager_MouseWheelExt;
+                m_Events.MouseHWheelExt -= HookManager_MouseHWheelExt;
+            }
             else
+            {
                 m_Events.MouseWheel -= HookManager_MouseWheel;
+                m_Events.MouseHWheel -= HookManager_MouseHWheel;
+            }
 
             if (checkBoxSuppressMouse.Checked)
                 m_Events.MouseDownExt -= HookManager_Supress;
@@ -169,6 +181,18 @@ namespace Demo
             e.Handled = true;
         }
 
+        private void HookManager_MouseHWheel(object sender, MouseEventArgs e)
+        {
+            labelHWheel.Text = string.Format("HWheel={0:000}", e.Delta);
+        }
+
+        private void HookManager_MouseHWheelExt(object sender, MouseEventExtArgs e)
+        {
+            labelHWheel.Text = string.Format("HWheel={0:000}", e.Delta);
+            Log("Horizontal Mouse Wheel Move Suppressed.\n");
+            e.Handled = true;
+        }
+
         private void Log(string text)
         {
             if (IsDisposed) return;
@@ -199,11 +223,15 @@ namespace Demo
             {
                 m_Events.MouseWheel -= HookManager_MouseWheel;
                 m_Events.MouseWheelExt += HookManager_MouseWheelExt;
+                m_Events.MouseHWheel -= HookManager_MouseHWheel;
+                m_Events.MouseHWheelExt += HookManager_MouseHWheelExt;
             }
             else
             {
                 m_Events.MouseWheelExt -= HookManager_MouseWheelExt;
                 m_Events.MouseWheel += HookManager_MouseWheel;
+                m_Events.MouseHWheelExt -= HookManager_MouseHWheelExt;
+                m_Events.MouseHWheel += HookManager_MouseHWheel;
             }
         }
 

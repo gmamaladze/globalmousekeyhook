@@ -24,12 +24,14 @@ namespace Gma.System.MouseKeyHook
         /// <param name="timestamp">The system tick count when the event occurred.</param>
         /// <param name="isMouseButtonDown">True if event signals mouse button down.</param>
         /// <param name="isMouseButtonUp">True if event signals mouse button up.</param>
+        /// <param name="isHorizontalWheel">True if event signals horizontal wheel action.</param>
         internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, int timestamp,
-            bool isMouseButtonDown, bool isMouseButtonUp)
+            bool isMouseButtonDown, bool isMouseButtonUp, bool isHorizontalWheel)
             : base(buttons, clicks, point.X, point.Y, delta)
         {
             IsMouseButtonDown = isMouseButtonDown;
             IsMouseButtonUp = isMouseButtonUp;
+            IsHorizontalWheel = isHorizontalWheel;
             Timestamp = timestamp;
         }
 
@@ -64,6 +66,11 @@ namespace Gma.System.MouseKeyHook
         ///     True if event signals mouse button up.
         /// </summary>
         public bool IsMouseButtonUp { get; }
+
+        /// <summary>
+        ///     True if event signals horizontal wheel action.
+        /// </summary>
+        public bool IsHorizontalWheel { get; }
 
         /// <summary>
         ///     The system tick count of when the event occurred.
@@ -110,6 +117,7 @@ namespace Gma.System.MouseKeyHook
 
             var isMouseButtonDown = false;
             var isMouseButtonUp = false;
+            var isHorizontalWheel = false;
 
 
             switch ((long) wParam)
@@ -160,6 +168,11 @@ namespace Gma.System.MouseKeyHook
                     clickCount = 2;
                     break;
                 case Messages.WM_MOUSEWHEEL:
+                    isHorizontalWheel = false;
+                    mouseDelta = mouseInfo.MouseData;
+                    break;
+                case Messages.WM_MOUSEHWHEEL:
+                    isHorizontalWheel = true;
                     mouseDelta = mouseInfo.MouseData;
                     break;
                 case Messages.WM_XBUTTONDOWN:
@@ -169,7 +182,6 @@ namespace Gma.System.MouseKeyHook
                     isMouseButtonDown = true;
                     clickCount = 1;
                     break;
-
                 case Messages.WM_XBUTTONUP:
                     button = mouseInfo.MouseData == 1
                         ? MouseButtons.XButton1
@@ -177,17 +189,12 @@ namespace Gma.System.MouseKeyHook
                     isMouseButtonUp = true;
                     clickCount = 1;
                     break;
-
                 case Messages.WM_XBUTTONDBLCLK:
                     isMouseButtonDown = true;
                     button = mouseInfo.MouseData == 1
                         ? MouseButtons.XButton1
                         : MouseButtons.XButton2;
                     clickCount = 2;
-                    break;
-
-                case Messages.WM_MOUSEHWHEEL:
-                    mouseDelta = mouseInfo.MouseData;
                     break;
             }
 
@@ -198,14 +205,15 @@ namespace Gma.System.MouseKeyHook
                 mouseDelta,
                 mouseInfo.Timestamp,
                 isMouseButtonDown,
-                isMouseButtonUp);
+                isMouseButtonUp,
+                isHorizontalWheel);
 
             return e;
         }
 
         internal MouseEventExtArgs ToDoubleClickEventArgs()
         {
-            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseButtonDown, IsMouseButtonUp);
+            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseButtonDown, IsMouseButtonUp, IsHorizontalWheel);
         }
     }
 }
