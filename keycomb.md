@@ -1,4 +1,4 @@
-# Detecting Key Combinations and Seuqnces
+# Detecting Key Combinations and Sequences
 
 ## Quickstart Combinations
 Assuming your goal is to detect whenever some key combination, shortcut is pressed and perform some action as a response. Use class `Combination` to describe key combinations.
