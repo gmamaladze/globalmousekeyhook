@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "ConsoleHook.Rx": {
+      "commandName": "Executable",
+      "executablePath": "dotnet",
+      "commandLineArgs": "ConsoleHook.Rx.dll"
+    }
+  }
+}

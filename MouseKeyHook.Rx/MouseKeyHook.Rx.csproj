@@ -18,12 +18,13 @@
     <Description>This is an extension to the MouseKeyHook library which allows you to observe keyboard and mouse venets in reactive manner using Rx.Net (System.Reactive) extensions.</Description>
     <Authors>George Mamaladze</Authors>
     <PackageId>MouseKeyHook.Rx</PackageId>
-    <PackageIconUrl>https://raw.githubusercontent.com/gmamaladze/globalmousekeyhook/master/mouse-keyboard-hook-logo64x64.png</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
     <PackageProjectUrl>https://github.com/gmamaladze/globalmousekeyhook</PackageProjectUrl>
     <PackageTags>keyboard mouse hook reactive Rx event global spy</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/gmamaladze/globalmousekeyhook</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageIcon>mouse-keyboard-hook-logo64x64.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +46,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\mouse-keyboard-hook-logo64x64.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="MouseKeyHook.Rx.nuspec" />
   </ItemGroup>
   <ItemGroup>
