@@ -23,12 +23,12 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         public static int GetXDragThreshold()
         {
-            return GetSystemMetrics(SM_CXDRAG);
+            return GetSystemMetrics(SM_CXDRAG) / 2 + 1;
         }
 
         public static int GetYDragThreshold()
         {
-            return GetSystemMetrics(SM_CYDRAG);
+            return GetSystemMetrics(SM_CYDRAG) / 2 + 1;
         }
     }
 
