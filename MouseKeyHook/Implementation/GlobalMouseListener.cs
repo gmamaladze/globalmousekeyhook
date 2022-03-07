@@ -48,7 +48,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             m_PreviousClicked = MouseButtons.None;
             m_PreviousClickedTime = 0;
-            m_PreviousClickedPosition = new Point(0, 0);
+            m_PreviousClickedPosition = m_UninitialisedPoint;
         }
 
         private bool IsDoubleClick(MouseEventExtArgs e)
