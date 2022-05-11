@@ -48,7 +48,7 @@ namespace Gma.System.MouseKeyHook.Implementation
     {
         private readonly ButtonSet m_DoubleDown;
         private readonly ButtonSet m_SingleDown;
-        private readonly Point m_UninitialisedPoint = new Point(-1, -1);
+        protected readonly Point m_UninitialisedPoint = new Point(-99999, -99999);
         private readonly int m_xDragThreshold;
         private readonly int m_yDragThreshold;
         private Point m_DragStartPosition;
