@@ -17,6 +17,8 @@ namespace Gma.System.MouseKeyHook.Implementation
     {
         private const int SM_CXDRAG = 68;
         private const int SM_CYDRAG = 69;
+        private const int SM_CXDOUBLECLK = 36;
+        private const int SM_CYDOUBLECLK = 37;
 
         [DllImport("user32.dll")]
         private static extern int GetSystemMetrics(int index);
@@ -29,6 +31,16 @@ namespace Gma.System.MouseKeyHook.Implementation
         public static int GetYDragThreshold()
         {
             return GetSystemMetrics(SM_CYDRAG);
+        }
+
+        public static int GetXDoubleClickThreshold()
+        {
+            return GetSystemMetrics(SM_CXDOUBLECLK) / 2 + 1;
+        }
+
+        public static int GetYDoubleClickThreshold()
+        {
+            return GetSystemMetrics(SM_CYDOUBLECLK) / 2 + 1;
         }
     }
 
