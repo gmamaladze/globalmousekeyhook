@@ -24,6 +24,8 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             if (IsDoubleClick(e))
                 e = e.ToDoubleClickEventArgs();
+            else
+                StartDoubleClickWaiting(e);
             base.ProcessDown(ref e);
         }
 
@@ -32,9 +34,6 @@ namespace Gma.System.MouseKeyHook.Implementation
             base.ProcessUp(ref e);
             if (e.Clicks == 2)
                 StopDoubleClickWaiting();
-
-            if (e.Clicks == 1)
-                StartDoubleClickWaiting(e);
         }
 
         private void StartDoubleClickWaiting(MouseEventExtArgs e)
