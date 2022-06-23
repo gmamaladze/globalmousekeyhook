@@ -6,15 +6,15 @@
 ![Mouse and Keyboard Hooking Library in c#](/mouse-keyboard-hook-logo.png)
 
 ## NEWS!
-Added support for detection of key combinations and sequences see: [Quickstart - Detecting Key Combinations and Seuqnces](keycomb.md)
+Added support for the detection of key combinations and sequences see: [Quickstart - Detecting Key Combinations and Sequences](keycomb.md)
 
 ## What it does?
 
-This library allows you to tap keyboard and mouse, to detect and record their activity even when an application is inactive and runs in background.
+This library allows you to tap the keyboard and mouse, to detect and record their activity even when an application is inactive and runs in the background.
 
 ## Prerequisites
 
- - **Windows:** .Net 4.0+
+ - **Windows:** .NET Framework 4.0+
 
 ## Installation and sources
 
@@ -65,9 +65,9 @@ This library allows you to tap keyboard and mouse, to detect and record their ac
  ```
 (also have a look at the Demo app included with the source)
 
-## How it works?
+## How does it work?
 
-This library attaches to windows global hooks, tracks keyboard and mouse clicks and movement and raises common .NET events with KeyEventArgs and MouseEventArgs, so you can easily retrieve any information you need:
+This library attaches to windows global hooks, tracks keyboard and mouse clicks, movements and raises common .NET events with KeyEventArgs and MouseEventArgs, so you can easily retrieve any information you need:
  * Mouse coordinates
  * Mouse buttons clicked
  * Mouse drag actions
@@ -83,7 +83,7 @@ This library attaches to windows global hooks, tracks keyboard and mouse clicks 
 
 ## Troubleshooting and support
 
- - Usage or programming related question? Post it on [StackOverflow][so] using the tag *mousekeyhook*
+ - Usage or programming-related questions? Post it on [StackOverflow][so] using the tag *mousekeyhook*
  - Found a bug or missing a feature? Feed the [issue tracker][tracker]
 
  [so]: http://stackoverflow.com/questions/tagged/mousekeyhook
