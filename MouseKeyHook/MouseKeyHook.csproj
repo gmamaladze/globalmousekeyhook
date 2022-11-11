@@ -10,7 +10,7 @@
     <Version>5.6.1-alpha</Version>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net462;net472</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows;net6.0-windows;net462;net472</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>Gma.System.MouseKeyHook</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
