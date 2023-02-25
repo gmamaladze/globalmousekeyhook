@@ -15,8 +15,8 @@ namespace ConsoleHook
         {
             var map = new Dictionary<Sequence, Action>
             {
-                {Sequence.FromString("Control+Z,B"), Console.WriteLine},
-                {Sequence.FromString("Control+Z,Z"), Console.WriteLine},
+                {Sequence.FromString("Control+Z,B"), () => Console.WriteLine("CTRL-Z followed by 'B'")},
+                {Sequence.FromString("Control+Z,Z"), () => Console.WriteLine("CTRL-Z followed by 'Z'")},
                 {Sequence.FromString("Escape,Escape,Escape"), quit}
             };
 
