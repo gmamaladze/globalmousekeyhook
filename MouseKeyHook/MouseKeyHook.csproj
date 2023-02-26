@@ -7,7 +7,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyTitle>MouseKeyHook</AssemblyTitle>
     <AssemblyName>Gma.System.MouseKeyHook</AssemblyName>
-    <Version>5.6.1-alpha</Version>
+    <Version>5.7.0</Version>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
     <TargetFrameworks>netcoreapp3.1;net7.0-windows;net6.0-windows;net462;net472;net48</TargetFrameworks>
