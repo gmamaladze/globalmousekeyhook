@@ -4,7 +4,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{F9B78F1A-F065-4BB4-A15B-393DFFE8DB0B}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net5.0-windows;net6.0-windows;</TargetFrameworks>
+    <TargetFrameworks>netcoreapp3.1;net7.0-windows;net6.0-windows;net462;net472;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>ConsoleHook.Rx</RootNamespace>
     <AssemblyName>ConsoleHook.Rx</AssemblyName>
