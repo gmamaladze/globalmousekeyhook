@@ -1,6 +1,6 @@
 ﻿// This code is distributed under MIT license. 
 // Copyright (c) 2015 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.ComponentModel;
@@ -55,9 +55,15 @@ namespace Demo
             m_Events.MouseDragFinished += OnMouseDragFinished;
 
             if (checkBoxSupressMouseWheel.Checked)
+            {
                 m_Events.MouseWheelExt += HookManager_MouseWheelExt;
+                m_Events.MouseHWheelExt += HookManager_MouseHWheelExt;
+            }
             else
+            {
                 m_Events.MouseWheel += HookManager_MouseWheel;
+                m_Events.MouseHWheel += HookManager_MouseHWheel;
+            }
 
             if (checkBoxSuppressMouse.Checked)
                 m_Events.MouseDownExt += HookManager_Supress;
@@ -82,9 +88,15 @@ namespace Demo
             m_Events.MouseDragFinished -= OnMouseDragFinished;
 
             if (checkBoxSupressMouseWheel.Checked)
+            {
                 m_Events.MouseWheelExt -= HookManager_MouseWheelExt;
+                m_Events.MouseHWheelExt -= HookManager_MouseHWheelExt;
+            }
             else
+            {
                 m_Events.MouseWheel -= HookManager_MouseWheel;
+                m_Events.MouseHWheel -= HookManager_MouseHWheel;
+            }
 
             if (checkBoxSuppressMouse.Checked)
                 m_Events.MouseDownExt -= HookManager_Supress;
@@ -114,12 +126,12 @@ namespace Demo
 
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            Log(string.Format("KeyUp  \t\t {0}\n", e.KeyCode));
+            Log(string.Format("KeyUp  \t\t\t {0}\n", e.KeyCode));
         }
 
         private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Log(string.Format("KeyPress \t\t {0}\n", e.KeyChar));
+            Log(string.Format("KeyPress \t\t\t {0}\n", e.KeyChar));
         }
 
         private void HookManager_MouseMove(object sender, MouseEventArgs e)
@@ -169,10 +181,23 @@ namespace Demo
             e.Handled = true;
         }
 
+        private void HookManager_MouseHWheel(object sender, MouseEventArgs e)
+        {
+            labelHWheel.Text = string.Format("HWheel={0:000}", e.Delta);
+        }
+
+        private void HookManager_MouseHWheelExt(object sender, MouseEventExtArgs e)
+        {
+            labelHWheel.Text = string.Format("HWheel={0:000}", e.Delta);
+            Log("Horizontal Mouse Wheel Move Suppressed.\n");
+            e.Handled = true;
+        }
+
         private void Log(string text)
         {
             if (IsDisposed) return;
             textBoxLog.AppendText(text);
+            textBoxLog.AppendText(Environment.NewLine);
             textBoxLog.ScrollToCaret();
         }
 
@@ -199,11 +224,15 @@ namespace Demo
             {
                 m_Events.MouseWheel -= HookManager_MouseWheel;
                 m_Events.MouseWheelExt += HookManager_MouseWheelExt;
+                m_Events.MouseHWheel -= HookManager_MouseHWheel;
+                m_Events.MouseHWheelExt += HookManager_MouseHWheelExt;
             }
             else
             {
                 m_Events.MouseWheelExt -= HookManager_MouseWheelExt;
                 m_Events.MouseWheel += HookManager_MouseWheel;
+                m_Events.MouseHWheelExt -= HookManager_MouseHWheelExt;
+                m_Events.MouseHWheel += HookManager_MouseHWheel;
             }
         }
 

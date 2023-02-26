@@ -1,6 +1,6 @@
 ﻿// This code is distributed under MIT license.
 // Copyright (c) 2015 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.Runtime.InteropServices;
@@ -17,6 +17,8 @@ namespace Gma.System.MouseKeyHook.Implementation
     {
         private const int SM_CXDRAG = 68;
         private const int SM_CYDRAG = 69;
+        private const int SM_CXDOUBLECLK = 36;
+        private const int SM_CYDOUBLECLK = 37;
 
         [DllImport("user32.dll")]
         private static extern int GetSystemMetrics(int index);
@@ -30,13 +32,23 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             return GetSystemMetrics(SM_CYDRAG) / 2 + 1;
         }
+
+        public static int GetXDoubleClickThreshold()
+        {
+            return GetSystemMetrics(SM_CXDOUBLECLK) / 2 + 1;
+        }
+
+        public static int GetYDoubleClickThreshold()
+        {
+            return GetSystemMetrics(SM_CYDOUBLECLK) / 2 + 1;
+        }
     }
 
     internal abstract class MouseListener : BaseListener, IMouseEvents
     {
         private readonly ButtonSet m_DoubleDown;
         private readonly ButtonSet m_SingleDown;
-        private readonly Point m_UninitialisedPoint = new Point(-1, -1);
+        protected readonly Point m_UninitialisedPoint = new Point(-99999, -99999);
         private readonly int m_xDragThreshold;
         private readonly int m_yDragThreshold;
         private Point m_DragStartPosition;
@@ -68,6 +80,8 @@ namespace Gma.System.MouseKeyHook.Implementation
         public event EventHandler<MouseEventExtArgs> MouseUpExt;
         public event MouseEventHandler MouseWheel;
         public event EventHandler<MouseEventExtArgs> MouseWheelExt;
+        public event MouseEventHandler MouseHWheel;
+        public event EventHandler<MouseEventExtArgs> MouseHWheelExt;
         public event MouseEventHandler MouseDoubleClick;
         public event MouseEventHandler MouseDragStarted;
         public event EventHandler<MouseEventExtArgs> MouseDragStartedExt;
@@ -85,7 +99,12 @@ namespace Gma.System.MouseKeyHook.Implementation
                 ProcessUp(ref e);
 
             if (e.WheelScrolled)
-                ProcessWheel(ref e);
+            {
+                if (e.IsHorizontalWheel)
+                    ProcessHWheel(ref e);
+                else
+                    ProcessWheel(ref e);
+            }
 
             if (HasMoved(e.Point))
                 ProcessMove(ref e);
@@ -101,6 +120,12 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             OnWheel(e);
             OnWheelExt(e);
+        }
+
+        protected virtual void ProcessHWheel(ref MouseEventExtArgs e)
+        {
+            OnHWheel(e);
+            OnHWheelExt(e);
         }
 
         protected virtual void ProcessDown(ref MouseEventExtArgs e)
@@ -245,6 +270,18 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected virtual void OnWheelExt(MouseEventExtArgs e)
         {
             var handler = MouseWheelExt;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnHWheel(MouseEventArgs e)
+        {
+            var handler = MouseHWheel;
+            if (handler != null) handler(this, e);
+        }
+
+        protected virtual void OnHWheelExt(MouseEventExtArgs e)
+        {
+            var handler = MouseHWheelExt;
             if (handler != null) handler(this, e);
         }
 

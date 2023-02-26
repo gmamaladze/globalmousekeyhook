@@ -1,6 +1,6 @@
 // This code is distributed under MIT license. 
 // Copyright (c) 2015 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.Windows.Forms;
@@ -66,6 +66,11 @@ namespace Gma.System.MouseKeyHook
         event MouseEventHandler MouseWheel;
 
         /// <summary>
+        ///     Occurs when the mouse wheel moves horizontally.
+        /// </summary>
+        event MouseEventHandler MouseHWheel;
+
+        /// <summary>
         ///     Occurs when the mouse wheel moves.
         /// </summary>
         /// <remarks>
@@ -73,6 +78,15 @@ namespace Gma.System.MouseKeyHook
         ///     suppress further processing of mouse wheel moves in other applications.
         /// </remarks>
         event EventHandler<MouseEventExtArgs> MouseWheelExt;
+
+        /// <summary>
+        ///     Occurs when the mouse wheel moves.
+        /// </summary>
+        /// <remarks>
+        ///     This event provides extended arguments of type <see cref="MouseEventArgs" /> enabling you to
+        ///     suppress further processing of horizontal mouse wheel moves in other applications.
+        /// </remarks>
+        event EventHandler<MouseEventExtArgs> MouseHWheelExt;
 
         /// <summary>
         ///     Occurs when a mouse button is double-clicked.

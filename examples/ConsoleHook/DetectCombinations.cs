@@ -1,6 +1,6 @@
 ﻿// This code is distributed under MIT license. 
 // Copyright (c) 2010-2018 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace ConsoleHook
 {
     internal class DetectCombinations
     {
-        public static void Do(AutoResetEvent quit)
+        public static void Do(Action quit)
         {
             var map = new Dictionary<Combination, Action>
             {
@@ -23,7 +23,7 @@ namespace ConsoleHook
                 {Combination.TriggeredBy(Keys.F).With(Keys.E).With(Keys.D), () => Console.WriteLine(":-D")},
                 {Combination.FromString("Alt+A"), () => Console.WriteLine(":-P")},
                 {Combination.FromString("Control+Shift+Z"), () => Console.WriteLine(":-/")},
-                {Combination.FromString("Escape"), () => quit.Set()}
+                {Combination.FromString("Escape"), quit}
             };
 
             Console.WriteLine("Detecting following combinations:");

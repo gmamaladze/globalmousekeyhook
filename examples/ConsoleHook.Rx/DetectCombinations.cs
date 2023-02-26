@@ -1,6 +1,6 @@
 ﻿// This code is distributed under MIT license. 
 // Copyright (c) 2010-2018 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.Reactive.Linq;
@@ -30,8 +30,16 @@ namespace ConsoleHook.Rx
                 .Matching(triggers)
                 .ForEachAsync(trigger =>
                 {
-                    if (trigger == quitTrigger) quit.Set();
-                    Console.WriteLine(trigger);
+                    if (trigger == quitTrigger)
+                    {
+                        Console.WriteLine("Quit Trigger found. App should stop after {0} ... ", trigger);
+                        quit.Set();
+                        Console.Write("... AutoReset was Set, but App is still running.");
+                    }
+                    else
+                    {
+                        Console.WriteLine(trigger);
+                    }
                 });
 
             Console.WriteLine("Press Control+Q to quit.");

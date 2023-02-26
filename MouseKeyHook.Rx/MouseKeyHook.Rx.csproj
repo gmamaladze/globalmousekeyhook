@@ -1,70 +1,44 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9754749C-1EEA-4468-8C32-B5BAC3235F54}</ProjectGuid>
     <OutputType>Library</OutputType>
+    <TargetFrameworks>netcoreapp3.1;net7.0-windows;net6.0-windows;net462;net472;net48</TargetFrameworks>
+    <UseWindowsForms>true</UseWindowsForms>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MouseKeyHook.Rx</RootNamespace>
     <AssemblyName>MouseKeyHook.Rx</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <AssemblyTitle>MouseKeyHook.Rx</AssemblyTitle>
+    <AssemblyVersion>5.6.0.0</AssemblyVersion>
     <FileAlignment>512</FileAlignment>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>5.6.0-alpha</Version>
+    <Copyright>(c) George Mamaladze 2000-2020</Copyright>
+    <Description>This is an extension to the MouseKeyHook library which allows you to observe keyboard and mouse venets in reactive manner using Rx.Net (System.Reactive) extensions.</Description>
+    <Authors>George Mamaladze</Authors>
+    <PackageId>MouseKeyHook.Rx</PackageId>
+    <PackageIconUrl></PackageIconUrl>
+    <PackageProjectUrl>https://github.com/gmamaladze/globalmousekeyhook</PackageProjectUrl>
+    <PackageTags>keyboard mouse hook reactive Rx event global spy</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/gmamaladze/globalmousekeyhook</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>mouse-keyboard-hook-logo64x64.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Reactive.Core, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Core.3.1.1\lib\net45\System.Reactive.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Interfaces, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Interfaces.3.1.1\lib\net45\System.Reactive.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Linq, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Linq.3.1.1\lib\net45\System.Reactive.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.PlatformServices, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.PlatformServices.3.1.1\lib\net45\System.Reactive.PlatformServices.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reactive.Windows.Threading, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Reactive.Windows.Threading.3.1.1\lib\net45\System.Reactive.Windows.Threading.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="KeyWithState.cs" />
-    <Compile Include="KeyObserverExtensions.cs" />
-    <Compile Include="KeyEvent.cs" />
-    <Compile Include="KeyEventKind.cs" />
-    <Compile Include="KeysExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MouseKeyHook\MouseKeyHook.csproj">
       <Project>{f52aa97e-180a-40ed-8f2b-09080171d6c7}</Project>
@@ -72,9 +46,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\mouse-keyboard-hook-logo64x64.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="MouseKeyHook.Rx.nuspec" />
-    <None Include="packages.config" />
-    <None Include="README.md" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.Core" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.Interfaces" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.Linq" Version="4.3.2" />
+    <PackageReference Include="System.Reactive.PlatformServices" Version="4.3.2" />
+  </ItemGroup>
 </Project>

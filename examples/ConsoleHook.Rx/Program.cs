@@ -1,6 +1,6 @@
 ﻿// This code is distributed under MIT license. 
 // Copyright (c) 2010-2018 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.Collections.Generic;
@@ -36,11 +36,9 @@ namespace ConsoleHook.Rx
                     .Select(p => p.Value).FirstOrDefault();
             }
             Console.WriteLine("--------------------------------------------------");
-            action(quit);
 
-            while (!quit.WaitOne(100))
-                Application.DoEvents();
-            ;
+            action(quit);
+            Application.Run(new ApplicationContext());
         }
 
         private static void Exit(AutoResetEvent quit)

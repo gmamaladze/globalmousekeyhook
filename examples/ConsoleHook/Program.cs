@@ -1,11 +1,12 @@
 ﻿// This code is distributed under MIT license. 
 // Copyright (c) 2010-2018 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace ConsoleHook
 {
@@ -13,9 +14,7 @@ namespace ConsoleHook
     {
         private static void Main(string[] args)
         {
-            var quit = new AutoResetEvent(false);
-
-            var selector = new Dictionary<string, Action<AutoResetEvent>>
+            var selector = new Dictionary<string, Action<Action>>
             {
                 {"1. Log keys", LogKeys.Do},
                 {"2. Detect key combinations", DetectCombinations.Do},
@@ -23,7 +22,7 @@ namespace ConsoleHook
                 {"Q. Quit", Exit}
             };
 
-            Action<AutoResetEvent> action = null;
+            Action<Action> action = null;
 
             while (action == null)
             {
@@ -36,13 +35,15 @@ namespace ConsoleHook
                     .Select(p => p.Value).FirstOrDefault();
             }
             Console.WriteLine("--------------------------------------------------");
-            action(quit);
+
+            action(Application.Exit);
+
+            Application.Run(new ApplicationContext());
         }
-
-
-        private static void Exit(AutoResetEvent quit)
+       
+        private static void Exit(Action quit)
         {
-            quit.Set();
+            Application.Exit();
         }
     }
 }

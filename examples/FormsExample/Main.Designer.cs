@@ -39,13 +39,15 @@
             this.clearLogButton = new System.Windows.Forms.Button();
             this.checkBoxSupressMouseWheel = new System.Windows.Forms.CheckBox();
             this.radioNone = new System.Windows.Forms.RadioButton();
+            this.labelHWheel = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // checkBoxSuppressMouse
             // 
             this.checkBoxSuppressMouse.AutoSize = true;
-            this.checkBoxSuppressMouse.Location = new System.Drawing.Point(211, 49);
+            this.checkBoxSuppressMouse.Location = new System.Drawing.Point(246, 57);
+            this.checkBoxSuppressMouse.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkBoxSuppressMouse.Name = "checkBoxSuppressMouse";
             this.checkBoxSuppressMouse.Size = new System.Drawing.Size(159, 17);
             this.checkBoxSuppressMouse.TabIndex = 13;
@@ -59,10 +61,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelSeparator.BackColor = System.Drawing.Color.White;
             this.panelSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelSeparator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.panelSeparator.Location = new System.Drawing.Point(6, 37);
+            this.panelSeparator.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.panelSeparator.Location = new System.Drawing.Point(7, 43);
+            this.panelSeparator.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.panelSeparator.Name = "panelSeparator";
-            this.panelSeparator.Size = new System.Drawing.Size(584, 1);
+            this.panelSeparator.Size = new System.Drawing.Size(681, 1);
             this.panelSeparator.TabIndex = 11;
             // 
             // radioGlobal
@@ -70,8 +73,9 @@
             this.radioGlobal.AutoSize = true;
             this.radioGlobal.BackColor = System.Drawing.Color.White;
             this.radioGlobal.Checked = true;
-            this.radioGlobal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioGlobal.Location = new System.Drawing.Point(127, 13);
+            this.radioGlobal.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.radioGlobal.Location = new System.Drawing.Point(148, 15);
+            this.radioGlobal.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radioGlobal.Name = "radioGlobal";
             this.radioGlobal.Size = new System.Drawing.Size(87, 17);
             this.radioGlobal.TabIndex = 10;
@@ -84,8 +88,9 @@
             // 
             this.radioApplication.AutoSize = true;
             this.radioApplication.BackColor = System.Drawing.Color.White;
-            this.radioApplication.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioApplication.Location = new System.Drawing.Point(12, 13);
+            this.radioApplication.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.radioApplication.Location = new System.Drawing.Point(14, 15);
+            this.radioApplication.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radioApplication.Name = "radioApplication";
             this.radioApplication.Size = new System.Drawing.Size(109, 17);
             this.radioApplication.TabIndex = 9;
@@ -98,8 +103,9 @@
             this.labelWheel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelWheel.AutoSize = true;
             this.labelWheel.BackColor = System.Drawing.Color.White;
-            this.labelWheel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelWheel.Location = new System.Drawing.Point(9, 76);
+            this.labelWheel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelWheel.Location = new System.Drawing.Point(10, 88);
+            this.labelWheel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelWheel.Name = "labelWheel";
             this.labelWheel.Size = new System.Drawing.Size(89, 13);
             this.labelWheel.TabIndex = 6;
@@ -110,8 +116,9 @@
             this.labelMousePosition.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.labelMousePosition.AutoSize = true;
             this.labelMousePosition.BackColor = System.Drawing.Color.White;
-            this.labelMousePosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelMousePosition.Location = new System.Drawing.Point(9, 50);
+            this.labelMousePosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelMousePosition.Location = new System.Drawing.Point(10, 58);
+            this.labelMousePosition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelMousePosition.Name = "labelMousePosition";
             this.labelMousePosition.Size = new System.Drawing.Size(125, 13);
             this.labelMousePosition.TabIndex = 2;
@@ -122,19 +129,21 @@
             this.textBoxLog.BackColor = System.Drawing.Color.White;
             this.textBoxLog.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxLog.Location = new System.Drawing.Point(0, 106);
+            this.textBoxLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.textBoxLog.Location = new System.Drawing.Point(0, 122);
+            this.textBoxLog.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(602, 233);
+            this.textBoxLog.Size = new System.Drawing.Size(702, 269);
             this.textBoxLog.TabIndex = 8;
             this.textBoxLog.WordWrap = false;
             // 
             // groupBox2
             // 
             this.groupBox2.BackColor = System.Drawing.Color.White;
+            this.groupBox2.Controls.Add(this.labelHWheel);
             this.groupBox2.Controls.Add(this.clearLogButton);
             this.groupBox2.Controls.Add(this.checkBoxSupressMouseWheel);
             this.groupBox2.Controls.Add(this.radioNone);
@@ -146,18 +155,21 @@
             this.groupBox2.Controls.Add(this.labelMousePosition);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(602, 106);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
+            this.groupBox2.Size = new System.Drawing.Size(702, 122);
             this.groupBox2.TabIndex = 9;
             this.groupBox2.TabStop = false;
             // 
             // clearLogButton
             // 
-            this.clearLogButton.Location = new System.Drawing.Point(515, 72);
+            this.clearLogButton.Location = new System.Drawing.Point(601, 83);
+            this.clearLogButton.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.clearLogButton.Name = "clearLogButton";
-            this.clearLogButton.Size = new System.Drawing.Size(75, 23);
+            this.clearLogButton.Size = new System.Drawing.Size(88, 27);
             this.clearLogButton.TabIndex = 16;
             this.clearLogButton.Text = "Clear Log";
             this.clearLogButton.UseVisualStyleBackColor = true;
@@ -166,7 +178,8 @@
             // checkBoxSupressMouseWheel
             // 
             this.checkBoxSupressMouseWheel.AutoSize = true;
-            this.checkBoxSupressMouseWheel.Location = new System.Drawing.Point(211, 72);
+            this.checkBoxSupressMouseWheel.Location = new System.Drawing.Point(246, 83);
+            this.checkBoxSupressMouseWheel.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.checkBoxSupressMouseWheel.Name = "checkBoxSupressMouseWheel";
             this.checkBoxSupressMouseWheel.Size = new System.Drawing.Size(139, 17);
             this.checkBoxSupressMouseWheel.TabIndex = 15;
@@ -178,8 +191,9 @@
             // 
             this.radioNone.AutoSize = true;
             this.radioNone.BackColor = System.Drawing.Color.White;
-            this.radioNone.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioNone.Location = new System.Drawing.Point(220, 13);
+            this.radioNone.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.radioNone.Location = new System.Drawing.Point(257, 15);
+            this.radioNone.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.radioNone.Name = "radioNone";
             this.radioNone.Size = new System.Drawing.Size(51, 17);
             this.radioNone.TabIndex = 14;
@@ -187,13 +201,27 @@
             this.radioNone.UseVisualStyleBackColor = false;
             this.radioNone.CheckedChanged += new System.EventHandler(this.radioNone_CheckedChanged);
             // 
+            // labelHWheel
+            // 
+            this.labelHWheel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelHWheel.AutoSize = true;
+            this.labelHWheel.BackColor = System.Drawing.Color.White;
+            this.labelHWheel.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.labelHWheel.Location = new System.Drawing.Point(128, 88);
+            this.labelHWheel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.labelHWheel.Name = "labelHWheel";
+            this.labelHWheel.Size = new System.Drawing.Size(97, 13);
+            this.labelHWheel.TabIndex = 17;
+            this.labelHWheel.Text = "HWheel={0:####}";
+            // 
             // Main
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(602, 339);
+            this.ClientSize = new System.Drawing.Size(702, 391);
             this.Controls.Add(this.textBoxLog);
             this.Controls.Add(this.groupBox2);
+            this.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.Name = "Main";
             this.Text = "Mouse and Keyboard Hooks Demo";
             this.groupBox2.ResumeLayout(false);
@@ -216,6 +244,7 @@
         private System.Windows.Forms.RadioButton radioNone;
         private System.Windows.Forms.CheckBox checkBoxSupressMouseWheel;
         private System.Windows.Forms.Button clearLogButton;
+        private System.Windows.Forms.Label labelHWheel;
     }
 }
 

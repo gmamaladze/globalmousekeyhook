@@ -1,6 +1,6 @@
 ﻿// This code is distributed under MIT license. 
 // Copyright (c) 2015 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System;
 using System.Windows.Forms;
@@ -24,13 +24,19 @@ namespace Gma.System.MouseKeyHook.Implementation
             remove { GetKeyListener().KeyPress -= value; }
         }
 
-        public event KeyEventHandler KeyUp
+	    public event EventHandler<KeyDownTxtEventArgs> KeyDownTxt
+	    {
+		    add { GetKeyListener().KeyDownTxt += value; }
+		    remove { GetKeyListener().KeyDownTxt -= value; }
+	    }
+
+	    public event KeyEventHandler KeyUp
         {
             add { GetKeyListener().KeyUp += value; }
             remove { GetKeyListener().KeyUp -= value; }
         }
 
-        public event MouseEventHandler MouseMove
+	    public event MouseEventHandler MouseMove
         {
             add { GetMouseListener().MouseMove += value; }
             remove { GetMouseListener().MouseMove -= value; }
@@ -82,6 +88,18 @@ namespace Gma.System.MouseKeyHook.Implementation
         {
             add { GetMouseListener().MouseWheelExt += value; }
             remove { GetMouseListener().MouseWheelExt -= value; }
+        }
+
+        public event MouseEventHandler MouseHWheel
+        {
+            add { GetMouseListener().MouseHWheel += value; }
+            remove { GetMouseListener().MouseHWheel -= value; }
+        }
+
+        public event EventHandler<MouseEventExtArgs> MouseHWheelExt
+        {
+            add { GetMouseListener().MouseHWheelExt += value; }
+            remove { GetMouseListener().MouseHWheelExt -= value; }
         }
 
         public event MouseEventHandler MouseDoubleClick

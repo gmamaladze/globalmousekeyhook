@@ -1,7 +1,8 @@
 // This code is distributed under MIT license. 
 // Copyright (c) 2015 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
+using System;
 using System.Windows.Forms;
 
 namespace Gma.System.MouseKeyHook
@@ -24,6 +25,7 @@ namespace Gma.System.MouseKeyHook
         ///     <list type="number">
         ///         <item>KeyDown</item>
         ///         <item>KeyPress</item>
+        ///         <item>KeyDownTxt</item>
         ///         <item>KeyUp</item>
         ///     </list>
         ///     The KeyPress event is not raised by non-character keys; however, the non-character keys do raise the KeyDown and
@@ -35,7 +37,12 @@ namespace Gma.System.MouseKeyHook
         /// </remarks>
         event KeyPressEventHandler KeyPress;
 
-        /// <summary>
+	    /// <summary>
+	    ///     Occurs when a key is pressed, includes the keystroke characters if any
+	    /// </summary>
+		event EventHandler<KeyDownTxtEventArgs> KeyDownTxt;
+
+	    /// <summary>
         ///     Occurs when a key is released.
         /// </summary>
         event KeyEventHandler KeyUp;

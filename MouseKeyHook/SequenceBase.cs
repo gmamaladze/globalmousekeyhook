@@ -1,6 +1,6 @@
 // This code is distributed under MIT license. 
 // Copyright (c) 2010-2018 George Mamaladze
-// See license.txt or http://opensource.org/licenses/mit-license.php
+// See license.txt or https://mit-license.org/
 
 using System.Collections;
 using System.Collections.Generic;
@@ -64,7 +64,7 @@ namespace Gma.System.MouseKeyHook
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
-            return Equals((Combination) obj);
+            return Equals((SequenceBase<T>) obj);
         }
 
         /// <inheritdoc />
