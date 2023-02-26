@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
     <ProjectType>Local</ProjectType>
     <ProductVersion>9.0.21022</ProductVersion>
@@ -29,12 +29,13 @@
     </Description>
     <Copyright>(c) George Mamaladze 2000-2020</Copyright>
     <PackageId>MouseKeyHook</PackageId>
-    <PackageIconUrl>https://raw.githubusercontent.com/gmamaladze/globalmousekeyhook/master/mouse-keyboard-hook-logo64x64.png</PackageIconUrl>
+    <PackageIconUrl></PackageIconUrl>
     <PackageProjectUrl>https://github.com/gmamaladze/globalmousekeyhook</PackageProjectUrl>
     <PackageTags>keyboard mouse hook event global spy</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/gmamaladze/globalmousekeyhook</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <PackageIcon>mouse-keyboard-hook-logo64x64.png</PackageIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
@@ -67,6 +68,10 @@
     <DebugType>none</DebugType>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="..\mouse-keyboard-hook-logo64x64.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
     <None Include="MouseKeyHook.nuspec" />
   </ItemGroup>
 </Project>

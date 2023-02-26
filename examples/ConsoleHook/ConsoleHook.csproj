@@ -9,6 +9,7 @@
     <RootNamespace>ConsoleHook</RootNamespace>
     <AssemblyName>ConsoleHook</AssemblyName>
     <FileAlignment>512</FileAlignment>
+    <StartupObject></StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

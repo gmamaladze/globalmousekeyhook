@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ConsoleHook": {
+      "commandName": "Executable",
+      "executablePath": "dotnet",
+      "commandLineArgs": "ConsoleHook.dll",
+      "nativeDebugging": false
+    }
+  }
+}

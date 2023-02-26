@@ -126,12 +126,12 @@ namespace Demo
 
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            Log(string.Format("KeyUp  \t\t {0}\n", e.KeyCode));
+            Log(string.Format("KeyUp  \t\t\t {0}\n", e.KeyCode));
         }
 
         private void HookManager_KeyPress(object sender, KeyPressEventArgs e)
         {
-            Log(string.Format("KeyPress \t\t {0}\n", e.KeyChar));
+            Log(string.Format("KeyPress \t\t\t {0}\n", e.KeyChar));
         }
 
         private void HookManager_MouseMove(object sender, MouseEventArgs e)
@@ -197,6 +197,7 @@ namespace Demo
         {
             if (IsDisposed) return;
             textBoxLog.AppendText(text);
+            textBoxLog.AppendText(Environment.NewLine);
             textBoxLog.ScrollToCaret();
         }
 
