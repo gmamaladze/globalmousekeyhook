@@ -3,8 +3,8 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{490FBC6C-B347-4C33-B8EF-5C67C7C4C884}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>netcoreapp3.1;net5.0-windows;net6.0-windows;</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>ConsoleHook</RootNamespace>
     <AssemblyName>ConsoleHook</AssemblyName>
