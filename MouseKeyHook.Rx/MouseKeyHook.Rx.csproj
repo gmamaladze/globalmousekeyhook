@@ -4,17 +4,17 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9754749C-1EEA-4468-8C32-B5BAC3235F54}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net7.0-windows;net6.0-windows;net462;net472;net48</TargetFrameworks>
+    <TargetFrameworks>net7.0-windows;net6.0-windows;net472;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MouseKeyHook.Rx</RootNamespace>
     <AssemblyName>MouseKeyHook.Rx</AssemblyName>
     <AssemblyTitle>MouseKeyHook.Rx</AssemblyTitle>
-    <AssemblyVersion>5.6.0.0</AssemblyVersion>
+    <AssemblyVersion>5.7.1.0</AssemblyVersion>
     <FileAlignment>512</FileAlignment>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>5.6.0-alpha</Version>
-    <Copyright>(c) George Mamaladze 2000-2020</Copyright>
+	<Version>5.7.1</Version>
+    <Copyright>(c) George Mamaladze 2000-2023</Copyright>
     <Description>This is an extension to the MouseKeyHook library which allows you to observe keyboard and mouse venets in reactive manner using Rx.Net (System.Reactive) extensions.</Description>
     <Authors>George Mamaladze</Authors>
     <PackageId>MouseKeyHook.Rx</PackageId>

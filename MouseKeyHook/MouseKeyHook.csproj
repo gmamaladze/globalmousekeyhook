@@ -7,10 +7,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <AssemblyTitle>MouseKeyHook</AssemblyTitle>
     <AssemblyName>Gma.System.MouseKeyHook</AssemblyName>
-    <Version>5.7.0</Version>
+    <Version>5.7.1</Version>
     <DelaySign>false</DelaySign>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>netcoreapp3.1;net7.0-windows;net6.0-windows;net462;net472;net48</TargetFrameworks>
+    <TargetFrameworks>net7.0-windows;net6.0-windows;net472;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>Gma.System.MouseKeyHook</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -27,7 +27,7 @@
 
       Additionally, there is a possibility to supress certain keyboard or mouse clicks, or detect special key combinations.
     </Description>
-    <Copyright>(c) George Mamaladze 2000-2020</Copyright>
+    <Copyright>(c) George Mamaladze 2000-2023</Copyright>
     <PackageId>MouseKeyHook</PackageId>
     <PackageIconUrl></PackageIconUrl>
     <PackageProjectUrl>https://github.com/gmamaladze/globalmousekeyhook</PackageProjectUrl>
