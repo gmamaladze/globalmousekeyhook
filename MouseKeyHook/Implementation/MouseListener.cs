@@ -15,6 +15,7 @@ namespace Gma.System.MouseKeyHook.Implementation
     // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724385(v=vs.85).aspx
     internal static class NativeMethods
     {
+        private const int SM_SWAPBUTTON = 23;
         private const int SM_CXDRAG = 68;
         private const int SM_CYDRAG = 69;
         private const int SM_CXDOUBLECLK = 36;
@@ -22,6 +23,11 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         [DllImport("user32.dll")]
         private static extern int GetSystemMetrics(int index);
+
+        public static int GetSwapButtonThreshold()
+        {
+            return GetSystemMetrics(SM_SWAPBUTTON);
+        }
 
         public static int GetXDragThreshold()
         {
@@ -49,6 +55,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         private readonly ButtonSet m_DoubleDown;
         private readonly ButtonSet m_SingleDown;
         protected readonly Point m_UninitialisedPoint = new Point(-99999, -99999);
+        private readonly int m_SwapButtonThreshold;
         private readonly int m_xDragThreshold;
         private readonly int m_yDragThreshold;
         private Point m_DragStartPosition;
@@ -60,6 +67,7 @@ namespace Gma.System.MouseKeyHook.Implementation
         protected MouseListener(Subscribe subscribe)
             : base(subscribe)
         {
+            m_SwapButtonThreshold = NativeMethods.GetSwapButtonThreshold();
             m_xDragThreshold = NativeMethods.GetXDragThreshold();
             m_yDragThreshold = NativeMethods.GetYDragThreshold();
             m_IsDragging = false;
@@ -90,6 +98,8 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         protected override bool Callback(CallbackData data)
         {
+            data.MSwapButton = m_SwapButtonThreshold;
+
             var e = GetEventArgs(data);
 
             if (e.IsMouseButtonDown)
