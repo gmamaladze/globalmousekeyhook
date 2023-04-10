@@ -202,7 +202,7 @@ namespace Gma.System.MouseKeyHook
 
             if (mSwapButton > 0)
             {
-                button = button == MouseButtons.Left ? MouseButtons.Right : MouseButtons.Left;
+                button = button == MouseButtons.Left ? MouseButtons.Right : button == MouseButtons.Right ? MouseButtons.Left : button;
             }
 
             var e = new MouseEventExtArgs(
