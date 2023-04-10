@@ -88,19 +88,21 @@ namespace Gma.System.MouseKeyHook
         {
             var wParam = data.WParam;
             var lParam = data.LParam;
+            var mSwapButton = data.MSwapButton;
 
             var marshalledMouseStruct =
                 (AppMouseStruct) Marshal.PtrToStructure(lParam, typeof(AppMouseStruct));
-            return FromRawDataUniversal(wParam, marshalledMouseStruct.ToMouseStruct());
+            return FromRawDataUniversal(wParam, marshalledMouseStruct.ToMouseStruct(), mSwapButton);
         }
 
         internal static MouseEventExtArgs FromRawDataGlobal(CallbackData data)
         {
             var wParam = data.WParam;
             var lParam = data.LParam;
+            var mSwapButton = data.MSwapButton;
 
             var marshalledMouseStruct = (MouseStruct) Marshal.PtrToStructure(lParam, typeof(MouseStruct));
-            return FromRawDataUniversal(wParam, marshalledMouseStruct);
+            return FromRawDataUniversal(wParam, marshalledMouseStruct, mSwapButton);
         }
 
         /// <summary>
@@ -109,7 +111,7 @@ namespace Gma.System.MouseKeyHook
         /// <param name="wParam">First Windows Message parameter.</param>
         /// <param name="mouseInfo">A MouseStruct containing information from which to construct MouseEventExtArgs.</param>
         /// <returns>A new MouseEventExtArgs object.</returns>
-        private static MouseEventExtArgs FromRawDataUniversal(IntPtr wParam, MouseStruct mouseInfo)
+        private static MouseEventExtArgs FromRawDataUniversal(IntPtr wParam, MouseStruct mouseInfo, int mSwapButton)
         {
             var button = MouseButtons.None;
             short mouseDelta = 0;
@@ -196,6 +198,11 @@ namespace Gma.System.MouseKeyHook
                         : MouseButtons.XButton2;
                     clickCount = 2;
                     break;
+            }
+
+            if (mSwapButton > 0)
+            {
+                button = button == MouseButtons.Left ? MouseButtons.Right : button == MouseButtons.Right ? MouseButtons.Left : button;
             }
 
             var e = new MouseEventExtArgs(

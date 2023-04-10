@@ -9,11 +9,11 @@ namespace Gma.System.MouseKeyHook.WinApi
 {
     internal class HookProcedureHandle : SafeHandleZeroOrMinusOneIsInvalid
     {
-        private static bool _closing;
+        //private static bool _closing;
 
         static HookProcedureHandle()
         {
-            Application.ApplicationExit += (sender, e) => { _closing = true; };
+            //Application.ApplicationExit += (sender, e) => { HookProcedureHandle._closing = true; };
         }
 
         public HookProcedureHandle()
