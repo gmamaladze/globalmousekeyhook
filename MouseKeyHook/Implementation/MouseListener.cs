@@ -31,12 +31,12 @@ namespace Gma.System.MouseKeyHook.Implementation
 
         public static int GetXDragThreshold()
         {
-            return GetSystemMetrics(SM_CXDRAG);
+            return GetSystemMetrics(SM_CXDRAG) / 2 + 1;
         }
 
         public static int GetYDragThreshold()
         {
-            return GetSystemMetrics(SM_CYDRAG);
+            return GetSystemMetrics(SM_CYDRAG) / 2 + 1;
         }
 
         public static int GetXDoubleClickThreshold()
@@ -207,8 +207,9 @@ namespace Gma.System.MouseKeyHook.Implementation
 
                 if (m_IsDragging)
                 {
-                    OnDragStarted(e);
-                    OnDragStartedExt(e);
+                    var dragArgs = new MouseEventExtArgs(e.Button, e.Clicks, m_DragStartPosition, e.Delta, e.Timestamp, e.IsMouseButtonDown, e.IsMouseButtonUp);
+                    OnDragStarted(dragArgs);
+                    OnDragStartedExt(dragArgs);
                 }
             }
         }
