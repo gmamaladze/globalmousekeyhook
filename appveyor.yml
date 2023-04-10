@@ -5,7 +5,7 @@
         - master
     configuration: Release
     before_build:
-    - appveyor-retry dotnet restore -v Normal
+      - appveyor-retry dotnet restore -v Normal
     build:
       publish_nuget: true
       verbosity: minimal
@@ -17,7 +17,7 @@
         - vNext
     configuration: Release
     before_build:
-    - appveyor-retry dotnet restore -v Normal
+      - appveyor-retry dotnet restore -v Normal
     build:
       publish_nuget: false
       verbosity: minimal
