@@ -1,5 +1,6 @@
 -
     version: 1.0.0.{build}-{branch}
+    image: Visual Studio 2022
     branches:
       only:
         - master
@@ -12,6 +13,7 @@
 
 -
     version: 1.0.0.{build}-{branch}
+    image: Visual Studio 2022
     branches:
       only:
         - vNext
