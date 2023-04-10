@@ -12,7 +12,7 @@
 
 -
     version: 1.0.0.{build}-{branch}
-        branches:
+    branches:
       only:
         - vNext
     configuration: Release
