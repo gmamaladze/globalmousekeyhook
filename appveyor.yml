@@ -1,6 +1,25 @@
-version: 1.0.{build}
-image: Visual Studio 2022
-before_build:
-- appveyor-retry dotnet restore -v Normal
-build:
-  verbosity: normal
+-
+    version: 1.0.0.{build}-{branch}
+    image: Visual Studio 2022
+    branches:
+      only:
+        - master
+    configuration: Release
+    before_build:
+      - appveyor-retry dotnet restore -v Normal
+    build:
+      publish_nuget: true
+      verbosity: minimal
+
+-
+    version: 1.0.0.{build}-{branch}
+    image: Visual Studio 2022
+    branches:
+      only:
+        - vNext
+    configuration: Release
+    before_build:
+      - appveyor-retry dotnet restore -v Normal
+    build:
+      publish_nuget: false
+      verbosity: minimal
