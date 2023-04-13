@@ -55,6 +55,7 @@ namespace UnitTestWindows
                 handle.Set();
                 // Send the keystroke using SendKeys.SendWait
                 SendKeys.SendWait("{" + key + "}");
+                Application.DoEvents();
                 handle.WaitOne(100);
             }
             var actual = buffer;
