@@ -35,7 +35,6 @@ namespace UnitTestWindows
             e.Handled = true;
             buffer += e.KeyChar;
             handle.Reset();
-            Application.DoEvents();
         }
 
         [TearDown]

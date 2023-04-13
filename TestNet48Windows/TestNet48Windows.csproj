@@ -4,6 +4,8 @@
     <TargetFramework>net48</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
