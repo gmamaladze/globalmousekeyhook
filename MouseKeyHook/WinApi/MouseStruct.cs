@@ -46,6 +46,11 @@ namespace Gma.System.MouseKeyHook.WinApi
         [FieldOffset(0x0A)] public short MouseData;
 
         /// <summary>
+        ///     Specifies the  event-injected flag.
+        /// </summary>
+        [FieldOffset(0x0C)] public uint Flags;
+
+        /// <summary>
         ///     Returns a Timestamp associated with the input, in System Ticks.
         /// </summary>
         [FieldOffset(0x10)] public int Timestamp;
