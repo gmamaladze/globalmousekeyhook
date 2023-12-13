@@ -207,7 +207,7 @@ namespace Gma.System.MouseKeyHook.Implementation
 
                 if (m_IsDragging)
                 {
-                    var dragArgs = new MouseEventExtArgs(e.Button, e.Clicks, m_DragStartPosition, e.Delta, e.Timestamp, e.IsMouseButtonDown, e.IsMouseButtonUp, e.IsHorizontalWheel);
+                    var dragArgs = new MouseEventExtArgs(e.Button, e.Clicks, m_DragStartPosition, e.Delta, e.Timestamp, e.IsMouseButtonDown, e.IsMouseButtonUp, e.IsHorizontalWheel, e.IsInjected);
                     OnDragStarted(dragArgs);
                     OnDragStartedExt(dragArgs);
                 }
