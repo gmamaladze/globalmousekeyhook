@@ -4,7 +4,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{9754749C-1EEA-4468-8C32-B5BAC3235F54}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <TargetFrameworks>net7.0-windows;net6.0-windows;net472;net48</TargetFrameworks>
+    <TargetFrameworks>net8.0-windows;net7.0-windows;net6.0-windows;net472;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MouseKeyHook.Rx</RootNamespace>

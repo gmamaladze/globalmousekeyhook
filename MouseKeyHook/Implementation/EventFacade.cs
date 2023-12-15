@@ -18,6 +18,12 @@ namespace Gma.System.MouseKeyHook.Implementation
             remove { GetKeyListener().KeyDown -= value; }
         }
 
+        public event EventHandler<KeyEventArgsExt> KeyDownExt
+        {
+            add { GetKeyListener().KeyDownExt += value; }
+            remove { GetKeyListener().KeyDownExt -= value; }
+        }
+
         public event KeyPressEventHandler KeyPress
         {
             add { GetKeyListener().KeyPress += value; }
@@ -36,7 +42,13 @@ namespace Gma.System.MouseKeyHook.Implementation
             remove { GetKeyListener().KeyUp -= value; }
         }
 
-	    public event MouseEventHandler MouseMove
+        public event EventHandler<KeyEventArgsExt> KeyUpExt
+        {
+            add { GetKeyListener().KeyUpExt += value; }
+            remove { GetKeyListener().KeyUpExt -= value; }
+        }
+
+        public event MouseEventHandler MouseMove
         {
             add { GetMouseListener().MouseMove += value; }
             remove { GetMouseListener().MouseMove -= value; }

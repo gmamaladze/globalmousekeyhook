@@ -25,13 +25,15 @@ namespace Gma.System.MouseKeyHook
         /// <param name="isMouseButtonDown">True if event signals mouse button down.</param>
         /// <param name="isMouseButtonUp">True if event signals mouse button up.</param>
         /// <param name="isHorizontalWheel">True if event signals horizontal wheel action.</param>
+        /// <param name="isInjected">True if event was injected.</param>
         internal MouseEventExtArgs(MouseButtons buttons, int clicks, Point point, int delta, int timestamp,
-            bool isMouseButtonDown, bool isMouseButtonUp, bool isHorizontalWheel)
+            bool isMouseButtonDown, bool isMouseButtonUp, bool isHorizontalWheel, bool isInjected)
             : base(buttons, clicks, point.X, point.Y, delta)
         {
             IsMouseButtonDown = isMouseButtonDown;
             IsMouseButtonUp = isMouseButtonUp;
             IsHorizontalWheel = isHorizontalWheel;
+            IsInjected = isInjected;
             Timestamp = timestamp;
         }
 
@@ -73,6 +75,11 @@ namespace Gma.System.MouseKeyHook
         public bool IsHorizontalWheel { get; }
 
         /// <summary>
+        /// True if event was injected, that the event is not produced by an actual mouse.
+        /// </summary>
+        public bool IsInjected { get; }
+
+        /// <summary>
         ///     The system tick count of when the event occurred.
         /// </summary>
         public int Timestamp { get; }
@@ -91,7 +98,7 @@ namespace Gma.System.MouseKeyHook
             var mSwapButton = data.MSwapButton;
 
             var marshalledMouseStruct =
-                (AppMouseStruct) Marshal.PtrToStructure(lParam, typeof(AppMouseStruct));
+                (AppMouseStruct)Marshal.PtrToStructure(lParam, typeof(AppMouseStruct));
             return FromRawDataUniversal(wParam, marshalledMouseStruct.ToMouseStruct(), mSwapButton);
         }
 
@@ -101,7 +108,7 @@ namespace Gma.System.MouseKeyHook
             var lParam = data.LParam;
             var mSwapButton = data.MSwapButton;
 
-            var marshalledMouseStruct = (MouseStruct) Marshal.PtrToStructure(lParam, typeof(MouseStruct));
+            var marshalledMouseStruct = (MouseStruct)Marshal.PtrToStructure(lParam, typeof(MouseStruct));
             return FromRawDataUniversal(wParam, marshalledMouseStruct, mSwapButton);
         }
 
@@ -120,9 +127,11 @@ namespace Gma.System.MouseKeyHook
             var isMouseButtonDown = false;
             var isMouseButtonUp = false;
             var isHorizontalWheel = false;
+            var isInjected = false;
+            const uint maskInjected = 0x00000001;
 
 
-            switch ((long) wParam)
+            switch ((long)wParam)
             {
                 case Messages.WM_LBUTTONDOWN:
                     isMouseButtonDown = true;
@@ -200,6 +209,12 @@ namespace Gma.System.MouseKeyHook
                     break;
             }
 
+            if ((mouseInfo.Flags & maskInjected) > 0)
+            {
+                isInjected = true;
+            }
+
+
             if (mSwapButton > 0)
             {
                 button = button == MouseButtons.Left ? MouseButtons.Right : button == MouseButtons.Right ? MouseButtons.Left : button;
@@ -213,14 +228,15 @@ namespace Gma.System.MouseKeyHook
                 mouseInfo.Timestamp,
                 isMouseButtonDown,
                 isMouseButtonUp,
-                isHorizontalWheel);
+                isHorizontalWheel,
+                isInjected);
 
             return e;
         }
 
         internal MouseEventExtArgs ToDoubleClickEventArgs()
         {
-            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseButtonDown, IsMouseButtonUp, IsHorizontalWheel);
+            return new MouseEventExtArgs(Button, 2, Point, Delta, Timestamp, IsMouseButtonDown, IsMouseButtonUp, IsHorizontalWheel, IsInjected);
         }
     }
 }
