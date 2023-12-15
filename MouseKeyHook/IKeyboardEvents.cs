@@ -18,6 +18,11 @@ namespace Gma.System.MouseKeyHook
         event KeyEventHandler KeyDown;
 
         /// <summary>
+        ///     Occurs when a key is pressed. This includes additional event data such as if the event was injected.
+        /// </summary>
+        event EventHandler<KeyEventArgsExt> KeyDownExt;
+
+        /// <summary>
         ///     Occurs when a key is pressed.
         /// </summary>
         /// <remarks>
@@ -46,5 +51,10 @@ namespace Gma.System.MouseKeyHook
         ///     Occurs when a key is released.
         /// </summary>
         event KeyEventHandler KeyUp;
+
+        /// <summary>
+        ///     Occurs when a key is released. This includes additional event data such as if the event was injected.
+        /// </summary>
+        event EventHandler<KeyEventArgsExt> KeyUpExt;
     }
 }
